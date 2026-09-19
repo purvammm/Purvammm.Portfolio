@@ -1,205 +1,173 @@
-# 🧵 Lesser-Discovered Designer Kurta Stores in India (Under ₹2,000)
+# 🧵 Lesser-Discovered Men’s Designer Kurta Stores in India (Under ₹2,000)
 
-A discovery-first directory of independent Indian labels, regional boutiques, craft organisations, chikankari specialists, small direct-to-consumer brands, and niche men’s/unisex stores. The main lists intentionally exclude Amazon, Flipkart, Myntra, AJIO, Meesho, Nykaa Fashion, Tata CLiQ, Manyavar, Biba, W, Aurelia, Libas, Fabindia, Pantaloons, Lifestyle, Max, Shoppers Stop, Soch, Rangriti, and other obvious marketplaces or national chains.
+A men-only discovery directory of independent Indian menswear labels, regional boutiques, chikankari specialists, handloom and craft organisations, small direct-to-consumer brands, and niche occasionwear stores. It deliberately looks beyond Amazon, Flipkart, Myntra, AJIO, Meesho, Manyavar, Tasva, Fabindia, House of Pataudi, Pantaloons, Max, Lifestyle, Shoppers Stop, and other obvious marketplaces or national chains.
 
 > **Research date:** 19 September 2026
 >
-> **Honest scope:** Google visibility is fine; the goal is useful stores beyond the usual shopping platforms, not stores that are literally absent from Google. No finite list can include every website on the internet. This is a broad directory within the criteria below, not a guarantee of complete live inventory.
+> **Scope:** Every price-list link targets a men’s kurta collection or a retailer’s own search for men’s kurtas. Google-visible stores are allowed—the goal is to surface useful direct stores beyond the usual platforms, not to prove that a site is absent from Google.
+>
+> **Important limitation:** No finite directory can include every store on the internet. Automated storefront access was blocked during this update, so the bands use historically or recently indexed selling-price evidence rather than guaranteed live prices. Recheck the product, size, stock, selling price, coupon conditions, delivery, and returns before paying.
 
-## What qualified
+## How stores qualified
 
-- The seller has its own HTTPS storefront or direct product-search page serving Indian shoppers.
-- The label is independent, regional, artisan/craft-led, boutique-sized, niche, or less obvious than mainstream chains.
-- At least one kurta was historically or recently indexed in the stated selling-price band.
-- The link goes to the retailer’s kurta search or collection rather than a fragile individual product page.
-- **A price-band appearance is not a live-price guarantee.** Automated storefront access was blocked during this update, so prices, stock, sizes, checkout, and sale status must be rechecked manually.
+- The retailer has its own HTTPS storefront serving Indian shoppers.
+- Its men’s inventory was supported by a men-specific collection, a men-targeted store search, or prior indexed men’s catalog evidence.
+- At least one men’s kurta historically appeared in the stated selling-price band.
+- Independent, regional, craft-led, boutique, or niche stores were prioritised over mainstream shopping platforms.
+- **Sale-sensitive** means the qualifying price may rely on a markdown, coupon, or selected clearance stock.
+- **Recheck first** marks a useful discovery lead whose exact current men’s stock, route, or qualifying price has lower confidence.
 
 ## Best discovery-first starting points
 
-For a shorter quality-led browse before opening the full lists:
-
-- **Craft and regional:** [Okhai](https://okhai.org/search?q=kurta&type=product), [RangSutra](https://rangsutra.com/search?q=kurta&type=product), [Kilmora](https://kilmora.in/?s=kurta&post_type=product), [Utkalamrita](https://utkalamrita.com/search?q=kurta&type=product), [Chhapa](https://chhapa.in/search?q=kurta&type=product), [Sooti Syahi](https://sootisyahi.com/search?q=kurta&type=product), and [Vraj:bhoomi](https://vrajbhoomi.in/search?q=kurta&type=product).
-- **Chikankari:** [Seva Chikan Lucknow](https://sevachikanlucknow.com/search?q=kurta&type=product), [The Chikan Label](https://thechikanlabel.com/search?q=kurta&type=product), [Noorkasni](https://noorkasni.com/search?q=kurta&type=product), and [ADA Designer Chikan Studio](https://www.adachikan.com/?s=kurta&post_type=product).
-- **Indie design:** [Kessa](https://www.kessa.com/search?q=kurta&type=product), [House of Ekam](https://houseofekam.com/search?q=kurta&type=product), [JOVI India](https://www.joviindia.com/search?q=kurta&type=product), [Chidiyaa](https://chidiyaa.com/search?q=kurta&type=product), and [Javinishka](https://www.javinishka.com/search?q=men%20kurta&type=product).
-- **Men/unisex:** [Suta](https://suta.in/search?q=men%20kurta&type=product), [Kraft India](https://www.kraftindia.in/search?q=men%20kurta&type=product), [Desi Minimals](https://desiminimals.com/search?q=kurta&type=product), and [Bombay Trooper](https://www.bombaytrooper.com/search?q=kurta&type=product).
+- **Chikankari:** [ADA Designer Chikan Studio](https://www.adachikan.com/?s=men+kurta&post_type=product), [Seva Chikan Lucknow](https://sevachikanlucknow.com/search?q=men+kurta&type=product), [Lucknowi Andaaz](https://lucknowiandaaz.com/search?q=men+kurta&type=product), [House of Kari](https://houseofkari.in/search?q=men+kurta&type=product), and [Mushkiya](https://mushkiya.com/search?q=men+kurta&type=product).
+- **Handloom and regional craft:** [Kilmora](https://kilmora.in/?s=men+kurta&post_type=product), [RangSutra](https://rangsutra.com/search?q=men+kurta&type=product), [Boyanika](https://boyanika.com/?s=men+kurta&post_type=product), [Tantuja](https://tantuja.in/?s=men+kurta&post_type=product), [Aavaran](https://aavaranudaipur.com/search?q=men+kurta&type=product), and [Chinaya Banaras](https://chinayabanaras.com/search?q=men+kurta&type=product).
+- **Print-led and contemporary:** [See Designs](https://seedesigns.in/search?q=men+kurta&type=product), [Chhapa](https://chhapa.in/search?q=men+kurta&type=product), [Bombay Trooper](https://www.bombaytrooper.com/search?q=men+kurta&type=product), [Desi Minimals](https://desiminimals.com/search?q=men+kurta&type=product), [Javinishka](https://www.javinishka.com/search?q=men+kurta&type=product), and [DesiTude](https://desitude.com/search?q=men+kurta&type=product).
+- **Affordable men-first labels:** [Sojanya](https://sojanya.com/collections/mens-kurta), [Vastramay](https://vastramay.com/collections/mens-kurta), [Jompers](https://www.jompers.com/collections/mens-kurtas), [Deyann](https://deyann.com/search?q=men+kurta&type=product), [Tistabene](https://www.tistabene.com/search?q=men+kurta&type=product), and [Uathayam](https://uathayam.in/search?q=men+kurta&type=product).
 
 ## 1. Under ₹1,000 (₹0–₹999)
 
-These stores have had at least one kurta in the lowest band. **Sale-sensitive** means the qualifying price may depend on a markdown or coupon.
-
-- [ADA Designer Chikan Studio](https://www.adachikan.com/?s=kurta&post_type=product) — **Women · chikankari**; Lucknow specialist.
-- [Ahalyaa](https://ahalyaa.com/search?q=kurta&type=product) — **Women · value D2C**; printed and light-festive styles.
-- [Anokherang](https://www.anokherang.com/search?q=kurta&type=product) — **Women/men · Jaipur-inspired**; prints and folk-influenced styles.
-- [Bani Women](https://www.baniwomen.com/collections/kurtas) — **Women · regional/value**; casual printed kurtas.
-- [Bunaai](https://www.bunaai.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; **sale-sensitive**.
-- [Charukriti](https://charukriti.co.in/collections/kurtas) — **Women · regional/value**; work and casual styles.
-- [Chikankari Closet](https://chikankaricloset.com/?s=kurta&post_type=product) — **Women · chikankari**; small Lucknowi-style boutique; recheck route and stock.
-- [Cottons Jaipur](https://cottonsjaipur.com/search?q=kurta&type=product) — **Women · Jaipur cotton**; block-print-led styles.
-- [Divena](https://divena.in/collections/kurtas) — **Women · value D2C**; prints, yoke embroidery, and Anarkali cuts.
-- [House of Ekam](https://houseofekam.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; **sale-sensitive** at this tier.
-- [House of Jamoti](https://houseofjamoti.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; **sale-sensitive** at this tier.
-- [IndEthnic](https://indethnic.com/search?q=kurta&type=product) — **Women · independent value label**; regional-print styling.
-- [Indo Era](https://indoera.com/collections/kurtas) — **Women · value D2C**; verify current direct checkout.
-- [Jaipur Morni](https://jaipurmorni.com/search?q=kurta&type=product) — **Women · Jaipur/value**; floral and block-print-inspired styles.
-- [Jaipuri Adaah](https://jaipuriadaah.com/collections/kurtas) — **Women · small regional shop**; recheck current route and stock.
-- [Jisora](https://jisora.com/collections/kurtas) — **Women · Jaipur D2C**; relaxed cotton prints.
-- [Jompers](https://www.jompers.com/search?q=kurta&type=product) — **Women/men · independent value label**; everyday through festive styles.
-- [Juniper](https://juniperfashion.com/collections/kurtas) — **Women · D2C**; printed and embroidered workwear.
-- [Kapaas](https://kapaas.com/collections/kurtas) — **Women · cotton/workwear**; minimalist everyday styles.
-- [Kessa](https://www.kessa.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; cotton prints and embroidery.
-- [Kimayra](https://kimayra.in/collections/kurtas) — **Women · regional/value**; work and light-festive styles.
-- [Noorkasni](https://noorkasni.com/search?q=kurta&type=product) — **Women · chikankari**; Lucknow-inspired embroidery.
-- [Rangita](https://rangita.com/collections/kurtas) — **Women · independent value label**; casual printed styles.
-- [Rustorange](https://rustorange.com/search?q=kurta&type=product) — **Women · indie print label**; **sale-sensitive** at this tier.
-- [Seva Chikan Lucknow](https://sevachikanlucknow.com/search?q=kurta&type=product) — **Women · chikankari/artisan**; broad budget range.
-- [Sojanya](https://sojanya.com/collections/mens-kurta) — **Men · niche occasionwear**; cotton through festive styles.
-- [Sooti Syahi](https://sootisyahi.com/search?q=kurta&type=product) — **Women · hand-block-inspired**; Jaipur/Bagru-style cotton.
-- [The Chikan Label](https://thechikanlabel.com/search?q=kurta&type=product) — **Women · chikankari**; Lucknow-specialist styles.
-- [The Jaipur Studio](https://thejaipurstudio.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; **sale-sensitive** at this tier.
-- [The Loom Art](https://theloomart.com/search?q=kurta&type=product) — **Women · handloom-inspired indie**; verify current craft details.
-- [Tistabene](https://www.tistabene.com/search?q=kurta&type=product) — **Women/men · Jaipur D2C**; prints, cotton, and jacquard.
-- [Tjori](https://www.tjori.com/collections/kurtas) — **Women · craft/fusion**; recheck fulfilment and live catalog.
-- [Vastramay](https://vastramay.com/collections/mens-kurta) — **Men · niche occasionwear**; festive, jacquard, and embroidered.
-- [Ziyaa](https://ziyaa.in/collections/kurtas) — **Women · value D2C**; digital prints and officewear.
-- [Zola](https://zola.in/collections/kurtas) — **Women · independent value label**; casual prints.
+- [Anokherang](https://www.anokherang.com/search?q=men+kurta&type=product) — **Men · Jaipur/folk prints**; selected stock may be sale-sensitive.
+- [BharatSthali](https://bharatsthali.com/search?q=men+kurta&type=product) — **Men · regional textiles**; **recheck first** in its mixed catalog.
+- [Campus Sutra](https://campussutra.com/search?q=men+kurta&type=product) — **Men · youthful casual/festive**; sale-sensitive.
+- [DesiTude](https://desitude.com/search?q=men+kurta&type=product) — **Men · khadi, handloom, and block prints**.
+- [Deyann](https://deyann.com/search?q=men+kurta&type=product) — **Men · ethnic and festive specialist**; sale-sensitive.
+- [Ethnic Rajasthan](https://ethnicrajasthan.com/search?q=men+kurta&type=product) — **Men · Rajasthan cotton prints**.
+- [Gulab Chand Prints](https://gulabchand.com/search?q=men+kurta&type=product) — **Men · Jaipur/Sanganeri prints**.
+- [Hangup](https://hangup.in/?s=men+kurta&post_type=product) — **Men · festive, Pathani, and printed styles**; sale-sensitive; **recheck first**.
+- [Indian Threads](https://indianthreads.in/search?q=men+kurta&type=product) — **Men · short kurtas and Indian prints**.
+- [Jompers](https://www.jompers.com/collections/mens-kurtas) — **Men · printed cotton and light-festive**; selected sale stock.
+- [Karagiri](https://karagiri.com/search?q=men+kurta&type=product) — **Men · festive prints and embellishment**; sale-sensitive.
+- [KISAH](https://kisah.in/collections/mens-kurta) — **Men · embroidered occasionwear**; qualifying lowest-band stock is strongly sale-sensitive.
+- [Kraft India](https://www.kraftindia.in/search?q=men+kurta&type=product) — **Men · print and festive occasionwear**; selected sale stock.
+- [KurtaCraft](https://kurtacraft.com/search?q=men+kurta&type=product) — **Men · cotton/linen and short kurtas**; **recheck first**.
+- [Lucknowi Andaaz](https://lucknowiandaaz.com/search?q=men+kurta&type=product) — **Men · chikankari and Lucknowi embroidery**.
+- [Powerlook](https://powerlook.in/search?q=men+kurta&type=product) — **Men · trend-led short kurtas**; sale-sensitive.
+- [Seva Chikan Lucknow](https://sevachikanlucknow.com/search?q=men+kurta&type=product) — **Men · Lucknow chikankari**.
+- [Shasak](https://shasakclothing.com/search?q=men+kurta&type=product) — **Men · prints and contemporary festive styles**.
+- [Sojanya](https://sojanya.com/collections/mens-kurta) — **Men · cotton, printed, and jacquard styles**.
+- [Svanik](https://svanik.com/search?q=men+kurta&type=product) — **Men · jacquard and embroidered festive wear**; **recheck first**.
+- [Tantuja](https://tantuja.in/?s=men+kurta&post_type=product) — **Men · West Bengal handloom**; **recheck first**.
+- [The Indian Garage Co.](https://tigc.in/search?q=men+kurta&type=product) — **Men · casual printed and solid styles**; sale-sensitive.
+- [Tistabene](https://www.tistabene.com/search?q=men+kurta&type=product) — **Men · Jaipur prints, cotton, and jacquard**.
+- [Tjori](https://tjori.com/search?q=men+kurta&type=product) — **Men · block-print and embroidered craft/fusion**; sale-sensitive.
+- [TrendOye](https://trendoye.com/search?q=men+kurta&type=product) — **Men · embroidered and printed occasionwear**; sale-sensitive.
+- [Uathayam](https://uathayam.in/search?q=men+kurta&type=product) — **Men · South Indian cotton basics and festive styles**.
+- [Vastramay](https://vastramay.com/collections/mens-kurta) — **Men · printed, jacquard, and wedding styles**; selected sale stock.
 
 ## 2. ₹1,000–₹1,499
 
-- [ADA Designer Chikan Studio](https://www.adachikan.com/?s=kurta&post_type=product) — **Women · chikankari**; regional specialist.
-- [Ahalyaa](https://ahalyaa.com/search?q=kurta&type=product) — **Women · value D2C**; printed and light-festive styles.
-- [Ambraee](https://ambraee.com/collections/kurtas) — **Women · Jaipur boutique**; cotton prints and easy separates.
-- [Anokherang](https://www.anokherang.com/search?q=kurta&type=product) — **Women/men · Jaipur-inspired**; prints and folk styling.
-- [Bani Women](https://www.baniwomen.com/collections/kurtas) — **Women · regional/value**; casual printed kurtas.
-- [Bombay Trooper](https://www.bombaytrooper.com/search?q=kurta&type=product) — **Men/unisex · indie contemporary**; short kurtas and unconventional prints; recheck current qualifying item.
-- [Bunaai](https://www.bunaai.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; floral and festive styles.
-- [Charukriti](https://charukriti.co.in/collections/kurtas) — **Women · regional/value**; work and casual styles.
-- [Chhapa](https://chhapa.in/search?q=kurta&type=product) — **Women · craft-led Gujarat label**; hand-block printing.
-- [Chikankari Closet](https://chikankaricloset.com/?s=kurta&post_type=product) — **Women · chikankari**; recheck current route and stock.
-- [Cottons Jaipur](https://cottonsjaipur.com/search?q=kurta&type=product) — **Women · Jaipur cotton**; block-print-led styles.
-- [Dhaaga & Co.](https://dhaagaandco.com/search?q=kurta&type=product) — **Women · boutique cotton**; Jaipur-style printed separates.
-- [Divena](https://divena.in/collections/kurtas) — **Women · value D2C**; prints and embroidery.
-- [Gulaal](https://gulaal.in/search?q=kurta&type=product) — **Women · Jaipur boutique**; pastel florals and prints.
-- [House of Ekam](https://houseofekam.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; printed cotton and everyday styles.
-- [House of Jamoti](https://houseofjamoti.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; prints and coordinated separates.
-- [House of Soi](https://houseofsoi.com/search?q=kurta&type=product) — **Women · small D2C label**; relaxed printed cotton.
-- [IndEthnic](https://indethnic.com/search?q=kurta&type=product) — **Women · independent value label**; regional-print styling.
-- [Indo Era](https://indoera.com/collections/kurtas) — **Women · value D2C**; verify current direct checkout.
-- [Jaipur Morni](https://jaipurmorni.com/search?q=kurta&type=product) — **Women · Jaipur/value**; floral and traditional prints.
-- [Jaipuri Adaah](https://jaipuriadaah.com/collections/kurtas) — **Women · small regional shop**; recheck current route and stock.
-- [Jisora](https://jisora.com/collections/kurtas) — **Women · Jaipur D2C**; relaxed cotton prints.
-- [Jompers](https://www.jompers.com/search?q=kurta&type=product) — **Women/men · independent value label**; everyday and festive.
-- [JOVI India](https://www.joviindia.com/search?q=kurta&type=product) — **Women · Jaipur contemporary**; cotton prints and modern silhouettes.
-- [Juniper](https://juniperfashion.com/collections/kurtas) — **Women · D2C**; work and casual styles.
-- [Kapaas](https://kapaas.com/collections/kurtas) — **Women · cotton/workwear**; understated everyday styles.
-- [Kessa](https://www.kessa.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; cotton prints and embroidery.
-- [Kilol](https://kilol.com/search?q=kurta&type=product) — **Women · Jaipur craft label**; hand-block prints and cotton.
-- [Kilmora](https://kilmora.in/?s=kurta&post_type=product) — **Women · Kumaon artisan organisation**; handloom and regional craft.
-- [Kimayra](https://kimayra.in/collections/kurtas) — **Women · regional/value**; work and light-festive styles.
-- [KISAH](https://kisah.in/collections/mens-kurta) — **Men · niche occasionwear**; **sale-sensitive**.
-- [Klosia](https://klosia.com/collections/kurtas) — **Women · contemporary D2C**; prints and light embroidery.
-- [Missprint](https://www.missprintclothing.com/collections/kurtas) — **Women · small print label**; colourful cotton workwear.
-- [Mogra Designs](https://shopmogra.com/search?q=kurta&type=product) — **Women · boutique festive**; recheck current qualifying item.
-- [Noorkasni](https://noorkasni.com/search?q=kurta&type=product) — **Women · chikankari**; Lucknow-inspired embroidery.
-- [Okhai](https://okhai.org/search?q=kurta&type=product) — **Women · artisan organisation**; embroidery, appliqué, and craft techniques.
-- [Peeli Dori](https://www.peelidori.com/collections/kurtas) — **Women · small-batch cotton**; recheck current domain route.
-- [Pinklay](https://pinklay.com/search?q=kurta&type=product) — **Women · artisanal lifestyle label**; Jaipur-inspired prints; may be sale-sensitive.
-- [Rain & Rainbow](https://rainandrainbow.com/collections/kurtas) — **Women · independent print label**; bright casual and festive styles.
-- [RangSutra](https://rangsutra.com/search?q=kurta&type=product) — **Women · artisan enterprise**; embroidery and Rajasthan craft communities.
-- [Rustorange](https://rustorange.com/search?q=kurta&type=product) — **Women · indie print label**; Rajasthan-inspired contemporary styles.
-- [Seva Chikan Lucknow](https://sevachikanlucknow.com/search?q=kurta&type=product) — **Women · chikankari/artisan**; broad budget range.
-- [Shaye](https://shaye.co.in/collections/kurtas) — **Women · fashion-forward indie**; fusion cuts and contemporary prints.
-- [Sojanya](https://sojanya.com/collections/mens-kurta) — **Men · niche occasionwear**; cotton, jacquard, and festive.
-- [Sooti Syahi](https://sootisyahi.com/search?q=kurta&type=product) — **Women · hand-block-inspired**; Jaipur/Bagru-style cotton.
-- [Suvasa](https://suvasa.in/search?q=kurta&type=product) — **Women · Jaipur craft label**; block prints, cotton, and embroidery.
-- [Tabeer India](https://tabeerindia.com/search?q=kurta&type=product) — **Women · chikankari boutique**; embroidered styles.
-- [The Chikan Label](https://thechikanlabel.com/search?q=kurta&type=product) — **Women · chikankari**; Lucknow-specialist styles.
-- [The Jaipur Studio](https://thejaipurstudio.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; prints and embroidery.
-- [The Loom Art](https://theloomart.com/search?q=kurta&type=product) — **Women · handloom-inspired indie**; verify current craft details.
-- [Tistabene](https://www.tistabene.com/search?q=kurta&type=product) — **Women/men · Jaipur D2C**; prints, cotton, and jacquard.
-- [Utkalamrita](https://utkalamrita.com/search?q=kurta&type=product) — **Women · Odisha craft label**; ikat and regional textiles.
-- [Vastraa Fusion](https://vastraafusion.com/collections/kurtas) — **Women · Jaipur cotton boutique**; recheck current collection route.
-- [Vastramay](https://vastramay.com/collections/mens-kurta) — **Men · niche occasionwear**; festive and wedding styles.
-- [Ziyaa](https://ziyaa.in/collections/kurtas) — **Women · value D2C**; prints and officewear.
-- [Zola](https://zola.in/collections/kurtas) — **Women · independent value label**; casual and embroidered styles.
+- [ADA Designer Chikan Studio](https://www.adachikan.com/?s=men+kurta&post_type=product) — **Men · Lucknow chikankari**; regional specialist.
+- [Anokherang](https://www.anokherang.com/search?q=men+kurta&type=product) — **Men · Jaipur/folk prints**.
+- [BharatSthali](https://bharatsthali.com/search?q=men+kurta&type=product) — **Men · regional textiles**; **recheck first** in its mixed catalog.
+- [Biswa Bangla](https://biswabangla.in/?s=men+kurta&post_type=product) — **Men · Bengal handloom and regional craft**; **recheck first**.
+- [Bombay Trooper](https://www.bombaytrooper.com/search?q=men+kurta&type=product) — **Men · contemporary short kurtas and bold prints**.
+- [Boyanika](https://boyanika.com/?s=men+kurta&post_type=product) — **Men · Odisha handloom and ikat**; **recheck first**.
+- [Campus Sutra](https://campussutra.com/search?q=men+kurta&type=product) — **Men · youthful casual/festive**; sale-sensitive.
+- [Chhapa](https://chhapa.in/search?q=men+kurta&type=product) — **Men · Ahmedabad block prints**.
+- [Chinaya Banaras](https://chinayabanaras.com/search?q=men+kurta&type=product) — **Men · Banaras cotton-silk and handloom**; **recheck first**.
+- [Desi Minimals](https://desiminimals.com/search?q=men+kurta&type=product) — **Men · minimalist and block-print styles**.
+- [DesiTude](https://desitude.com/search?q=men+kurta&type=product) — **Men · khadi, handloom, and block prints**.
+- [Deyann](https://deyann.com/search?q=men+kurta&type=product) — **Men · ethnic and festive specialist**; sale-sensitive.
+- [Ethnic Rajasthan](https://ethnicrajasthan.com/search?q=men+kurta&type=product) — **Men · Rajasthan cotton prints**.
+- [Gulab Chand Prints](https://gulabchand.com/search?q=men+kurta&type=product) — **Men · Jaipur/Sanganeri prints**.
+- [Hangup](https://hangup.in/?s=men+kurta&post_type=product) — **Men · festive, Pathani, and printed styles**; sale-sensitive; **recheck first**.
+- [House of United](https://houseofunited.com/search?q=men+kurta&type=product) — **Men · polished festive menswear**; sale-sensitive; **recheck first**.
+- [Indian Threads](https://indianthreads.in/search?q=men+kurta&type=product) — **Men · short kurtas and Indian prints**.
+- [Javinishka](https://www.javinishka.com/search?q=men+kurta&type=product) — **Men · handcrafted prints and natural-fabric looks**.
+- [Jompers](https://www.jompers.com/collections/mens-kurtas) — **Men · printed cotton and festive styles**.
+- [Karagiri](https://karagiri.com/search?q=men+kurta&type=product) — **Men · festive prints and embellishment**; sale-sensitive.
+- [Karghewale](https://karghewale.com/search?q=men+kurta&type=product) — **Men · small handloom-focused label**; **recheck first**.
+- [Kilol](https://kilol.com/search?q=men+kurta&type=product) — **Men · Jaipur cotton and block prints**.
+- [Kilmora](https://kilmora.in/?s=men+kurta&post_type=product) — **Men · Kumaon artisan and handloom**; **recheck first**.
+- [KISAH](https://kisah.in/collections/mens-kurta) — **Men · embroidered occasionwear**; sale-sensitive.
+- [Kraft India](https://www.kraftindia.in/search?q=men+kurta&type=product) — **Men · print and festive occasionwear**.
+- [KurtaCraft](https://kurtacraft.com/search?q=men+kurta&type=product) — **Men · cotton/linen and short kurtas**; **recheck first**.
+- [Lucknowi Andaaz](https://lucknowiandaaz.com/search?q=men+kurta&type=product) — **Men · chikankari and Lucknowi embroidery**.
+- [Mushkiya](https://mushkiya.com/search?q=men+kurta&type=product) — **Men · Lucknowi/chikankari occasionwear**; sale-sensitive; **recheck first**.
+- [PeepulTree](https://peepultree.world/search?q=men+kurta&type=product) — **Men · multi-artisan regional styles**; **recheck first**.
+- [Powerlook](https://powerlook.in/search?q=men+kurta&type=product) — **Men · trend-led short kurtas**; sale-sensitive.
+- [RangSutra](https://rangsutra.com/search?q=men+kurta&type=product) — **Men · Rajasthan artisan textiles and embroidery**.
+- [Sasha](https://sashaindia.com/?s=men+kurta&post_type=product) — **Men · Kolkata fair-trade artisan craft**; **recheck first**.
+- [See Designs](https://seedesigns.in/search?q=men+kurta&type=product) — **Men · block prints and cotton/linen**.
+- [Seva Chikan Lucknow](https://sevachikanlucknow.com/search?q=men+kurta&type=product) — **Men · Lucknow chikankari**.
+- [Shasak](https://shasakclothing.com/search?q=men+kurta&type=product) — **Men · prints and contemporary festive styles**.
+- [Sojanya](https://sojanya.com/collections/mens-kurta) — **Men · cotton, printed, and jacquard styles**.
+- [Svanik](https://svanik.com/search?q=men+kurta&type=product) — **Men · jacquard and embroidered festive wear**; **recheck first**.
+- [Tantuja](https://tantuja.in/?s=men+kurta&post_type=product) — **Men · West Bengal handloom**; **recheck first**.
+- [The Bear House](https://thebearhouse.com/search?q=men+kurta&type=product) — **Men · contemporary cotton/linen short kurtas**.
+- [The Indian Garage Co.](https://tigc.in/search?q=men+kurta&type=product) — **Men · casual printed and solid styles**; sale-sensitive.
+- [Tistabene](https://www.tistabene.com/search?q=men+kurta&type=product) — **Men · Jaipur prints, cotton, and jacquard**.
+- [Tjori](https://tjori.com/search?q=men+kurta&type=product) — **Men · block-print and embroidered craft/fusion**; sale-sensitive.
+- [TrendOye](https://trendoye.com/search?q=men+kurta&type=product) — **Men · embroidered and printed occasionwear**; sale-sensitive.
+- [Uathayam](https://uathayam.in/search?q=men+kurta&type=product) — **Men · South Indian cotton basics and festive styles**.
+- [Unnati Silks](https://unnatisilks.com/search?q=men+kurta&type=product) — **Men · Indian handloom and ikat**; **recheck first**.
+- [Utkalamrita](https://utkalamrita.com/search?q=men+kurta&type=product) — **Men · Odisha handloom and ikat**; **recheck first**.
+- [Vastramay](https://vastramay.com/collections/mens-kurta) — **Men · printed, jacquard, and wedding styles**.
 
 ## 3. ₹1,500–₹1,999
 
-- [Aachho](https://www.aachho.com/collections/kurtas) — **Women · Jaipur occasionwear**; **sale-sensitive** below ₹2,000.
-- [ADA Designer Chikan Studio](https://www.adachikan.com/?s=kurta&post_type=product) — **Women/men · chikankari**; regional specialist.
-- [Ambraee](https://ambraee.com/collections/kurtas) — **Women · Jaipur boutique**; cotton prints and embroidery.
-- [Anokherang](https://www.anokherang.com/search?q=kurta&type=product) — **Women/men · Jaipur-inspired**; prints and folk styling.
-- [Benstoke](https://benstoke.com/collections/kurtas) — **Men · niche contemporary occasionwear**.
-- [Beyours](https://www.beyours.in/search?q=kurta&type=product) — **Men · minimalist D2C**; modern solid and short kurtas.
-- [Bombay Trooper](https://www.bombaytrooper.com/search?q=kurta&type=product) — **Men/unisex · indie contemporary**; short kurtas and unconventional prints.
-- [Bunaai](https://www.bunaai.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; floral and festive styles.
-- [Chhapa](https://chhapa.in/search?q=kurta&type=product) — **Women · craft-led Gujarat label**; hand-block printing.
-- [Chidiyaa](https://chidiyaa.com/search?q=kurta&type=product) — **Women/men · slow-fashion craft label**; hand-block prints; often **sale-sensitive** below ₹2,000.
-- [Chikankari Closet](https://chikankaricloset.com/?s=kurta&post_type=product) — **Women · chikankari**; recheck current route and stock.
-- [Cottons Jaipur](https://cottonsjaipur.com/search?q=kurta&type=product) — **Women · Jaipur cotton**; block-print-led styles.
-- [Desi Minimals](https://desiminimals.com/search?q=kurta&type=product) — **Men/unisex · minimalist indie**; solids and easy silhouettes.
-- [Dhaaga & Co.](https://dhaagaandco.com/search?q=kurta&type=product) — **Women · boutique cotton**; Jaipur-style printed separates.
-- [Farida Gupta](https://www.faridagupta.com/search?q=kurta&type=product) — **Women · craft-conscious cotton**; selected or **sale-sensitive** styles.
-- [FASHOR](https://www.fashor.com/collections/kurtas) — **Women · design-led D2C**; embroidered and occasion styles.
-- [Geroo Jaipur](https://geroojaipur.com/collections/kurtas) — **Women · small Jaipur craft label**; recheck collection and qualifying stock.
-- [Gulaal](https://gulaal.in/search?q=kurta&type=product) — **Women · Jaipur boutique**; pastel florals and prints.
-- [Gulabo Jaipur](https://www.gulabojaipur.com/collections/kurtas) — **Women · Jaipur resort/festive**; selected or **sale-sensitive** styles.
-- [House of Ekam](https://houseofekam.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; printed cotton and everyday styles.
-- [House of Jamoti](https://houseofjamoti.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; prints and coordinated separates.
-- [House of Kari](https://houseofkari.in/search?q=kurta&type=product) — **Women/men · chikankari-inspired D2C**; often **sale-sensitive**.
-- [House of Soi](https://houseofsoi.com/search?q=kurta&type=product) — **Women · small D2C label**; relaxed printed cotton.
-- [IndEthnic](https://indethnic.com/search?q=kurta&type=product) — **Women · independent value label**; regional-print styling.
-- [Javinishka](https://www.javinishka.com/search?q=men%20kurta&type=product) — **Men · handloom/handcrafted indie**; natural-fabric looks.
-- [Jompers](https://www.jompers.com/search?q=kurta&type=product) — **Women/men · independent value label**; everyday and festive.
-- [JOVI India](https://www.joviindia.com/search?q=kurta&type=product) — **Women · Jaipur contemporary**; modern cotton silhouettes.
-- [Kessa](https://www.kessa.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; cotton prints and embroidery.
-- [Kilol](https://kilol.com/search?q=kurta&type=product) — **Women · Jaipur craft label**; hand-block prints and cotton.
-- [Kilmora](https://kilmora.in/?s=kurta&post_type=product) — **Women · Kumaon artisan organisation**; handloom and regional craft.
-- [KISAH](https://kisah.in/collections/mens-kurta) — **Men · niche occasionwear**; often **sale-sensitive**.
-- [Klosia](https://klosia.com/collections/kurtas) — **Women · contemporary D2C**; prints and embroidery.
-- [Kraft India](https://www.kraftindia.in/search?q=men%20kurta&type=product) — **Men · independent festive label**; foil prints and occasionwear.
-- [Lavanya The Label](https://www.lavanyathelabel.com/collections/kurtas) — **Women · trend-led occasionwear**; **sale-sensitive** below ₹2,000.
-- [Missprint](https://www.missprintclothing.com/collections/kurtas) — **Women · small print label**; colourful cotton workwear.
-- [Mogra Designs](https://shopmogra.com/search?q=kurta&type=product) — **Women · boutique festive**; recheck current qualifying item.
-- [Noorkasni](https://noorkasni.com/search?q=kurta&type=product) — **Women · chikankari**; Lucknow-inspired embroidery.
-- [Okhai](https://okhai.org/search?q=kurta&type=product) — **Women · artisan organisation**; embroidery, appliqué, and craft techniques.
-- [Peeli Dori](https://www.peelidori.com/collections/kurtas) — **Women · small-batch cotton**; recheck current domain route.
-- [Pinklay](https://pinklay.com/search?q=kurta&type=product) — **Women · artisanal lifestyle label**; Jaipur-inspired prints; may be **sale-sensitive**.
-- [Pomcha Jaipur](https://www.pomchajaipur.com/collections/kurtas) — **Women · Jaipur print/festive**; verify kurta-only price.
-- [Project Bandi](https://projectbandi.com/search?q=kurta&type=product) — **Men · niche occasionwear**; **sale-sensitive**.
-- [Purple Panchi](https://purplepanchi.com/collections/kurtas) — **Women · Jaipur festive boutique**; verify kurta-only price and sale status.
-- [Rain & Rainbow](https://rainandrainbow.com/collections/kurtas) — **Women · independent print label**; bright casual and festive styles.
-- [RangSutra](https://rangsutra.com/search?q=kurta&type=product) — **Women · artisan enterprise**; embroidery and Rajasthan craft communities.
-- [Ratan Jaipur](https://ratanjaipur.com/collections/kurtas) — **Women · heritage Jaipur prints**; selected or **sale-sensitive** styles.
-- [Rustorange](https://rustorange.com/search?q=kurta&type=product) — **Women · indie print label**; Rajasthan-inspired contemporary styles.
-- [SeamsFriendly](https://seamsfriendly.com/collections/kurtas) — **Women · size-inclusive/made-to-measure**; selected qualifying styles.
-- [Seva Chikan Lucknow](https://sevachikanlucknow.com/search?q=kurta&type=product) — **Women · chikankari/artisan**; broad budget range.
-- [Shaye](https://shaye.co.in/collections/kurtas) — **Women · fashion-forward indie**; fusion cuts and contemporary prints.
-- [Sojanya](https://sojanya.com/collections/mens-kurta) — **Men · niche occasionwear**; cotton, jacquard, and festive.
-- [Suta](https://suta.in/search?q=men%20kurta&type=product) — **Men/unisex · handloom/craft-led**; selected qualifying styles.
-- [Suvasa](https://suvasa.in/search?q=kurta&type=product) — **Women · Jaipur craft label**; block prints, cotton, and embroidery.
-- [Tabeer India](https://tabeerindia.com/search?q=kurta&type=product) — **Women · chikankari boutique**; embroidered styles.
-- [The Chikan Label](https://thechikanlabel.com/search?q=kurta&type=product) — **Women · chikankari**; Lucknow-specialist styles.
-- [The Indian Ethnic Co.](https://theindianethnicco.com/search?q=kurta&type=product) — **Women · craft-led indie**; Ajrakh and Bagru influences; often **sale-sensitive**.
-- [The Jaipur Studio](https://thejaipurstudio.com/search?q=kurta&type=product) — **Women · Jaipur boutique**; prints and embroidery.
-- [The Loom](https://theloom.in/collections/kurtas) — **Women · independent-label curator**; selected or **sale-sensitive** styles.
-- [The Loom Art](https://theloomart.com/search?q=kurta&type=product) — **Women · handloom-inspired indie**; verify current craft details.
-- [Tistabene](https://www.tistabene.com/search?q=kurta&type=product) — **Women/men · Jaipur D2C**; prints, cotton, and jacquard.
-- [trueBrowns](https://truebrowns.com/collections/kurtas) — **Women · size-inclusive minimalist D2C**; often **sale-sensitive**.
-- [Utkalamrita](https://utkalamrita.com/search?q=kurta&type=product) — **Women · Odisha craft label**; ikat and regional textiles.
-- [Vastraa Fusion](https://vastraafusion.com/collections/kurtas) — **Women · Jaipur cotton boutique**; recheck current collection route.
-- [Vastramay](https://vastramay.com/collections/mens-kurta) — **Men · niche occasionwear**; festive and wedding styles.
-- [Vraj:bhoomi](https://vrajbhoomi.in/search?q=kurta&type=product) — **Women · Gujarat craft label**; Ajrakh, hand block, and natural-dye influences; usually **sale-sensitive**.
+- [Aavaran](https://aavaranudaipur.com/search?q=men+kurta&type=product) — **Men · Udaipur dabu, indigo, and hand block**; sale-sensitive; **recheck first**.
+- [ADA Designer Chikan Studio](https://www.adachikan.com/?s=men+kurta&post_type=product) — **Men · Lucknow chikankari**; regional specialist.
+- [Amaare](https://amaare.in/search?q=men+kurta&type=product) — **Men · contemporary Indian craft/fusion**; sale-sensitive; **recheck first**.
+- [Anokherang](https://www.anokherang.com/search?q=men+kurta&type=product) — **Men · Jaipur/folk prints**.
+- [Benstoke](https://benstoke.com/search?q=men+kurta&type=product) — **Men · contemporary occasionwear**.
+- [Beyours](https://www.beyours.in/search?q=men+kurta&type=product) — **Men · minimalist solids and short kurtas**.
+- [BharatSthali](https://bharatsthali.com/search?q=men+kurta&type=product) — **Men · regional textiles**; **recheck first** in its mixed catalog.
+- [Biswa Bangla](https://biswabangla.in/?s=men+kurta&post_type=product) — **Men · Bengal handloom and regional craft**; **recheck first**.
+- [Bombay Trooper](https://www.bombaytrooper.com/search?q=men+kurta&type=product) — **Men · contemporary short kurtas and bold prints**.
+- [Boyanika](https://boyanika.com/?s=men+kurta&post_type=product) — **Men · Odisha handloom and ikat**; **recheck first**.
+- [Chhapa](https://chhapa.in/search?q=men+kurta&type=product) — **Men · Ahmedabad block prints**.
+- [Chidiyaa](https://chidiyaa.com/search?q=men+kurta&type=product) — **Men · slow-fashion hand-block prints**; sale-sensitive.
+- [Chinaya Banaras](https://chinayabanaras.com/search?q=men+kurta&type=product) — **Men · Banaras cotton-silk and handloom**; **recheck first**.
+- [Desi Minimals](https://desiminimals.com/search?q=men+kurta&type=product) — **Men · minimalist and block-print styles**.
+- [DesiTude](https://desitude.com/search?q=men+kurta&type=product) — **Men · khadi, handloom, and block prints**.
+- [Deyann](https://deyann.com/search?q=men+kurta&type=product) — **Men · ethnic and festive specialist**; sale-sensitive.
+- [G3Fashion](https://g3fashion.com/search?q=men+kurta&type=product) — **Men · Surat regional occasionwear**; sale-sensitive; **recheck first**.
+- [Gulab Chand Prints](https://gulabchand.com/search?q=men+kurta&type=product) — **Men · Jaipur/Sanganeri prints**.
+- [Hangup](https://hangup.in/?s=men+kurta&post_type=product) — **Men · festive, Pathani, and printed styles**; sale-sensitive; **recheck first**.
+- [House of Chikankari](https://www.houseofchikankari.in/search?q=men+kurta&type=product) — **Men · Lucknow chikankari**; sale-sensitive.
+- [House of Kari](https://houseofkari.in/search?q=men+kurta&type=product) — **Men · chikankari-inspired cotton**; sale-sensitive.
+- [House of United](https://houseofunited.com/search?q=men+kurta&type=product) — **Men · polished festive menswear**; sale-sensitive; **recheck first**.
+- [Indian Threads](https://indianthreads.in/search?q=men+kurta&type=product) — **Men · short kurtas and Indian prints**.
+- [Javinishka](https://www.javinishka.com/search?q=men+kurta&type=product) — **Men · handcrafted prints and natural-fabric looks**.
+- [Jompers](https://www.jompers.com/collections/mens-kurtas) — **Men · printed cotton and festive styles**.
+- [Karagiri](https://karagiri.com/search?q=men+kurta&type=product) — **Men · festive prints and embellishment**; sale-sensitive.
+- [Karghewale](https://karghewale.com/search?q=men+kurta&type=product) — **Men · small handloom-focused label**; **recheck first**.
+- [Kilol](https://kilol.com/search?q=men+kurta&type=product) — **Men · Jaipur cotton and block prints**.
+- [Kilmora](https://kilmora.in/?s=men+kurta&post_type=product) — **Men · Kumaon artisan and handloom**; **recheck first**.
+- [KISAH](https://kisah.in/collections/mens-kurta) — **Men · embroidered occasionwear**; sale-sensitive.
+- [Kraft India](https://www.kraftindia.in/search?q=men+kurta&type=product) — **Men · foil prints and festive occasionwear**.
+- [Lucknowi Andaaz](https://lucknowiandaaz.com/search?q=men+kurta&type=product) — **Men · chikankari and Lucknowi embroidery**.
+- [Mushkiya](https://mushkiya.com/search?q=men+kurta&type=product) — **Men · Lucknowi/chikankari occasionwear**; sale-sensitive; **recheck first**.
+- [PeepulTree](https://peepultree.world/search?q=men+kurta&type=product) — **Men · multi-artisan regional styles**; **recheck first**.
+- [Project Bandi](https://projectbandi.com/search?q=men+kurta&type=product) — **Men · bandi-coordinated occasionwear**; sale-sensitive.
+- [RangSutra](https://rangsutra.com/search?q=men+kurta&type=product) — **Men · Rajasthan artisan textiles and embroidery**.
+- [Sasha](https://sashaindia.com/?s=men+kurta&post_type=product) — **Men · Kolkata fair-trade artisan craft**; **recheck first**.
+- [See Designs](https://seedesigns.in/search?q=men+kurta&type=product) — **Men · block prints and cotton/linen**.
+- [Seva Chikan Lucknow](https://sevachikanlucknow.com/search?q=men+kurta&type=product) — **Men · Lucknow chikankari**.
+- [Shasak](https://shasakclothing.com/search?q=men+kurta&type=product) — **Men · prints and contemporary festive styles**.
+- [Sojanya](https://sojanya.com/collections/mens-kurta) — **Men · cotton, printed, and jacquard styles**.
+- [Suta](https://suta.in/search?q=men+kurta&type=product) — **Men · handloom and craft-led relaxed styles**; sale-sensitive.
+- [Svanik](https://svanik.com/search?q=men+kurta&type=product) — **Men · jacquard and embroidered festive wear**; **recheck first**.
+- [Tantuja](https://tantuja.in/?s=men+kurta&post_type=product) — **Men · West Bengal handloom**; **recheck first**.
+- [The Bear House](https://thebearhouse.com/search?q=men+kurta&type=product) — **Men · contemporary cotton/linen short kurtas**.
+- [Tistabene](https://www.tistabene.com/search?q=men+kurta&type=product) — **Men · Jaipur prints, cotton, and jacquard**.
+- [Tjori](https://tjori.com/search?q=men+kurta&type=product) — **Men · block-print and embroidered craft/fusion**; sale-sensitive.
+- [TrendOye](https://trendoye.com/search?q=men+kurta&type=product) — **Men · embroidered and printed occasionwear**; sale-sensitive.
+- [Unnati Silks](https://unnatisilks.com/search?q=men+kurta&type=product) — **Men · Indian handloom and ikat**; **recheck first**.
+- [Utkalamrita](https://utkalamrita.com/search?q=men+kurta&type=product) — **Men · Odisha handloom and ikat**; **recheck first**.
+- [Vastramay](https://vastramay.com/collections/mens-kurta) — **Men · printed, jacquard, and wedding styles**.
 
-## How to verify a find before paying
+## Verify before buying
 
-1. Sort the linked page from low to high and apply the exact band again.
-2. Confirm the item is a **kurta**, not fabric, a dupatta, an accessory, or a photographed set component.
-3. Check whether the selling price requires a coupon, app order, first-order code, or prepaid payment.
-4. Add the desired size to cart and enter the delivery postcode; visible catalog stock is not checkout confirmation.
-5. Compare garment measurements, fabric composition, lining/transparency, wash care, shipping, and return terms.
-6. For a small store, look for a business address, working support channel, clear return policy, and secure payment page.
-7. Prefer credit card or another payment method with dispute protection when trying an unfamiliar seller.
+1. Confirm that the result card explicitly says **men’s kurta**; mixed stores may also return women’s, children’s, accessories, fabric, or unrelated products.
+2. Check whether the displayed amount is for a **kurta only** or a full kurta-pyjama/jacket set.
+3. Treat crossed-out MRPs, first-order coupons, app-only prices, and prepaid discounts separately from the actual selling price.
+4. Select the required size, add it to cart, and enter the delivery postcode before relying on stock or shipping.
+5. Compare garment measurements, fabric composition, lining, colour notes, wash care, dispatch time, and return eligibility.
+6. For an unfamiliar store, check its business address, support contact, return policy, and secure payment page.
+7. Prefer a card or another payment method with dispute protection when trying a store for the first time.
 
 ## Coverage and confidence
 
-This directory is intentionally broad but cannot truthfully claim every online seller. It excludes social-only Instagram/WhatsApp shops without a stable storefront, sites remembered only by name but without a credible direct URL, obvious mainstream chains, and luxury labels whose qualifying price could not be supported. Some links and price bands are marked for rechecking because storefront pages blocked automated access; those entries are discovery leads, not endorsements or live-price guarantees.
+This is an exhaustive practical discovery list within the stated filters—not a claim that every men’s kurta seller online has been found. Social-only Instagram or WhatsApp sellers without a stable storefront, unresolved domains, unsupported women-only labels, obvious mainstream chains, and luxury labels without supportable sub-₹2,000 men’s inventory are excluded. A direct store may still sell through a marketplace elsewhere; that does not disqualify its own website.
