@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0f766e">
+<title>Angion Training Toolkit &amp; Logger</title>
+<meta name="description" content="A private, offline training companion for the Angion Method: session timer with metronome, daily check-ins, measurements, progress charts and a personalised schedule. All data stays in your browser.">
+<style>
+:root{
+  --bg:#eef2f7; --surface:#ffffff; --surface-2:#f7fafc; --ink:#1e293b; --ink-2:#334155; --muted:#5b6b82; --faint:#94a3b8; --line:#e3e8f0; --line-2:#eef1f6;
+  --brand:#0f766e; --brand-2:#14b8a6; --brand-soft:#e7f6f4; --brand-ink:#0b5c55;
+  --blue:#2563eb; --blue-soft:#eaf1fe;
+  --red:#c81e1e; --red-soft:#fdeeee;
+  --amber:#a15c07; --amber-soft:#fff6e8;
+  --green:#15803d; --green-soft:#eaf8ef;
+  --violet:#6d28d9; --violet-soft:#f3eefe;
+  --slate-soft:#eef2f7;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.06);
+  --shadow:0 1px 2px rgba(15,23,42,.05),0 8px 24px rgba(15,23,42,.07);
+  --shadow-lg:0 10px 40px rgba(15,23,42,.18);
+  --radius:16px; --radius-sm:11px;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --nav-h:64px; --rail-w:232px; --max:1080px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--font);-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+h1,h2,h3,h4{line-height:1.25;color:#0f172a;margin:0 0 .5em;letter-spacing:-.01em}
+h1{font-size:1.5rem}h2{font-size:1.28rem}h3{font-size:1.06rem}h4{font-size:.95rem}
+p{margin:0 0 1em}
+a{color:var(--blue);text-underline-offset:2px}
+small,.small{font-size:.84rem}
+.muted{color:var(--muted)}
+.faint{color:var(--faint)}
+ul,ol{margin:0 0 1em;padding-left:1.25em}
+li{margin:.2em 0}
+hr{border:0;border-top:1px solid var(--line);margin:1.4rem 0}
+svg{display:block;max-width:100%}
+kbd{font:600 .8em var(--mono);background:var(--slate-soft);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:.1em .4em}
+.hidden{display:none!important}
+[hidden]{display:none!important}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---- buttons & controls ---- */
+.btn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 .92rem var(--font);padding:.6rem 1rem;border-radius:11px;cursor:pointer;display:inline-flex;gap:.45rem;align-items:center;justify-content:center;transition:background .12s,border-color .12s,transform .05s;min-height:44px;line-height:1.1}
+.btn:hover{border-color:#c7d0dd;background:var(--surface-2)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid #a7f3ef;outline-offset:1px}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover{background:#0c6760}
+.btn.danger{background:var(--red);border-color:var(--red);color:#fff}
+.btn.danger:hover{background:#a81818}
+.btn.ghost{background:transparent;border-color:transparent}
+.btn.ghost:hover{background:var(--slate-soft)}
+.btn.outline{background:transparent}
+.btn.small{min-height:36px;padding:.4rem .7rem;font-size:.84rem;border-radius:9px}
+.btn.block{width:100%}
+.btn.lg{min-height:52px;font-size:1rem;padding:.7rem 1.2rem}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px}
+.icon{width:1.2em;height:1.2em;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+label{font-size:.86rem;font-weight:600;color:var(--ink-2);display:block;margin-bottom:.3rem}
+input,select,textarea{font:inherit;font-size:.95rem;padding:.6rem .7rem;border:1px solid #cfd8e3;border-radius:10px;background:var(--surface);color:var(--ink);width:100%;min-height:44px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand-2);box-shadow:0 0 0 3px #cdeeeb}
+textarea{min-height:70px;resize:vertical}
+input[type=checkbox],input[type=radio]{width:auto;min-height:0;accent-color:var(--brand)}
+input[type=range]{min-height:0;padding:0;accent-color:var(--brand)}
+.field{margin-bottom:.9rem}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:560px){.g3{grid-template-columns:repeat(2,1fr)}}
+.inline{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+
+/* segmented control & chips */
+.seg{display:inline-flex;background:var(--slate-soft);border:1px solid var(--line);border-radius:11px;padding:3px;gap:3px;flex-wrap:wrap}
+.seg button{appearance:none;border:0;background:transparent;color:var(--ink-2);font:600 .85rem var(--font);padding:.45rem .7rem;border-radius:8px;cursor:pointer;min-height:38px}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--brand);box-shadow:var(--shadow-sm)}
+.choice{display:flex;flex-wrap:wrap;gap:8px}
+.choice label{display:inline-flex;align-items:center;gap:.4rem;margin:0;padding:.5rem .8rem;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-weight:600;color:var(--ink-2);cursor:pointer;min-height:42px}
+.choice input{position:absolute;opacity:0;width:0;height:0}
+.choice label:has(input:checked){background:var(--brand-soft);border-color:var(--brand-2);color:var(--brand-ink)}
+.choice label:focus-within{box-shadow:0 0 0 3px #cdeeeb}
+
+/* cards & pills */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:16px}
+.card.pad{padding:18px}
+.card h3{margin-top:0}
+.tag{font-size:.7rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:.35rem;font-size:.74rem;font-weight:700;padding:.2rem .55rem;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.pill.brand{color:var(--brand-ink);background:var(--brand-soft);border-color:#c3e9e3}
+.pill.blue{color:var(--blue);background:var(--blue-soft);border-color:#cfdcfb}
+.pill.green{color:var(--green);background:var(--green-soft);border-color:#c9ecd6}
+.pill.amber{color:var(--amber);background:var(--amber-soft);border-color:#f6dfb8}
+.pill.red{color:var(--red);background:var(--red-soft);border-color:#f6caca}
+.pill.violet{color:var(--violet);background:var(--violet-soft);border-color:#ddd0f7}
+.pill.grey{color:var(--muted);background:var(--slate-soft);border-color:var(--line)}
+.dot{width:.5rem;height:.5rem;border-radius:50%;background:currentColor;flex:none}
+
+/* stage badges */
+.sb{display:inline-grid;place-items:center;border-radius:50%;font-weight:900;color:#fff;flex:none}
+.sb.s{width:30px;height:30px;font-size:.9rem}.sb.m{width:44px;height:44px;font-size:1.2rem}.sb.l{width:60px;height:60px;font-size:1.7rem}
+.cls-E{background:#64748b}.cls-D{background:#0ea5e9}.cls-C{background:#14b8a6}.cls-B{background:#22c55e}.cls-A{background:#f59e0b}.cls-S{background:#ef4444}.cls-X{background:#7c3aed}
+
+/* callouts */
+.note{border-radius:12px;padding:12px 14px;margin:1rem 0;border:1px solid var(--line);background:var(--slate-soft);font-size:.92rem}
+.note>:last-child{margin-bottom:0}
+.note.danger{background:var(--red-soft);border-color:#f3c4c4;color:#7f1d1d}
+.note.warn{background:var(--amber-soft);border-color:#f3d9ae;color:#7a4504}
+.note.info{background:var(--blue-soft);border-color:#cddcfb;color:#1e3a8a}
+.note.tip{background:var(--brand-soft);border-color:#c3e9e3;color:var(--brand-ink)}
+.note b{color:inherit}
+.note .ttl{display:flex;gap:.45rem;align-items:center;font-weight:800;margin-bottom:.35rem}
+
+/* ---- app shell ---- */
+.app{min-height:100vh;min-height:100dvh}
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .brand-mark{display:flex;align-items:center;gap:.5rem;font-weight:800;color:#0f172a;font-size:1rem}
+.topbar .logo{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--brand),var(--blue));display:grid;place-items:center;color:#fff}
+.topbar .sp{flex:1}
+.topbar .daypill{font-size:.78rem;color:var(--muted);background:var(--slate-soft);border:1px solid var(--line);border-radius:999px;padding:.25rem .6rem;white-space:nowrap}
+.iconbtn{appearance:none;border:1px solid var(--line);background:var(--surface);width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:var(--ink-2);cursor:pointer}
+.iconbtn:hover{background:var(--surface-2)}
+
+.shell{display:grid;grid-template-columns:1fr;max-width:var(--max);margin:0 auto}
+@media(min-width:900px){.shell{grid-template-columns:var(--rail-w) minmax(0,1fr);gap:24px;padding:0 20px}}
+.rail{display:none}
+@media(min-width:900px){
+  .rail{display:block;position:sticky;top:64px;align-self:start;height:calc(100vh - 64px);padding:16px 0;overflow:auto}
+}
+.rail nav{display:flex;flex-direction:column;gap:4px}
+.rail .navbtn{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:11px;border:0;background:transparent;color:var(--ink-2);font:600 .95rem var(--font);cursor:pointer;width:100%;text-align:left}
+.rail .navbtn:hover{background:var(--slate-soft)}
+.rail .navbtn[aria-current=page]{background:var(--brand-soft);color:var(--brand-ink)}
+.rail .navbtn .icon{width:1.25rem;height:1.25rem}
+.rail .railfoot{margin-top:14px;padding:12px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted)}
+
+main{min-width:0;padding:16px 16px calc(var(--nav-h) + var(--safe-b) + 28px);}
+@media(min-width:900px){main{padding:20px 0 48px}}
+.view{animation:fade .18s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.view-head{margin:4px 0 14px}
+.view-head h1{margin:0}
+.view-head p{margin:.2rem 0 0;color:var(--muted);font-size:.92rem}
+.section{margin:22px 0}
+.section>h2{display:flex;align-items:center;gap:.5rem;font-size:1.04rem;margin-bottom:.7rem}
+.stack{display:flex;flex-direction:column;gap:12px}
+
+/* bottom nav (mobile) */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding-bottom:var(--safe-b)}
+@media(min-width:900px){.tabbar{display:none}}
+.tabbar button{flex:1;appearance:none;border:0;background:transparent;color:var(--muted);font:600 .68rem var(--font);display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;cursor:pointer;min-height:var(--nav-h)}
+.tabbar button .icon{width:1.45rem;height:1.45rem}
+.tabbar button[aria-current=page]{color:var(--brand)}
+
+/* progress ring & big clock (session) */
+.ring-wrap{position:relative;width:min(70vw,260px);aspect-ratio:1;margin:0 auto}
+.ring-wrap svg{width:100%;height:100%}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12%}
+.bigclock{font:800 clamp(2.4rem,11vw,3.6rem)/1 var(--mono);font-variant-numeric:tabular-nums;color:#0f172a}
+.ring-sub{font-size:.8rem;color:var(--muted);margin-top:2px}
+
+/* data viz */
+.chart{width:100%;height:auto;background:var(--surface);border-radius:10px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:.5rem 0 0;font-size:.82rem;color:var(--ink-2)}
+.legend span{display:inline-flex;gap:.4rem;align-items:center}
+.swatch{width:12px;height:12px;border-radius:3px;flex:none}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.stat{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat b{display:block;font-size:1.5rem;color:#0f172a;font-variant-numeric:tabular-nums}
+.stat span{font-size:.78rem;color:var(--muted)}
+.heatstrip{display:flex;gap:3px;flex-wrap:wrap}
+.heatcell{width:16px;height:16px;border-radius:4px;background:var(--slate-soft);border:1px solid var(--line-2)}
+
+/* week strip */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.week .d{border:1px solid var(--line);border-radius:10px;padding:7px 4px;text-align:center;font-size:.72rem;background:var(--surface);min-height:62px;display:flex;flex-direction:column;gap:4px;align-items:center}
+.week .d .dn{font-weight:700;color:var(--muted)}
+.week .d.today{border-color:var(--brand-2);box-shadow:0 0 0 2px #cdeeeb}
+.week .d .mk{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.week .d .mk.done{background:var(--brand)}
+.week .d .mk.plan{background:var(--blue-soft);border:1px solid var(--blue)}
+.week .d .tiny{font-size:.62rem;line-height:1.1}
+
+/* list rows */
+.row{display:flex;gap:10px;align-items:center;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.row+.row{margin-top:8px}
+.row .rmain{flex:1;min-width:0}
+.row .rmain .t{font-weight:700;font-size:.95rem}
+.row .rmain .s{font-size:.8rem;color:var(--muted)}
+.row .rt{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink-2);white-space:nowrap}
+
+/* preset groups */
+.acc{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.acc+.acc{margin-top:10px}
+.acc>summary{list-style:none;cursor:pointer;padding:13px 14px;font-weight:700;display:flex;align-items:center;gap:.5rem}
+.acc>summary::-webkit-details-marker{display:none}
+.acc>summary .chev{margin-left:auto;transition:transform .15s;color:var(--faint)}
+.acc[open]>summary .chev{transform:rotate(90deg)}
+.acc .body{padding:0 14px 14px}
+.preset{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);cursor:pointer;width:100%;text-align:left;font:inherit}
+.preset+.preset{margin-top:8px}
+.preset:hover{border-color:var(--brand-2);background:#fff}
+.preset .pi{flex:1;min-width:0}
+.preset .pi .pt{font-weight:700;font-size:.92rem}
+.preset .pi .ps{font-size:.78rem;color:var(--muted)}
+.preset .go{color:var(--brand);flex:none}
+
+/* modal / sheet */
+.scrim{position:fixed;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(2px);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
+.sheet{background:var(--surface);border-radius:18px;box-shadow:var(--shadow-lg);width:100%;max-width:560px;max-height:92vh;max-height:92dvh;overflow:auto;padding:20px}
+.sheet.wide{max-width:720px}
+.sheet h2{margin-top:0}
+.sheet-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sheet-head h2{margin:0;flex:1}
+/* full-screen session player */
+.player{position:fixed;inset:0;z-index:60;background:linear-gradient(180deg,#f7fbfb,#eef4f8);display:flex;flex-direction:column;padding:16px;padding-bottom:calc(16px + var(--safe-b));overflow:auto}
+.player .phead{display:flex;align-items:center;gap:10px}
+.player .phead .nm{font-weight:800;font-size:1.05rem}
+.player .pbody{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;max-width:540px;margin:0 auto;width:100%}
+.phase-cue{text-align:center;font-size:1.05rem;color:var(--ink-2);min-height:1.6em}
+.phase-name{text-align:center;font-weight:800;font-size:1.2rem}
+.phase-meta{text-align:center;color:var(--muted);font-size:.85rem}
+.counters{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.counter{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 12px;display:flex;align-items:center;gap:10px}
+.counter b{font-size:1.1rem;font-variant-numeric:tabular-nums;min-width:1.4ch;text-align:center}
+.counter .cbtns{display:flex;flex-direction:column}
+.pcontrols{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.metrodot{width:12px;height:12px;border-radius:50%;background:var(--brand-2);opacity:.25;transition:opacity .06s,transform .06s}
+.metrodot.on{opacity:1;transform:scale(1.5)}
+.phase-track{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.phase-track i{width:22px;height:6px;border-radius:3px;background:var(--line)}
+.phase-track i.done{background:var(--brand-2)}
+.phase-track i.now{background:var(--brand);box-shadow:0 0 0 2px #cdeeeb}
+
+.toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 16px + var(--safe-b));transform:translateX(-50%);background:#0f172a;color:#fff;padding:.7rem 1rem;border-radius:11px;font-size:.9rem;z-index:80;box-shadow:var(--shadow-lg);max-width:92vw;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(min-width:900px){.toast{bottom:28px}}
+
+.empty{text-align:center;color:var(--muted);padding:26px 14px;border:1px dashed var(--line);border-radius:12px;background:var(--surface-2)}
+.empty .icon{width:2rem;height:2rem;margin:0 auto .5rem;color:var(--faint)}
+
+.shieldwrap{position:fixed;inset:0;z-index:90;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}
+.shieldcard{max-width:380px;text-align:center}
+.shieldcard .logo{width:56px;height:56px;border-radius:15px;background:linear-gradient(135deg,var(--brand),var(--blue));display:grid;place-items:center;color:#fff;margin:0 auto 14px}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.topbar,.tabbar,.rail,.btn,.iconbtn{display:none!important}}
+</style>
+</head>
+<body>
+<noscript><div style="padding:24px;max-width:600px;margin:0 auto"><h1>JavaScript required</h1><p>This training toolkit runs entirely in your browser and needs JavaScript enabled. No data is ever sent anywhere; everything is stored locally on your device.</p></div></noscript>
+
+<div id="app" class="app hidden">
+  <header class="topbar">
+    <div class="brand-mark"><span class="logo" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M3 12h4l2 5 4-12 2 7h6"/></svg></span><span>Angion Toolkit</span></div>
+    <span class="sp"></span>
+    <span class="daypill" id="dayPill"></span>
+    <button class="iconbtn" id="btnLock" title="Lock" aria-label="Lock app" hidden><svg class="icon" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button>
+  </header>
+
+  <div class="shell">
+    <aside class="rail" aria-label="Primary">
+      <nav id="railNav"></nav>
+      <div class="railfoot">
+        <p style="margin:0 0 .4rem"><b>Private &amp; offline.</b> Everything stays in this browser.</p>
+        <a href="angion-method-illustrated-guide.html">Open the illustrated guide →</a>
+      </div>
+    </aside>
+    <main id="main" tabindex="-1"></main>
+  </div>
+
+  <nav class="tabbar" id="tabbar" aria-label="Primary"></nav>
+</div>
+
+<div id="modalRoot"></div>
+<div id="playerRoot"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+(function () {
+/* =========================================================================
+   Angion Training Toolkit & Logger — single-file, offline, private.
+   All data is stored in localStorage on this device only. No network calls.
+   ========================================================================= */
+
+/* ---------------- tiny DOM + util helpers ---------------- */
+var D = document;
+function el(sel, root) { return (root || D).querySelector(sel); }
+function els(sel, root) { return Array.prototype.slice.call((root || D).querySelectorAll(sel)); }
+function h(tag, attrs, kids) {
+  var n = D.createElement(tag); attrs = attrs || {};
+  for (var k in attrs) {
+    if (!Object.prototype.hasOwnProperty.call(attrs, k)) continue;
+    var v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === "class") n.className = v;
+    else if (k === "html") n.innerHTML = v;
+    else if (k === "text") n.textContent = v;
+    else if (k === "dataset") { for (var d in v) n.dataset[d] = v[d]; }
+    else if (k.slice(0, 2) === "on" && typeof v === "function") n.addEventListener(k.slice(2), v);
+    else if (v === true) n.setAttribute(k, "");
+    else n.setAttribute(k, v);
+  }
+  if (kids != null) {
+    if (!Array.isArray(kids)) kids = [kids];
+    kids.forEach(function (c) { if (c == null || c === false) return; n.appendChild(typeof c === "string" || typeof c === "number" ? D.createTextNode(String(c)) : c); });
+  }
+  return n;
+}
+function clear(n) { while (n && n.firstChild) n.removeChild(n.firstChild); return n; }
+function clamp(n, lo, hi) { n = +n; if (isNaN(n)) n = lo; return Math.max(lo, Math.min(hi, n)); }
+function pad(n) { return (n < 10 ? "0" : "") + n; }
+function fmtClock(sec) { sec = Math.max(0, Math.round(sec)); return pad(Math.floor(sec / 60)) + ":" + pad(sec % 60); }
+function fmtMin(sec) { var m = Math.round(sec / 60); return m + " min"; }
+function todayISO() { var d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); }
+function isoAdd(iso, days) { var d = new Date(iso + "T00:00:00"); d.setDate(d.getDate() + days); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); }
+function daysBetween(a, b) { return Math.round((new Date(b + "T00:00:00") - new Date(a + "T00:00:00")) / 86400000); }
+function prettyDate(iso) { if (!iso) return ""; var d = new Date(iso + "T00:00:00"); return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }); }
+function weekdayShort(iso) { return new Date(iso + "T00:00:00").toLocaleDateString(undefined, { weekday: "short" }); }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function avg(a) { return a.length ? a.reduce(function (x, y) { return x + y; }, 0) / a.length : 0; }
+function sum(a) { return a.reduce(function (x, y) { return x + y; }, 0); }
+function round(n, p) { var f = Math.pow(10, p || 0); return Math.round(n * f) / f; }
+function escapeHtml(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+var toastTimer;
+function toast(msg) {
+  var t = el("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove("show"); }, 2600);
+}
+
+/* ---------------- icons ---------------- */
+var ICON = {
+  today: '<path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 10h16M8 3v4M16 3v4"/><path d="M8 15l2.5 2.5L16 12"/>',
+  train: '<path d="M3 12h3l2 6 4-14 2 9 2-4h5"/>',
+  log: '<path d="M5 4h11l3 3v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M8 10h8M8 14h8M8 18h5"/>',
+  progress: '<path d="M4 19V5M4 19h16"/><path d="M8 16l3-4 3 2 4-6"/>',
+  more: '<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',
+  play: '<path d="M7 5l12 7-12 7z"/>',
+  pause: '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  minus: '<path d="M5 12h14"/>',
+  check: '<path d="M4 12l5 5L20 6"/>',
+  x: '<path d="M6 6l12 12M18 6 6 18"/>',
+  chevron: '<path d="M9 6l6 6-6 6"/>',
+  skip: '<path d="M5 5l9 7-9 7zM17 5v14"/>',
+  stop: '<rect x="6" y="6" width="12" height="12" rx="2"/>',
+  bell: '<path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  heart: '<path d="M12 20s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 5a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/>',
+  ruler: '<rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 7v4M11 7v6M15 7v4M19 7v6"/>',
+  shield: '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  warn: '<path d="M12 3 2 21h20z"/><path d="M12 10v5M12 18h.01"/>',
+  book: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M19 3v18"/>',
+  download: '<path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/>',
+  upload: '<path d="M12 20V9m0 0 4 4m-4-4-4 4M5 5h14"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H1a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 2.6 7a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H7a1.6 1.6 0 0 0 1-1.5V1a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V7a1.6 1.6 0 0 0 1.5 1H23a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/>',
+  flame: '<path d="M12 3s5 4 5 9a5 5 0 0 1-10 0c0-1 .5-2 1-3 0 1 1 2 2 2 0-2-1-3 2-8z"/>',
+  moon: '<path d="M20 14a8 8 0 1 1-9-10 6.5 6.5 0 0 0 9 10z"/>',
+  drop: '<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',
+  trophy: '<path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M9 20h6M12 13v7"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'
+};
+function ico(name, cls) { return '<svg class="icon ' + (cls || "") + '" viewBox="0 0 24 24" aria-hidden="true">' + (ICON[name] || "") + "</svg>"; }
+function icoEl(name, cls) { var s = h("span"); s.innerHTML = ico(name, cls); return s.firstChild; }
+
+/* ---------------- domain constants ---------------- */
+var STAGES = {
+  E: { name: "Angio pumping", side: "—", lube: "n/a", freq: "build to 30 min", blurb: "For men who can't yet get an erection unaided. Low, cycling pump pressure (≤3 inHg)." },
+  D: { name: "Angion Method 1.0", side: "top (dorsal)", lube: "yes", freq: "1-on / 1-off", blurb: "Thumb strokes down the top-side vein line. Burst Expansion + Pyramid Rush." },
+  C: { name: "Angion Method 2.0", side: "underside → glans", lube: "none", freq: "1-on / 1-off", blurb: "Stroke up, release, squeeze. Arterial-side work begins. No lube." },
+  B: { name: "Angion Method 2.5 (Jelq 2.0)", side: "underside (CS)", lube: "yes", freq: "1-on / 1-off", blurb: "A bridge to AM3: partial grip that loads the corpus spongiosum." },
+  A: { name: "Angion Method 3.0 (Vascion)", side: "underside, base→glans", lube: "yes", freq: "1-on / 1-off", blurb: "Alternating middle-finger strokes up the underside. The top hand technique." },
+  S: { name: "Angio-Wheel", side: "underside only", lube: "none", freq: "3×/week", blurb: "A mechanised Vascion. Ramp rotation up slowly every session." }
+};
+var STAGE_ORDER = ["E", "D", "C", "B", "A", "S"];
+function stageBadge(code, size) { return '<span class="sb ' + (size || "m") + ' cls-' + code + '">' + code + "</span>"; }
+
+/* EHS anchors for the EQ scale */
+var EHS = [
+  { r: "1–3", d: "Larger, but not hard (EHS 1)" },
+  { r: "4–5", d: "Hard, not enough for penetration (EHS 2)" },
+  { r: "6–8", d: "Hard enough for penetration, not fully (EHS 3)" },
+  { r: "9–10", d: "Completely hard and rigid (EHS 4)" }
+];
+
+/* schedule templates: array of 'day types' cycled from start date.
+   types: AM (angion+dlc), FULL (angion+bfr+sabre+dlc), WHEEL, DLC, SABRE, REST */
+var TEMPLATES = {
+  "beg": { label: "Beginner — AM1 + cardio (1-on / 1-off)", cycle: ["AM", "REST"], note: "Just your stage's Angion method + lower-body cardio, every other day." },
+  "beg2": { label: "Gentle — 1-on / 2-off", cycle: ["AM", "REST", "REST"], note: "Extra recovery. Good if EQ dips or you're older / new." },
+  "mod": { label: "Intermediate — Angion + SABRE/BFR (weekly)", cycle: ["FULL", "REST", "AM", "REST", "FULL", "REST", "REST"], note: "Mon/Fri add SABRE + BFR; Wed Angion only. 2 rest days between SABRE/BFR." },
+  "janus": { label: "Janus Protocol — 4-week rotation", cycle: ["FULL", "REST", "AM", "SABRE", "AM", "REST", "FULL", "REST", "AM", "SABRE", "AM", "REST", "FULL", "REST", "AM", "SABRE", "REST", "AM", "REST", "FULL", "REST", "REST", "DLC", "REST", "DLC", "REST", "DLC", "REST"], note: "The creator's rotating layout. Week 4 is cardio-only recovery." },
+  "wheel": { label: "Advanced — Wheel 3×/week", cycle: ["FULL", "REST", "WHEEL", "REST", "FULL", "REST", "REST"], note: "Wheel + SABRE/BFR Mon/Fri; Wheel-only Wed." },
+  "custom": { label: "No fixed schedule", cycle: [], note: "Train by feel; the app still tracks recovery spacing." }
+};
+var DAYTYPE = {
+  AM: { label: "Angion + cardio", pill: "brand", blocks: ["Angion (your stage)", "DLC 30 min"] },
+  FULL: { label: "Angion + SABRE + BFR + cardio", pill: "amber", blocks: ["Angion 15", "BFR 15", "SABRE 15", "DLC 30"] },
+  WHEEL: { label: "Wheel + cardio", pill: "red", blocks: ["Angio-Wheel 30", "DLC 30"] },
+  SABRE: { label: "SABRE + BFR", pill: "amber", blocks: ["SABRE", "BFR"] },
+  DLC: { label: "Cardio only", pill: "blue", blocks: ["DLC 30"] },
+  REST: { label: "Rest", pill: "grey", blocks: ["Recovery"] }
+};
+
+/* recovery guard: minimum rest days after a technique */
+function techFamily(tech) {
+  if (/SABRE|BFR/i.test(tech)) return "cc";
+  if (/Wheel|AM1|AM2|AM3|AM2\.5|Angion|Vascion|Angio pumping|Macropulse/i.test(tech)) return "angion";
+  if (/Cardio|DLC/i.test(tech)) return "dlc";
+  return "other";
+}
+
+window.__AT = { STAGES: STAGES, TEMPLATES: TEMPLATES }; // for tests
+
+/* ---------------- preset library ----------------
+   phase: { n:name, c:cue, s:seconds, rate:strokes-per-sec (optional, drives metronome), rl:rate label }
+   Each preset: { id, group, name, desc, stage, tech, risk, build() -> [phases] } */
+function reps(n, fn) { var o = []; for (var i = 1; i <= n; i++) o = o.concat(fn(i)); return o; }
+function warmCue(t) { return t; }
+
+var PGROUPS = [
+  { id: "stageE", label: "Stage E · Angio pumping", risk: "mod" },
+  { id: "am1", label: "Stage D · Angion Method 1.0", risk: "low" },
+  { id: "am2", label: "Stage C · Angion Method 2.0", risk: "low" },
+  { id: "am25", label: "Stage B · Angion Method 2.5", risk: "low" },
+  { id: "am3", label: "Stage A · Angion Method 3.0 (Vascion)", risk: "low" },
+  { id: "wheel", label: "Stage S · Angio-Wheel", risk: "mod" },
+  { id: "cardio", label: "Cardio (DLC)", risk: "low" },
+  { id: "sabre", label: "SABRE (advanced · high risk)", risk: "high" },
+  { id: "bfr", label: "BFR (advanced · high risk)", risk: "high" },
+  { id: "macro", label: "Macropulse (superseded)", risk: "mod" },
+  { id: "combo", label: "Combined protocols", risk: "mix" }
+];
+
+var PRESETS = [
+  /* ---- Stage E ---- */
+  { id: "e-10", group: "stageE", stage: "E", tech: "Angio pumping", risk: "mod", name: "Angio pumping · 10 min (beginner)", desc: "Low-pressure cycling, ≤3 inHg. Keep early sessions short.",
+    build: function () { return [{ n: "Settle & seal", c: "Lie down. Fit the sleeve + ACE wrap. Check the gauge.", s: 60 }, { n: "Learn the feel", c: "Pump slowly to 3 inHg, then release slowly. Feel the blood leave.", s: 120 }, { n: "Cycling", c: "Rapid pump to 3 inHg → release → repeat. Never exceed 4 inHg.", s: 420 }, { n: "Cool down", c: "Unwrap, check skin for red spots or edema.", s: 60 }]; } },
+  { id: "e-30", group: "stageE", stage: "E", tech: "Angio pumping", risk: "mod", name: "Angio pumping · 30 min (worked up)", desc: "Only once 10-min sessions are comfortable.",
+    build: function () { return [{ n: "Settle & seal", c: "Sleeve + ACE wrap, gauge ready, lying down.", s: 90 }, { n: "Learn the feel", c: "Slow pump to 3 inHg, slow release.", s: 120 }].concat(reps(5, function (i) { return [{ n: "Cycling set " + i + "/5", c: "Rapid pump to 3 inHg → release. Stay ≤3, never >4.", s: 300 }, { n: "Breather", c: "Ease off; check skin colour & sensation.", s: 30 }]; })).concat([{ n: "Cool down", c: "Unwrap and inspect.", s: 60 }]); } },
+
+  /* ---- AM1 ---- */
+  { id: "am1-burst", group: "am1", stage: "D", tech: "AM1", risk: "low", name: "Burst Expansion · 4 × 30 s", desc: "Quick single-thumb strokes to shock the vessels open.",
+    build: function () { return reps(4, function (i) { var p = [{ n: "Burst Expansion " + i + "/4", c: "Quick single-thumb strokes, glans cupped (no grip).", s: 30, rate: 2, rl: "~2/sec" }]; if (i < 4) p.push({ n: "Pause", c: "Hands off; let the erection return fully.", s: 15 }); return p; }); } },
+  { id: "am1-ramp", group: "am1", stage: "D", tech: "AM1", risk: "low", name: "Beginner ramp · ~12 min", desc: "Gentle early session. Do what you can; even a few minutes helps.",
+    build: function () { return [{ n: "Burst Expansion", c: "30-s bursts; pause to regain hardness.", s: 120, rate: 2, rl: "~2/sec" }].concat(reps(2, function (i) { return [{ n: "Pyramid Rush " + i + "/2", c: "Alternating thumbs, steady pace. Avoid orgasm.", s: 300, rate: 1.5, rl: "~1.5/sec" }]; })); } },
+  { id: "am1-full", group: "am1", stage: "D", tech: "AM1", risk: "low", name: "Full AM1 · 30 min", desc: "5 min Burst Expansion + 5 Pyramid Rush sets. Graduation target.",
+    build: function () { return [{ n: "Burst Expansion", c: "30-s bursts; pause as needed to stay hard.", s: 300, rate: 2, rl: "~2/sec" }].concat(reps(5, function (i) { var k = "Pyramid Rush " + i + "/5"; return [{ n: k + " · Stage 1", c: "Solid base speed, alternating thumbs.", s: 60, rate: 1.5, rl: "~1.5/sec" }, { n: k + " · Stage 2", c: "Faster.", s: 60, rate: 2.5, rl: "~2.5/sec" }, { n: k + " · Stage 3", c: "Fastest you can sustain (hand cramps happen).", s: 60, rate: 3.5, rl: "~3.5/sec" }, { n: k + " · Stage 2", c: "Back down.", s: 60, rate: 2.5, rl: "~2.5/sec" }, { n: k + " · Stage 1", c: "Base speed.", s: 60, rate: 1.5, rl: "~1.5/sec" }]; })); } },
+
+  /* ---- AM2 ---- */
+  { id: "am2-20", group: "am2", stage: "C", tech: "AM2", risk: "low", name: "AM2 · 20 min", desc: "Stroke up, release, squeeze. No lube. Expect early 'flattening'.",
+    build: function () { return [{ n: "Find rhythm", c: "Light shaft grip, stroke up until the glans balloons, release, squeeze.", s: 300, rate: 0.7, rl: "slow, deliberate" }, { n: "Work", c: "Stroke up · release · squeeze, in rhythm. Don't kegel to finish reps.", s: 900, rate: 1, rl: "find your rhythm" }, { n: "Finish", c: "Ease the pace; note post-session fullness.", s: 180 }]; } },
+  { id: "am2-30", group: "am2", stage: "C", tech: "AM2", risk: "low", name: "AM2 · 30 min (graduation)", desc: "30 min without losing fullness = ready to taste-test AM3.",
+    build: function () { return [{ n: "Find rhythm", c: "Light grip; stroke up, release, squeeze.", s: 300, rate: 0.7, rl: "slow" }, { n: "Work", c: "Steady rhythm; relaxed pelvic floor.", s: 1200, rate: 1, rl: "your rhythm" }, { n: "Finish", c: "Ease down.", s: 300 }]; } },
+
+  /* ---- AM2.5 ---- */
+  { id: "am25-20", group: "am25", stage: "B", tech: "AM2.5", risk: "low", name: "Jelq 2.0 · 20 min", desc: "Thumb-down partial grip loading the CS. Slow first, faster at peak dilation.",
+    build: function () { return [{ n: "Warm / slow", c: "Rotate thumb down, two fingers into the CS, pull up. Slow to encourage dilation.", s: 300, rate: 0.6, rl: "slow" }, { n: "Build", c: "Vessels dilated — you may raise the stroke rate.", s: 720, rate: 1.1, rl: "moderate" }, { n: "Taste-test AM3", c: "Try alternating middle-finger strokes up the CS.", s: 180, rate: 1.2, rl: "AM3 motion" }]; } },
+
+  /* ---- AM3 ---- */
+  { id: "am3-paced", group: "am3", stage: "A", tech: "AM3 Vascion", risk: "low", name: "Vascion · paced 25 min", desc: "Warm up, then alternate half and full speed. Lube liberally.",
+    build: function () { return [{ n: "Warm-up ¼–⅓ speed", c: "Long alternating middle-finger strokes up the CS.", s: 300, rate: 0.9, rl: "¼–⅓ speed" }, { n: "Half speed", c: "Speed up once erections are noticeably fuller.", s: 300, rate: 1.6, rl: "half" }, { n: "Full speed", c: "Re-lube as needed. Stop if the CS flattens.", s: 300, rate: 2.4, rl: "full" }, { n: "Half speed", c: "Keep strokes long.", s: 300, rate: 1.6, rl: "half" }, { n: "Full speed", c: "Finish strong.", s: 300, rate: 2.4, rl: "full" }]; } },
+  { id: "am3-sluggish", group: "am3", stage: "A", tech: "AM3 Vascion", risk: "low", name: "Vascion · slow-to-warm 30 min", desc: "Longer 10-min warm-up for sluggish days.",
+    build: function () { return [{ n: "Long warm-up", c: "¼–⅓ speed until erections thicken.", s: 600, rate: 0.9, rl: "¼–⅓ speed" }, { n: "Half speed", c: "", s: 300, rate: 1.6, rl: "half" }, { n: "Full speed", c: "", s: 300, rate: 2.4, rl: "full" }, { n: "Half speed", c: "", s: 300, rate: 1.6, rl: "half" }, { n: "Full speed", c: "Finish.", s: 300, rate: 2.4, rl: "full" }]; } },
+  { id: "am3-transition", group: "am3", stage: "A", tech: "AM3 Vascion", risk: "low", name: "AM2 → AM3 transition · 25 min", desc: "Start on AM2, switch to AM3 once vessels open (for resistance at stroke-end).",
+    build: function () { return [{ n: "AM2 opener", c: "Stroke up / release / squeeze to open the circuit.", s: 420, rate: 1, rl: "AM2" }, { n: "Switch to AM3", c: "Alternating middle-finger CS strokes.", s: 480, rate: 1.4, rl: "AM3 slow" }, { n: "Build", c: "Raise pace as fullness holds.", s: 600, rate: 2, rl: "AM3 moderate" }]; } },
+  { id: "am3-taste", group: "am3", stage: "A", tech: "AM3 Vascion", risk: "low", name: "Taste-test AM3 · 5 min", desc: "Tack onto the end of an AM2/AM2.5 session to test readiness.",
+    build: function () { return [{ n: "Taste-test", c: "Alternating CS strokes. If you manage this comfortably, focus on AM3.", s: 300, rate: 1.3, rl: "AM3 motion" }]; } },
+
+  /* ---- Wheel ---- */
+  { id: "wheel-ramp", group: "wheel", stage: "S", tech: "Angio-Wheel", risk: "mod", name: "Wheel · ramped block 21 min", desc: "Low → pulsing → high. Ramp slowly; a rushed start can rupture a vessel.",
+    build: function () { return [{ n: "Low rotation", c: "Gently open the feeding networks. Dry, underside only.", s: 420 }].concat(reps(7, function (i) { return [{ n: "Pulse " + i + "/7 · faster", c: "30 s higher rotation.", s: 30 }, { n: "Pulse " + i + "/7 · slower", c: "30 s lower rotation.", s: 30 }]; })).concat([{ n: "High rotation", c: "Only if fullness holds. Stop at any pain or blood spot.", s: 420 }]); } },
+  { id: "wheel-30", group: "wheel", stage: "S", tech: "Angio-Wheel", risk: "mod", name: "Wheel · 30 min steady", desc: "Spin so blood moves toward the glans; roam base↔tip. Start slow.",
+    build: function () { return [{ n: "Spin up slowly", c: "Dry, underside only, 45° on a pillow. Erection builds in 1–2 min.", s: 180 }, { n: "Steady work", c: "Roam base↔tip. Glans turns bright red (expected).", s: 1440 }, { n: "Ease off", c: "Slow to a stop.", s: 180 }]; } },
+
+  /* ---- Cardio ---- */
+  { id: "dlc-30", group: "cardio", stage: null, tech: "Cardio (DLC)", risk: "low", name: "Dedicated lower-body cardio · 30 min", desc: "Recumbent bike, stairs, rower, jump rope. Pairs with an Angion session.",
+    build: function () { return [{ n: "Ramp", c: "Easy spin to raise the heart rate.", s: 300 }, { n: "Steady effort", c: "Keep legs pumping (~7–8/10 effort).", s: 1200 }, { n: "Cool down", c: "Easy pace.", s: 300 }]; } },
+
+  /* ---- SABRE (high risk) ---- */
+  { id: "sabre-video", group: "sabre", stage: null, tech: "SABRE", risk: "high", name: "SABRE · video workout (~30 min)", desc: "Warm-up (engorged, not erect) → glans → main strikes. Pleasure, not pain.",
+    build: function () { return [{ n: "Warm-up L (engorged, not erect)", c: "Thumb-side strikes, left corporal body. Each strike pushes in.", s: 180 }, { n: "Wait out erection", c: "If you get erect, pause until it subsides.", s: 30 }, { n: "Warm-up R", c: "Thumb-side strikes, right corporal body.", s: 180 }, { n: "Glans palming", c: "Lube; 60 circles clockwise, 60 counter-clockwise.", s: 120 }, { n: "Glans strikes L", c: "30 button-like strikes; support the shaft. Kegel blood in if it empties.", s: 120 }, { n: "Glans strikes R", c: "30 strikes, other hand.", s: 120 }].concat(reps(3, function (i) { return [{ n: "Main set " + i + "/3 · left", c: "60 strikes along the left corporal body. Elastic deform only — no bruising.", s: 150 }, { n: "Main set " + i + "/3 · right", c: "60 strikes along the right corporal body.", s: 150 }]; })); } },
+  { id: "sabre-attaboy", group: "sabre", stage: null, tech: "SABRE", risk: "high", name: "SABRE · 5 min thumb + 10 min rod", desc: "A community routine after 15 min on the wheel. Alternate every 100 strikes.",
+    build: function () { return [{ n: "Thumb warm-up", c: "100 strikes/side, alternating, up and down the corporal body.", s: 300 }, { n: "Rod set 1", c: "100 L then 100 R with a smooth ½″ rod; swap hands each 100.", s: 300 }, { n: "Rod set 2", c: "Continue alternating. Stop at any red spot or pain.", s: 300 }]; } },
+  { id: "sabre-percussion", group: "sabre", stage: null, tech: "SABRE", risk: "high", name: "SABRE · percussion finisher (~15 min)", desc: "Optional power-tool finisher. Support the shaft; lowest workable speed.",
+    build: function () { return [{ n: "Left corporal body", c: "Low speed; press gently; walk along the length. Support the shaft.", s: 300 }, { n: "Right corporal body", c: "Low speed, supported.", s: 300 }, { n: "Glans speed-bag", c: "Grip the shaft loosely; alternate sides.", s: 300 }]; } },
+  { id: "sabre-p1", group: "sabre", stage: null, tech: "SABRE", risk: "high", name: "Path of Eleven · Phase 1 (hand, Type A)", desc: "Foundation: low/low hand strikes, 10 min each on L CC, R CC, glans. 1-on/1-off.",
+    build: function () { return [{ n: "Left CC · Type A", c: "Low speed, low intensity (1–3/sec). Flaccid→partial.", s: 600, rate: 2, rl: "1–3/sec" }, { n: "Right CC · Type A", c: "Same, other side.", s: 600, rate: 2, rl: "1–3/sec" }, { n: "Glans · Type A", c: "Gentle, lubricated.", s: 600, rate: 2, rl: "1–3/sec" }]; } },
+  { id: "sabre-p2", group: "sabre", stage: null, tech: "SABRE", risk: "high", name: "Path of Eleven · Phase 2 (Type B)", desc: "High-speed, low-intensity. 10 min each site. 1-on/2-off.",
+    build: function () { return [{ n: "Left CC · Type B", c: "High speed, low intensity (2–5/sec).", s: 600, rate: 3.5, rl: "2–5/sec" }, { n: "Right CC · Type B", c: "", s: 600, rate: 3.5, rl: "2–5/sec" }, { n: "Glans · Type B", c: "", s: 600, rate: 3.5, rl: "2–5/sec" }]; } },
+  { id: "sabre-p3", group: "sabre", stage: null, tech: "SABRE", risk: "high", name: "Path of Eleven · Phase 3", desc: "Part 1: Type B (glans 10 / CC 20 / Vascion 10). Part 2: Type C, 3×60 per CC + 3×60 palm.",
+    build: function () { return [{ n: "Glans · Type B", c: "", s: 600, rate: 3.5, rl: "2–5/sec" }, { n: "Corporal bodies · Type B", c: "Alternate L/R.", s: 1200, rate: 3.5, rl: "2–5/sec" }, { n: "Vascion", c: "10 min CS strokes.", s: 600, rate: 1.6, rl: "AM3" }].concat(reps(3, function (i) { return [{ n: "Type C L " + i + "/3", c: "60 strikes, low speed / high intensity.", s: 90, rate: 1.5, rl: "1–3/sec" }, { n: "Type C R " + i + "/3", c: "60 strikes.", s: 90, rate: 1.5, rl: "1–3/sec" }, { n: "Type C palm " + i + "/3", c: "60 palm strikes on the glans.", s: 90, rate: 1.5, rl: "1–3/sec" }]; })); } },
+  { id: "sabre-p4", group: "sabre", stage: null, tech: "SABRE", risk: "high", name: "Path of Eleven · Phase 4 (implements)", desc: "Type B hands → Vascion → Type C rod → Type D rod. 1-on/2-off.",
+    build: function () { return [{ n: "Type B · left 5 min", c: "Flaccid→partial.", s: 300, rate: 3.5, rl: "2–5/sec" }, { n: "Type B · right 5 min", c: "", s: 300, rate: 3.5, rl: "2–5/sec" }, { n: "Glans palm 5 min", c: "", s: 300, rate: 3, rl: "" }, { n: "Vascion 15 min", c: "", s: 900, rate: 1.8, rl: "AM3" }, { n: "Type C · L 60", c: "~1/sec, partial→full erect.", s: 90, rate: 1, rl: "~1/sec" }, { n: "Type C · R 60", c: "", s: 90, rate: 1, rl: "~1/sec" }].concat(reps(2, function (i) { return [{ n: "Type D L " + i + "/2 · 60", c: "High speed/high intensity. Respect the warnings.", s: 90, rate: 3.5, rl: "2–5/sec" }, { n: "Type D R " + i + "/2 · 60", c: "", s: 90, rate: 3.5, rl: "2–5/sec" }]; })); } },
+  { id: "sabre-p5", group: "sabre", stage: null, tech: "SABRE", risk: "high", name: "Path of Eleven · Phase 5 day 1 (2-on/2-off)", desc: "32 min: Type B then Type D, 8 min each per corporal body.",
+    build: function () { return [{ n: "Type B · left 8 min", c: "", s: 480, rate: 3.5, rl: "2–5/sec" }, { n: "Type B · right 8 min", c: "", s: 480, rate: 3.5, rl: "2–5/sec" }, { n: "Type D · left 8 min", c: "High/high. Stop at any pain or spot.", s: 480, rate: 3.5, rl: "2–5/sec" }, { n: "Type D · right 8 min", c: "", s: 480, rate: 3.5, rl: "2–5/sec" }]; } },
+
+  /* ---- BFR (high risk) ---- */
+  { id: "bfr-set", group: "bfr", stage: null, tech: "BFR", risk: "high", name: "BFR · community set (15 min)", desc: "20 glans pulses, 30 left bends, 30 right bends = one set. Release ≥ every 30 s.",
+    build: function () { return reps(5, function (i) { return [{ n: "Set " + i + " · glans pulses ×20", c: "Clamp base; gentle ~1-s pulses. Near-100% erect.", s: 30 }, { n: "Release", c: "Let the tissue breathe.", s: 6 }, { n: "Set " + i + " · left bends ×30", c: "Heavily engorged; gentle bends left. Never to pain.", s: 60 }, { n: "Release", c: "Breathe.", s: 6 }, { n: "Set " + i + " · right bends ×30", c: "Gentle bends right.", s: 60 }, { n: "Release", c: "Breathe.", s: 6 }]; }); } },
+  { id: "bfr-generic", group: "bfr", stage: null, tech: "BFR", risk: "high", name: "BFR · 15 min, clamp-release cue", desc: "Generic work/release timer if you prefer your own count.",
+    build: function () { return reps(25, function (i) { return [{ n: "BFR work " + i + "/25", c: "Gentle bend or glans pulse. Match bend to how erect you are.", s: 25 }, { n: "Release", c: "Let go of the clamp.", s: 6 }]; }); } },
+
+  /* ---- Macropulse (superseded) ---- */
+  { id: "macro-l1", group: "macro", stage: null, tech: "Macropulse", risk: "mod", name: "Macropulse · level 1 (10 min)", desc: "Superseded by SABRE. ~2 Hz gentle squeezes, partial engorgement, never erect.",
+    build: function () { return [{ n: "Macropulse", c: "Squeeze to a pleasant fullness, relax. Stay off the top end. ~2/sec.", s: 600, rate: 2, rl: "~2/sec" }]; } },
+  { id: "macro-l2", group: "macro", stage: null, tech: "Macropulse", risk: "mod", name: "Macropulse · level 2 (15 min)", desc: "AM2 level. ~2 Hz, partial engorgement.",
+    build: function () { return [{ n: "Macropulse", c: "Gentle cyclic squeezes, range over max. Never erect.", s: 900, rate: 2, rl: "~2/sec" }]; } },
+  { id: "macro-l3", group: "macro", stage: null, tech: "Macropulse", risk: "mod", name: "Macropulse · level 3 (20 min)", desc: "Vascion level.",
+    build: function () { return [{ n: "Macropulse", c: "~2/sec, gentle, partial engorgement.", s: 1200, rate: 2, rl: "~2/sec" }]; } },
+  { id: "macro-l4", group: "macro", stage: null, tech: "Macropulse", risk: "mod", name: "Macropulse · level 4 (30 min)", desc: "Wheel level. Expect 'vascular pumps'.",
+    build: function () { return [{ n: "Macropulse", c: "~2/sec, gentle. Stop if you become erect.", s: 1800, rate: 2, rl: "~2/sec" }]; } },
+
+  /* ---- Combined ---- */
+  { id: "combo-full", group: "combo", stage: null, tech: "Combined", risk: "high", name: "Full day · Angion 15 + BFR 15 + SABRE 15", desc: "The Mon/Fri 'FULL' day (do cardio separately).",
+    build: function () { return [{ n: "Angion (your stage)", c: "Wheel or your current method.", s: 900, rate: 1.6, rl: "" }, { n: "BFR", c: "Glans pulses + cyclic bending; release every ≤30 s.", s: 900 }, { n: "SABRE", c: "Thumb or rod strikes; elastic deform only.", s: 900 }]; } },
+  { id: "combo-wed", group: "combo", stage: null, tech: "Combined", risk: "low", name: "Mid-week · Angion 30", desc: "The Wed 'AM' day. Pair with 30 min DLC.",
+    build: function () { return [{ n: "Angion (your stage)", c: "Full 30-minute session.", s: 1800, rate: 1.6, rl: "" }]; } }
+];
+var PRESET_BY_ID = {}; PRESETS.forEach(function (p) { PRESET_BY_ID[p.id] = p; });
+function presetTotal(p) { return sum(p.build().map(function (ph) { return ph.s; })); }
+function riskPill(risk) {
+  if (risk === "high") return '<span class="pill red">' + ico("warn") + "High risk</span>";
+  if (risk === "mod") return '<span class="pill amber"><span class="dot"></span>Moderate</span>';
+  if (risk === "mix") return '<span class="pill amber"><span class="dot"></span>Mixed</span>';
+  return '<span class="pill green"><span class="dot"></span>Low risk</span>';
+}
+window.__AT.PRESETS = PRESETS;
+
+/* ---------------- storage + state ---------------- */
+var LS_KEY = "angionToolkit.v1";
+var SESSION_PASS = null; // in-memory passcode when unlocked
+
+function defaultState() {
+  return {
+    version: 1,
+    profile: { onboarded: false, stage: "D", units: "in", startDate: todayISO(), template: "beg" },
+    settings: { sound: true, countdown: true, voice: false, vibrate: true, metronome: true, keepAwake: true, privacyBlur: false, autoHideMin: 0, lock: false },
+    checkins: [], sessions: [], measurements: [], stageHistory: []
+  };
+}
+var state = defaultState();
+
+function b64(buf) { var b = new Uint8Array(buf), s = ""; for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]); return btoa(s); }
+function unb64(str) { var s = atob(str), a = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
+function hasCrypto() { return !!(window.crypto && window.crypto.subtle); }
+
+function deriveKey(pass, salt) {
+  return crypto.subtle.importKey("raw", new TextEncoder().encode(pass), "PBKDF2", false, ["deriveKey"]).then(function (base) {
+    return crypto.subtle.deriveKey({ name: "PBKDF2", salt: salt, iterations: 150000, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+  });
+}
+function encryptState(obj, pass) {
+  var salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+  var data = new TextEncoder().encode(JSON.stringify(obj));
+  return deriveKey(pass, salt).then(function (key) { return crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, data); })
+    .then(function (ct) { return { __enc: 1, salt: b64(salt), iv: b64(iv), ct: b64(ct) }; });
+}
+function decryptBlob(blob, pass) {
+  var salt = unb64(blob.salt), iv = unb64(blob.iv), ct = unb64(blob.ct);
+  return deriveKey(pass, salt).then(function (key) { return crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, ct); })
+    .then(function (buf) { return JSON.parse(new TextDecoder().decode(buf)); });
+}
+
+function rawLoad() { try { return localStorage.getItem(LS_KEY); } catch (e) { return null; } }
+function isEncrypted(raw) { if (!raw) return false; try { var o = JSON.parse(raw); return o && o.__enc === 1; } catch (e) { return false; } }
+
+function save() {
+  try {
+    if (state.settings.lock && SESSION_PASS && hasCrypto()) {
+      encryptState(state, SESSION_PASS).then(function (blob) {
+        try { localStorage.setItem(LS_KEY, JSON.stringify(blob)); } catch (e) {}
+      });
+    } else {
+      localStorage.setItem(LS_KEY, JSON.stringify(state));
+    }
+  } catch (e) { toast("Could not save (storage full or blocked)."); }
+}
+function mergeState(obj) {
+  var d = defaultState();
+  state = {
+    version: 1,
+    profile: Object.assign(d.profile, obj.profile || {}),
+    settings: Object.assign(d.settings, obj.settings || {}),
+    checkins: Array.isArray(obj.checkins) ? obj.checkins : [],
+    sessions: Array.isArray(obj.sessions) ? obj.sessions : [],
+    measurements: Array.isArray(obj.measurements) ? obj.measurements : [],
+    stageHistory: Array.isArray(obj.stageHistory) ? obj.stageHistory : []
+  };
+}
+
+/* ---------------- units ---------------- */
+function toDisplayLen(cm) { if (cm == null || cm === "") return null; return state.profile.units === "in" ? cm / 2.54 : cm; }
+function fromDisplayLen(v) { if (v === "" || v == null || isNaN(+v)) return null; return state.profile.units === "in" ? +v * 2.54 : +v; }
+function unitLabel() { return state.profile.units === "in" ? "in" : "cm"; }
+function fmtLen(cm, p) { var v = toDisplayLen(cm); return v == null ? "—" : round(v, p == null ? 2 : p) + " " + unitLabel(); }
+
+/* ---------------- derived helpers ---------------- */
+function checkinFor(iso) { return state.checkins.filter(function (c) { return c.date === iso; }).pop() || null; }
+function sessionsOn(iso) { return state.sessions.filter(function (s) { return s.date === iso; }); }
+function sortByDate(arr) { return arr.slice().sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; }); }
+function lastSessionOfFamily(fam, beforeISO) {
+  var hits = state.sessions.filter(function (s) { return techFamily(s.tech) === fam && (!beforeISO || s.date <= beforeISO); });
+  hits = sortByDate(hits); return hits.length ? hits[hits.length - 1] : null;
+}
+function stageIndex(code) { return STAGE_ORDER.indexOf(code); }
+
+/* schedule: what day-type is `iso` under the chosen template */
+function plannedType(iso) {
+  var tpl = TEMPLATES[state.profile.template]; if (!tpl || !tpl.cycle.length) return null;
+  var n = daysBetween(state.profile.startDate, iso); if (n < 0) return null;
+  return tpl.cycle[((n % tpl.cycle.length) + tpl.cycle.length) % tpl.cycle.length];
+}
+
+/* recovery guard for today */
+function recoveryStatus(iso) {
+  iso = iso || todayISO();
+  var out = [];
+  var ang = lastSessionOfFamily("angion", isoAdd(iso, -1));
+  if (ang) { var g = daysBetween(ang.date, iso); if (g < 1) out.push({ level: "warn", t: "Angion was today/yesterday", d: "Aim for ≥ 1 rest day between Angion or wheel sessions." }); }
+  var cc = lastSessionOfFamily("cc", isoAdd(iso, -1));
+  if (cc) { var g2 = daysBetween(cc.date, iso); if (g2 < 2) out.push({ level: "warn", t: "SABRE/BFR " + (g2 === 0 ? "today" : g2 + " day ago"), d: "The source advises ≥ 2 rest days between SABRE/BFR sessions." }); }
+  return out;
+}
+
+/* insights from recent data */
+function insights() {
+  var out = [], ci = sortByDate(state.checkins), last14 = ci.filter(function (c) { return daysBetween(c.date, todayISO()) <= 14; });
+  var eqs = ci.filter(function (c) { return typeof c.eq === "number"; });
+  if (eqs.length >= 6) {
+    var recent = avg(eqs.slice(-3).map(function (c) { return c.eq; }));
+    var prior = avg(eqs.slice(Math.max(0, eqs.length - 10), eqs.length - 3).map(function (c) { return c.eq; }));
+    if (recent <= prior - 1.5) out.push({ level: "warn", t: "EQ is trending down", d: "Last 3 check-ins avg " + round(recent, 1) + " vs earlier " + round(prior, 1) + ". The main overtraining sign — add a rest day, shorten sessions, or drop back a stage." });
+  }
+  var npt = ci.slice(-3);
+  if (npt.length === 3 && npt.every(function (c) { return c.nptr === "no"; })) out.push({ level: "warn", t: "No morning wood (3 days)", d: "Consider extra rest and check sleep, food and stress." });
+  var flagged = last14.some(function (c) { return (c.flags || []).length; });
+  if (flagged) out.push({ level: "danger", t: "You logged a safety flag recently", d: "Review the Safety Center. Stop and see a doctor if symptoms persist." });
+  // cardio total this week
+  var wk = state.checkins.filter(function (c) { return daysBetween(c.date, todayISO()) >= 0 && daysBetween(c.date, todayISO()) < 7; });
+  var dlc = sum(wk.map(function (c) { return c.dlcMin || 0; })) + sum(state.sessions.filter(function (s) { return daysBetween(s.date, todayISO()) >= 0 && daysBetween(s.date, todayISO()) < 7 && techFamily(s.tech) === "dlc"; }).map(function (s) { return s.min || 0; }));
+  if (ci.length >= 3 && dlc < 90) out.push({ level: "info", t: "Cardio is light this week", d: round(dlc) + " min logged. Community floor is 90 min/week; the evidence-based target is ~160." });
+  if (!out.length && ci.length) out.push({ level: "tip", t: "Looking good", d: "No red flags in your recent data. Keep sessions pain-free and rest days honest." });
+  return out;
+}
+
+/* streak = consecutive days up to today with any check-in OR session */
+function currentStreak() {
+  var day = todayISO(), n = 0, guard = 0;
+  while (guard++ < 400) {
+    var has = checkinFor(day) || sessionsOn(day).length;
+    if (!has) { if (day === todayISO()) { day = isoAdd(day, -1); continue; } break; }
+    n++; day = isoAdd(day, -1);
+  }
+  return n;
+}
+window.__AT.getState = function () { return state; };
+
+/* ---------------- router + shell ---------------- */
+var TABS = [
+  { id: "today", label: "Today", icon: "today" },
+  { id: "train", label: "Train", icon: "train" },
+  { id: "log", label: "Log", icon: "log" },
+  { id: "progress", label: "Progress", icon: "progress" },
+  { id: "more", label: "More", icon: "more" }
+];
+var currentView = "today";
+var VIEWS = {};
+
+function buildNav() {
+  var rail = el("#railNav"); clear(rail);
+  TABS.forEach(function (t) {
+    rail.appendChild(h("button", { class: "navbtn", "aria-current": t.id === currentView ? "page" : null, onclick: function () { go(t.id); }, html: ico(t.icon) + "<span>" + t.label + "</span>" }));
+  });
+  var bar = el("#tabbar"); clear(bar);
+  TABS.forEach(function (t) {
+    bar.appendChild(h("button", { "aria-current": t.id === currentView ? "page" : null, onclick: function () { go(t.id); }, html: ico(t.icon) + "<span>" + t.label + "</span>" }));
+  });
+}
+function go(id) {
+  currentView = id;
+  try { history.replaceState(null, "", "#" + id); } catch (e) {}
+  buildNav();
+  var main = el("#main"); clear(main);
+  var v = VIEWS[id] ? VIEWS[id]() : h("p", { text: "…" });
+  main.appendChild(v);
+  main.scrollTop = 0; window.scrollTo(0, 0);
+  if (id !== "train") main.focus({ preventScroll: true });
+}
+function viewHead(title, sub) {
+  return h("div", { class: "view-head" }, [h("h1", { text: title }), sub ? h("p", { text: sub }) : null]);
+}
+function section(title, iconName, kids) {
+  var s = h("div", { class: "section" });
+  if (title) s.appendChild(h("h2", { html: (iconName ? ico(iconName) : "") + "<span>" + escapeHtml(title) + "</span>" }));
+  (Array.isArray(kids) ? kids : [kids]).forEach(function (k) { if (k) s.appendChild(k); });
+  return s;
+}
+
+/* ---------------- TODAY ---------------- */
+VIEWS.today = function () {
+  var v = h("div", { class: "view" });
+  var iso = todayISO();
+  var st = state.profile.stage, S = STAGES[st];
+  el("#dayPill").textContent = prettyDate(iso);
+
+  v.appendChild(viewHead("Today", prettyDate(iso) + (state.profile.startDate ? " · day " + (daysBetween(state.profile.startDate, iso) + 1) + " of training" : "")));
+
+  /* stage card */
+  var planType = plannedType(iso);
+  var stageCard = h("div", { class: "card pad" }, [
+    h("div", { class: "inline", html: stageBadge(st, "l") + '<div style="flex:1;min-width:0"><div class="tag">Your stage</div><div style="font-weight:800;font-size:1.05rem">Stage ' + st + " · " + escapeHtml(S.name) + '</div><div class="small muted">' + escapeHtml(S.blurb) + "</div></div>" })
+  ]);
+
+  /* today's plan */
+  var planCard = h("div", { class: "card pad" });
+  if (planType) {
+    var dt = DAYTYPE[planType];
+    planCard.appendChild(h("div", { class: "inline", style: "justify-content:space-between", html: '<div class="tag">Planned today</div><span class="pill ' + dt.pill + '">' + escapeHtml(dt.label) + "</span>" }));
+    if (planType === "REST") {
+      planCard.appendChild(h("p", { class: "muted", style: "margin:.6rem 0 0", text: "Rest day. Vessels remodel between sessions — keep it light, maybe a short walk." }));
+    } else {
+      var ul = h("ul", { style: "margin:.6rem 0 .3rem" });
+      dt.blocks.forEach(function (b) { ul.appendChild(h("li", { text: b })); });
+      planCard.appendChild(ul);
+      planCard.appendChild(h("div", { class: "btn-row", style: "margin-top:.5rem" }, [
+        h("button", { class: "btn primary", onclick: function () { go("train"); }, html: ico("play") + "Start a session" }),
+        h("button", { class: "btn", onclick: function () { openCheckin(iso); }, html: ico("check") + "Daily check-in" })
+      ]));
+    }
+  } else {
+    planCard.appendChild(h("div", { class: "tag", text: "Today" }));
+    planCard.appendChild(h("p", { class: "muted", style: "margin:.5rem 0", text: "No fixed schedule. Train by feel." }));
+    planCard.appendChild(h("div", { class: "btn-row" }, [
+      h("button", { class: "btn primary", onclick: function () { go("train"); }, html: ico("play") + "Start a session" }),
+      h("button", { class: "btn", onclick: function () { openCheckin(iso); }, html: ico("check") + "Daily check-in" })
+    ]));
+  }
+
+  /* status: done today */
+  var doneToday = sessionsOn(iso), ciToday = checkinFor(iso);
+  var statusBits = [];
+  statusBits.push('<span class="pill ' + (ciToday ? "green" : "grey") + '">' + ico(ciToday ? "check" : "info") + "Check-in " + (ciToday ? "done" : "pending") + "</span>");
+  statusBits.push('<span class="pill ' + (doneToday.length ? "green" : "grey") + '">' + ico(doneToday.length ? "check" : "clock") + (doneToday.length ? doneToday.length + " session" + (doneToday.length > 1 ? "s" : "") : "No session yet") + "</span>");
+  var streak = currentStreak();
+  if (streak > 1) statusBits.push('<span class="pill brand">' + ico("flame") + streak + "-day streak</span>");
+
+  var topGrid = h("div", { class: "grid g2" }, [stageCard, planCard]);
+  v.appendChild(topGrid);
+  v.appendChild(h("div", { class: "inline", style: "margin-top:12px", html: statusBits.join("") }));
+
+  /* recovery guard */
+  var rec = recoveryStatus(iso);
+  if (rec.length) {
+    rec.forEach(function (r) { v.appendChild(h("div", { class: "note warn", html: '<div class="ttl">' + ico("warn") + escapeHtml(r.t) + "</div>" + escapeHtml(r.d) })); });
+  }
+
+  /* insights */
+  var ins = insights();
+  if (ins.length) {
+    var insSec = section("Insights", "info");
+    ins.forEach(function (r) { insSec.appendChild(h("div", { class: "note " + (r.level === "danger" ? "danger" : r.level === "warn" ? "warn" : r.level === "tip" ? "tip" : "info"), html: '<div class="ttl">' + ico(r.level === "danger" || r.level === "warn" ? "warn" : "info") + escapeHtml(r.t) + "</div>" + escapeHtml(r.d) })); });
+    v.appendChild(insSec);
+  }
+
+  /* week strip */
+  v.appendChild(section("This week", "today", weekStrip(iso)));
+
+  /* quick links */
+  v.appendChild(h("div", { class: "btn-row", style: "margin-top:4px" }, [
+    h("a", { class: "btn outline", href: "angion-method-illustrated-guide.html", html: ico("book") + "Illustrated guide" }),
+    h("button", { class: "btn outline", onclick: function () { go("progress"); }, html: ico("progress") + "See progress" })
+  ]));
+
+  v.appendChild(safetyMini());
+  return v;
+};
+
+function weekStrip(iso) {
+  var wrap = h("div", { class: "week" });
+  // start on Monday of this week
+  var dow = (new Date(iso + "T00:00:00").getDay() + 6) % 7; // Mon=0
+  var monday = isoAdd(iso, -dow);
+  for (var i = 0; i < 7; i++) {
+    var d = isoAdd(monday, i);
+    var done = sessionsOn(d).length, plan = plannedType(d), ci = checkinFor(d);
+    var mk = done ? '<span class="mk done" title="session logged"></span>' : (plan && plan !== "REST") ? '<span class="mk plan" title="planned"></span>' : '<span class="mk"></span>';
+    var lbl = done ? done + " logged" : (plan ? (DAYTYPE[plan] ? (plan === "REST" ? "rest" : "planned") : "") : "");
+    var cell = h("div", { class: "d" + (d === iso ? " today" : ""), onclick: (function (dd) { return function () { openDay(dd); }; })(d), style: "cursor:pointer", html: '<span class="dn">' + weekdayShort(d).slice(0, 2) + "</span>" + mk + '<span class="tiny muted">' + escapeHtml(lbl) + "</span>" + (ci ? '<span class="tiny" style="color:var(--brand)">EQ ' + ci.eq + "</span>" : "") });
+    wrap.appendChild(cell);
+  }
+  return wrap;
+}
+
+function safetyMini() {
+  var note = h("div", { class: "note danger", style: "margin-top:18px" });
+  note.appendChild(h("div", { class: "ttl", html: ico("warn") + "Safety first" }));
+  note.appendChild(h("span", { text: "Stop and seek emergency care for an erection lasting 4+ hours, a pop/crack with swelling, or (on PDE5 drugs) sudden vision loss. " }));
+  note.appendChild(h("button", { class: "btn small", style: "margin-top:.5rem", onclick: openSafety, html: ico("shield") + "Open Safety Center" }));
+  return note;
+}
+
+/* ---------------- TRAIN ---------------- */
+VIEWS.train = function () {
+  var v = h("div", { class: "view" });
+  v.appendChild(viewHead("Train", "Pick a guided session. The timer cues each phase; a metronome keeps your stroke rate."));
+
+  // suggested for stage
+  var st = state.profile.stage;
+  var suggested = PRESETS.filter(function (p) { return p.stage === st; }).slice(0, 3);
+  if (suggested.length) {
+    var sug = section("Suggested for Stage " + st, "play");
+    suggested.forEach(function (p) { sug.appendChild(presetRow(p)); });
+    v.appendChild(sug);
+  }
+
+  // custom builder
+  v.appendChild(h("div", { class: "btn-row", style: "margin:4px 0 14px" }, [
+    h("button", { class: "btn", onclick: openCustomBuilder, html: ico("plus") + "Build a custom session" }),
+    h("button", { class: "btn outline", onclick: openSettings, html: ico("gear") + "Session settings" })
+  ]));
+
+  // all groups
+  PGROUPS.forEach(function (g) {
+    var list = PRESETS.filter(function (p) { return p.group === g.id; });
+    if (!list.length) return;
+    var open = (g.id === "am1" || g.id === "am2" || g.id === "am3" || g.id === "wheel") && suggested.length === 0;
+    var det = h("details", { class: "acc" });
+    if (open) det.setAttribute("open", "");
+    det.appendChild(h("summary", { html: '<span>' + escapeHtml(g.label) + "</span>" + riskPill(g.risk).replace('class="pill', 'style="margin-left:.4rem" class="pill') + '<span class="chev">' + ico("chevron") + "</span>" }));
+    var body = h("div", { class: "body" });
+    if (g.id === "sabre" || g.id === "bfr") body.appendChild(h("div", { class: "note danger", html: '<div class="ttl">' + ico("warn") + "High-risk techniques</div>Blunt strikes and bending an engorged penis can cause penile fracture or Peyronie's disease. Read §15 of the guide first. Never train to pain; stop at any red spot, lump or new bend." }));
+    if (g.id === "macro") body.appendChild(h("div", { class: "note warn", html: "The creator later marked Macropulse <b>outdated</b> in favour of SABRE. Included for completeness." }));
+    list.forEach(function (p) { body.appendChild(presetRow(p)); });
+    det.appendChild(body);
+    v.appendChild(det);
+  });
+  return v;
+};
+
+function presetRow(p) {
+  var total = presetTotal(p);
+  return h("button", { class: "preset", onclick: function () { openPreview(p); }, html:
+    '<div class="pi"><div class="pt">' + escapeHtml(p.name) + '</div><div class="ps">' + escapeHtml(p.desc) + '</div><div class="inline" style="margin-top:.35rem">' +
+      (p.stage ? '<span class="pill grey">Stage ' + p.stage + "</span>" : "") +
+      '<span class="pill grey">' + ico("clock") + fmtMin(total) + "</span>" +
+      (p.risk === "high" ? '<span class="pill red">' + ico("warn") + "High risk</span>" : "") +
+    "</div></div>" + '<span class="go">' + ico("chevron") + "</span>" });
+}
+
+/* preview sheet before starting */
+function openPreview(p) {
+  var phases = p.build(), total = sum(phases.map(function (x) { return x.s; }));
+  var body = h("div");
+  body.appendChild(h("p", { class: "muted", text: p.desc }));
+  body.appendChild(h("div", { class: "inline", style: "margin-bottom:.6rem", html: (p.stage ? '<span class="pill grey">Stage ' + p.stage + "</span>" : "") + '<span class="pill grey">' + ico("clock") + fmtMin(total) + "</span>" + '<span class="pill grey">' + phases.length + " phases</span>" + riskPill(p.risk) }));
+  if (p.risk === "high") body.appendChild(h("div", { class: "note danger", html: '<div class="ttl">' + ico("warn") + "Before you start</div>Lie down · no substances · lowest force that gives fullness · stop well short of pain. Review §15 of the guide." }));
+  var list = h("div", { style: "max-height:34vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:6px;margin:.4rem 0" });
+  phases.forEach(function (ph, i) {
+    list.appendChild(h("div", { class: "row", style: "border:0;padding:8px 10px" }, [
+      h("div", { class: "rmain", html: '<div class="t">' + (i + 1) + ". " + escapeHtml(ph.n) + (ph.rl ? ' <span class="pill grey" style="font-size:.64rem">' + escapeHtml(ph.rl) + "</span>" : "") + '</div>' + (ph.c ? '<div class="s">' + escapeHtml(ph.c) + "</div>" : "") }),
+      h("div", { class: "rt", text: fmtClock(ph.s) })
+    ]));
+  });
+  body.appendChild(list);
+  body.appendChild(h("div", { class: "btn-row" }, [
+    h("button", { class: "btn primary lg", style: "flex:1", onclick: function () { closeModal(); startSession(p); }, html: ico("play") + "Start session" }),
+    h("button", { class: "btn lg", onclick: closeModal, text: "Cancel" })
+  ]));
+  openModal(p.name, body);
+}
+
+/* custom builder */
+function openCustomBuilder() {
+  var rows = [{ n: "Warm-up", m: 5, rate: 0 }, { n: "Work", m: 15, rate: 0 }, { n: "Cool down", m: 5, rate: 0 }];
+  var body = h("div");
+  body.appendChild(h("p", { class: "muted", text: "Add phases with a name, minutes, and an optional metronome rate (strokes per second). Saved only for this session." }));
+  var nameField = h("input", { type: "text", value: "Custom session", "aria-label": "Session name" });
+  body.appendChild(h("div", { class: "field" }, [h("label", { text: "Session name" }), nameField]));
+  var listWrap = h("div");
+  function draw() {
+    clear(listWrap);
+    rows.forEach(function (r, i) {
+      var row = h("div", { class: "row", style: "align-items:flex-end;gap:8px;flex-wrap:wrap" }, [
+        h("div", { style: "flex:2;min-width:120px" }, [h("label", { text: "Phase" }), h("input", { type: "text", value: r.n, oninput: function (e) { r.n = e.target.value; } })]),
+        h("div", { style: "width:84px" }, [h("label", { text: "Min" }), h("input", { type: "number", min: "0", step: "0.5", value: r.m, oninput: function (e) { r.m = clamp(e.target.value, 0, 90); } })]),
+        h("div", { style: "width:92px" }, [h("label", { text: "Rate /s" }), h("input", { type: "number", min: "0", step: "0.5", value: r.rate, oninput: function (e) { r.rate = clamp(e.target.value, 0, 6); } })]),
+        h("button", { class: "iconbtn", "aria-label": "Remove phase", onclick: function () { rows.splice(i, 1); draw(); }, html: ico("x") })
+      ]);
+      listWrap.appendChild(row);
+    });
+  }
+  draw();
+  body.appendChild(listWrap);
+  body.appendChild(h("button", { class: "btn small", style: "margin:.5rem 0", onclick: function () { rows.push({ n: "Phase " + (rows.length + 1), m: 5, rate: 0 }); draw(); }, html: ico("plus") + "Add phase" }));
+  body.appendChild(h("div", { class: "btn-row" }, [
+    h("button", { class: "btn primary", style: "flex:1", onclick: function () {
+      var phases = rows.filter(function (r) { return r.m > 0; }).map(function (r) { return { n: r.n || "Phase", c: "", s: Math.round(r.m * 60), rate: r.rate > 0 ? +r.rate : 0, rl: r.rate > 0 ? r.rate + "/sec" : "" }; });
+      if (!phases.length) { toast("Add at least one phase with time."); return; }
+      closeModal();
+      startSession({ id: "custom", name: nameField.value || "Custom session", stage: null, tech: "Custom", risk: "low", build: function () { return phases; } });
+    }, html: ico("play") + "Start" }),
+    h("button", { class: "btn", onclick: closeModal, text: "Cancel" })
+  ]));
+  openModal("Custom session", body);
+}
+
+/* ---------------- session player ---------------- */
+var SESS = null;
+var ACTIVE_KEY = "angionToolkit.active";
+var audioCtx = null;
+function ensureAudio() { if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} } if (audioCtx && audioCtx.state === "suspended") audioCtx.resume(); return audioCtx; }
+function tone(freq, dur, vol) {
+  if (!state.settings.sound) return;
+  var ctx = ensureAudio(); if (!ctx) return;
+  var o = ctx.createOscillator(), g = ctx.createGain();
+  o.frequency.value = freq; o.type = "sine"; o.connect(g); g.connect(ctx.destination);
+  var t = ctx.currentTime;
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol || 0.22, t + 0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + (dur || 0.18));
+  o.start(t); o.stop(t + (dur || 0.18) + 0.02);
+}
+function vibrate(ms) { if (state.settings.vibrate && navigator.vibrate) { try { navigator.vibrate(ms); } catch (e) {} } }
+function speak(text) {
+  if (!state.settings.voice || !window.speechSynthesis) return;
+  try { var u = new SpeechSynthesisUtterance(text); u.rate = 1; u.volume = 1; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {}
+}
+
+/* metronome with lookahead scheduler */
+var METRO = { on: false, rate: 0, next: 0, timer: null, beat: 0 };
+function metroTick() {
+  if (!audioCtx || !METRO.on || !SESS || !SESS.running) return;
+  var ahead = audioCtx.currentTime + 0.12;
+  var interval = METRO.rate > 0 ? 1 / METRO.rate : 1;
+  while (METRO.next < ahead) {
+    var t = Math.max(METRO.next, audioCtx.currentTime);
+    if (state.settings.sound) {
+      var o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.frequency.value = (METRO.beat % 4 === 0) ? 1100 : 760; o.connect(g); g.connect(audioCtx.destination);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.14, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+      o.start(t); o.stop(t + 0.06);
+    }
+    var delay = Math.max(0, (METRO.next - audioCtx.currentTime) * 1000);
+    (function (d) { setTimeout(function () { var dot = el("#metroDot"); if (dot) { dot.classList.add("on"); setTimeout(function () { dot.classList.remove("on"); }, 90); } }, d); })(delay);
+    METRO.beat++; METRO.next += interval;
+  }
+}
+function metroStart(rate) {
+  METRO.on = rate > 0 && state.settings.metronome; METRO.rate = rate; METRO.beat = 0;
+  if (audioCtx) METRO.next = audioCtx.currentTime + 0.1;
+  if (METRO.timer) clearInterval(METRO.timer);
+  if (METRO.on) METRO.timer = setInterval(metroTick, 25);
+  var mw = el("#metroWrap"); if (mw) mw.classList.toggle("hidden", !(rate > 0));
+}
+function metroStop() { METRO.on = false; if (METRO.timer) { clearInterval(METRO.timer); METRO.timer = null; } }
+
+function sessionTotal() { return SESS ? sum(SESS.phases.map(function (p) { return p.s; })) : 0; }
+function sessionElapsed() {
+  if (!SESS) return 0;
+  var done = 0; for (var i = 0; i < SESS.idx; i++) done += SESS.phases[i].s;
+  var cur = SESS.phases[SESS.idx];
+  return done + (cur ? cur.s - SESS.remain : 0);
+}
+function persistActive() {
+  try {
+    if (!SESS) { localStorage.removeItem(ACTIVE_KEY); return; }
+    localStorage.setItem(ACTIVE_KEY, JSON.stringify({ meta: SESS.meta, phases: SESS.phases, idx: SESS.idx, remain: SESS.remain, counters: SESS.counters, ts: Date.now(), running: SESS.running }));
+  } catch (e) {}
+}
+
+function startSession(preset, resume) {
+  var phases = resume ? resume.phases : preset.build();
+  SESS = {
+    meta: resume ? resume.meta : { id: preset.id, name: preset.name || (preset.stage ? "Stage " + preset.stage : "") + " session", tech: preset.tech, stage: preset.stage, risk: preset.risk },
+    phases: phases,
+    idx: resume ? resume.idx : 0,
+    remain: resume ? resume.remain : phases[0].s,
+    counters: resume ? resume.counters : { lost: 0, flat: 0 },
+    running: false, endAt: 0, clockTimer: null, startWall: Date.now()
+  };
+  ensureAudio();
+  renderPlayer();
+  requestWake();
+  persistActive();
+  // auto-start
+  toggleRun(true);
+}
+
+function renderPlayer() {
+  var root = el("#playerRoot"); clear(root);
+  var p = SESS.phases[SESS.idx];
+  var player = h("div", { class: "player" });
+  // header
+  player.appendChild(h("div", { class: "phead" }, [
+    h("button", { class: "iconbtn", "aria-label": "End session", onclick: endSessionPrompt, html: ico("x") }),
+    h("div", { class: "nm", style: "flex:1", text: SESS.meta.name }),
+    SESS.meta.stage ? h("span", { class: "pill grey", html: stageBadge(SESS.meta.stage, "s") }) : null,
+    SESS.meta.risk === "high" ? h("span", { class: "pill red", html: ico("warn") + "High risk" }) : null
+  ]));
+  var pbody = h("div", { class: "pbody" });
+  // ring
+  var ringWrap = h("div", { class: "ring-wrap" });
+  ringWrap.innerHTML =
+    '<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="#e3e8f0" stroke-width="10"/>' +
+    '<circle id="ringFg" cx="60" cy="60" r="52" fill="none" stroke="url(#rg)" stroke-width="10" stroke-linecap="round" transform="rotate(-90 60 60)" stroke-dasharray="326.7" stroke-dashoffset="326.7"/>' +
+    '<defs><linearGradient id="rg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#14b8a6"/><stop offset="1" stop-color="#2563eb"/></linearGradient></defs></svg>' +
+    '<div class="ring-center"><div class="bigclock" id="bigClock">' + fmtClock(SESS.remain) + '</div><div class="ring-sub" id="ringSub"></div></div>';
+  pbody.appendChild(ringWrap);
+  // metronome
+  pbody.appendChild(h("div", { id: "metroWrap", class: "inline" + (p.rate ? "" : " hidden"), style: "justify-content:center", html: '<span class="metrodot" id="metroDot"></span><span class="small muted" id="metroLbl"></span>' }));
+  // phase info
+  pbody.appendChild(h("div", { class: "phase-name", id: "phName" }));
+  pbody.appendChild(h("div", { class: "phase-cue", id: "phCue" }));
+  pbody.appendChild(h("div", { class: "phase-meta", id: "phMeta" }));
+  // phase track
+  var track = h("div", { class: "phase-track", id: "phTrack" });
+  SESS.phases.forEach(function (_, i) { track.appendChild(h("i", { class: i < SESS.idx ? "done" : i === SESS.idx ? "now" : "" })); });
+  pbody.appendChild(track);
+  // counters
+  pbody.appendChild(h("div", { class: "counters" }, [
+    counterBox("lost", "Lost erection"),
+    counterBox("flat", "CS went flat")
+  ]));
+  // controls
+  pbody.appendChild(h("div", { class: "pcontrols" }, [
+    h("button", { class: "btn", onclick: function () { skipPhase(); }, html: ico("skip") + "Skip phase" }),
+    h("button", { class: "btn primary lg", id: "btnRun", style: "min-width:150px", onclick: function () { toggleRun(); }, html: ico("pause") + "Pause" }),
+    h("button", { class: "btn danger", onclick: endSessionPrompt, html: ico("stop") + "End" })
+  ]));
+  pbody.appendChild(h("div", { class: "small faint", style: "text-align:center;margin-top:4px", text: "Keys: Space = pause · → = skip · Esc = end" }));
+  player.appendChild(pbody);
+  root.appendChild(player);
+  updatePhaseUI();
+}
+function counterBox(key, label) {
+  return h("div", { class: "counter" }, [
+    h("div", {}, [h("div", { class: "small muted", text: label }), h("b", { id: "cnt-" + key, text: String(SESS.counters[key]) })]),
+    h("div", { class: "cbtns" }, [
+      h("button", { class: "iconbtn", style: "width:30px;height:28px", "aria-label": "Increase " + label, onclick: function () { SESS.counters[key]++; el("#cnt-" + key).textContent = SESS.counters[key]; persistActive(); vibrate(10); }, html: ico("plus") }),
+      h("button", { class: "iconbtn", style: "width:30px;height:28px", "aria-label": "Decrease " + label, onclick: function () { SESS.counters[key] = Math.max(0, SESS.counters[key] - 1); el("#cnt-" + key).textContent = SESS.counters[key]; persistActive(); }, html: ico("minus") })
+    ])
+  ]);
+}
+function updatePhaseUI() {
+  if (!SESS) return;
+  var p = SESS.phases[SESS.idx];
+  el("#bigClock").textContent = fmtClock(SESS.remain);
+  var C = 2 * Math.PI * 52;
+  var prog = sessionTotal() ? sessionElapsed() / sessionTotal() : 0;
+  var fg = el("#ringFg"); if (fg) fg.setAttribute("stroke-dashoffset", String(C * (1 - prog)));
+  el("#ringSub").textContent = "Phase " + (SESS.idx + 1) + "/" + SESS.phases.length + " · " + fmtClock(Math.max(0, sessionTotal() - sessionElapsed())) + " left";
+  el("#phName").textContent = p.n;
+  el("#phCue").textContent = p.c || "";
+  var nx = SESS.phases[SESS.idx + 1];
+  el("#phMeta").textContent = nx ? "Next: " + nx.n : "Last phase";
+  el("#metroLbl").textContent = p.rl ? "Cadence: " + p.rl : (p.rate ? p.rate + "/sec" : "");
+  var mw = el("#metroWrap"); if (mw) mw.classList.toggle("hidden", !p.rate);
+  els("#phTrack i").forEach(function (n, i) { n.className = i < SESS.idx ? "done" : i === SESS.idx ? "now" : ""; });
+}
+function toggleRun(force) {
+  if (!SESS) return;
+  var run = force == null ? !SESS.running : force;
+  SESS.running = run;
+  var btn = el("#btnRun");
+  if (run) {
+    SESS.endAt = Date.now() + SESS.remain * 1000;
+    if (SESS.clockTimer) clearInterval(SESS.clockTimer);
+    SESS.clockTimer = setInterval(clockTick, 200);
+    ensureAudio();
+    var p = SESS.phases[SESS.idx];
+    metroStart(p.rate || 0);
+    if (btn) btn.innerHTML = ico("pause") + "Pause";
+  } else {
+    SESS.remain = Math.max(0, (SESS.endAt - Date.now()) / 1000);
+    if (SESS.clockTimer) clearInterval(SESS.clockTimer);
+    metroStop();
+    if (btn) btn.innerHTML = ico("play") + "Resume";
+  }
+  persistActive();
+}
+function clockTick() {
+  if (!SESS || !SESS.running) return;
+  SESS.remain = (SESS.endAt - Date.now()) / 1000;
+  var p = SESS.phases[SESS.idx];
+  // countdown beeps
+  if (state.settings.countdown) {
+    var s = Math.ceil(SESS.remain);
+    if (s <= 3 && s >= 1 && SESS._lastBeep !== s) { SESS._lastBeep = s; tone(680, 0.09, 0.14); }
+  }
+  if (SESS.remain <= 0) { advancePhase(); return; }
+  el("#bigClock").textContent = fmtClock(SESS.remain);
+  var C = 2 * Math.PI * 52, prog = sessionElapsed() / sessionTotal();
+  var fg = el("#ringFg"); if (fg) fg.setAttribute("stroke-dashoffset", String(C * (1 - prog)));
+  el("#ringSub").textContent = "Phase " + (SESS.idx + 1) + "/" + SESS.phases.length + " · " + fmtClock(Math.max(0, sessionTotal() - sessionElapsed())) + " left";
+}
+function advancePhase() {
+  SESS.idx++;
+  SESS._lastBeep = null;
+  if (SESS.idx >= SESS.phases.length) { completeSession(); return; }
+  var p = SESS.phases[SESS.idx];
+  SESS.remain = p.s; SESS.endAt = Date.now() + p.s * 1000;
+  tone(940, 0.16, 0.22); vibrate([40, 40, 40]);
+  speak(p.n);
+  metroStart(p.rate || 0);
+  updatePhaseUI();
+  persistActive();
+}
+function skipPhase() {
+  if (!SESS) return;
+  if (SESS.idx >= SESS.phases.length - 1) { completeSession(); return; }
+  advancePhase();
+}
+function requestWake() {
+  if (!state.settings.keepAwake || !navigator.wakeLock) return;
+  try { navigator.wakeLock.request("screen").then(function (wl) { SESS && (SESS._wake = wl); }).catch(function () {}); } catch (e) {}
+}
+function releaseWake() { try { if (SESS && SESS._wake) { SESS._wake.release(); SESS._wake = null; } } catch (e) {} }
+
+function stopSessionCleanup() {
+  if (SESS && SESS.clockTimer) clearInterval(SESS.clockTimer);
+  metroStop(); releaseWake();
+  try { localStorage.removeItem(ACTIVE_KEY); } catch (e) {}
+}
+function completeSession() {
+  tone(660, 0.2, 0.24); setTimeout(function () { tone(880, 0.25, 0.24); }, 220); vibrate([80, 60, 120]);
+  var elapsedMin = Math.round(sessionTotal() / 60);
+  finishToLog(elapsedMin, true);
+}
+function endSessionPrompt() {
+  if (!SESS) { closePlayer(); return; }
+  var wasRunning = SESS.running; if (wasRunning) toggleRun(false);
+  var body = h("div");
+  body.appendChild(h("p", { text: "End this session now? You can still log what you did." }));
+  body.appendChild(h("div", { class: "btn-row" }, [
+    h("button", { class: "btn primary", style: "flex:1", onclick: function () { closeModal(); var m = Math.round(sessionElapsed() / 60); finishToLog(m, false); }, html: ico("check") + "End & log" }),
+    h("button", { class: "btn", onclick: function () { closeModal(); if (wasRunning) toggleRun(true); }, text: "Keep going" }),
+    h("button", { class: "btn ghost", onclick: function () { closeModal(); discardSession(); }, text: "Discard" })
+  ]));
+  openModal("End session", body);
+}
+function discardSession() { stopSessionCleanup(); var s = SESS; SESS = null; closePlayer(); toast("Session discarded."); }
+function closePlayer() { clear(el("#playerRoot")); }
+
+function finishToLog(minutes, completed) {
+  var meta = SESS.meta, counters = SESS.counters;
+  stopSessionCleanup();
+  SESS = null;
+  closePlayer();
+  openSessionLog({ tech: meta.tech, stage: meta.stage, min: minutes, lost: counters.lost, flat: counters.flat, completed: completed });
+}
+
+/* ---------------- logging sheets ---------------- */
+function openSessionLog(pre) {
+  pre = pre || {};
+  var body = h("div");
+  if (pre.completed) body.appendChild(h("div", { class: "note tip", html: ico("check") + " Session complete — nice work. Log the details below." }));
+  var fDate = h("input", { type: "date", value: todayISO() });
+  var fTech = h("select");
+  ["Angio pumping", "AM1", "AM2", "AM2.5", "AM3 Vascion", "Angio-Wheel", "SABRE", "BFR", "Macropulse", "Cardio (DLC)", "Combined", "Custom"].forEach(function (t) { fTech.appendChild(h("option", { value: t, text: t, selected: pre.tech === t })); });
+  var fMin = h("input", { type: "number", min: "0", max: "180", value: pre.min != null ? pre.min : 20 });
+  var fFull = h("input", { type: "number", min: "0", max: "600", value: 0, id: "slFull" });
+  var fLost = h("input", { type: "number", min: "0", max: "99", value: pre.lost || 0 });
+  var fFlat = h("input", { type: "number", min: "0", max: "99", value: pre.flat || 0 });
+  var fRpe = h("input", { type: "range", min: "1", max: "10", value: "5" });
+  var rpeOut = h("span", { class: "pill grey", text: "5/10" }); fRpe.addEventListener("input", function () { rpeOut.textContent = fRpe.value + "/10"; });
+  var fNotes = h("textarea", { maxlength: "400", placeholder: "Fullness, vascularity, any red spots / tenderness, mood…" });
+
+  body.appendChild(h("div", { class: "grid g2" }, [
+    h("div", { class: "field" }, [h("label", { text: "Date" }), fDate]),
+    h("div", { class: "field" }, [h("label", { text: "Technique" }), fTech]),
+    h("div", { class: "field" }, [h("label", { text: "Minutes" }), fMin]),
+    h("div", { class: "field" }, [h("label", { text: "Post-session fullness (min)" }), h("div", { class: "inline" }, [fFull, h("button", { class: "btn small", type: "button", onclick: function () { openFullnessTimer(fFull); }, html: ico("clock") + "Time it" })])]),
+    h("div", { class: "field" }, [h("label", { text: "Times lost erection" }), fLost]),
+    h("div", { class: "field" }, [h("label", { text: "Times CS went flat" }), fFlat])
+  ]));
+  body.appendChild(h("div", { class: "field" }, [h("label", { html: "Effort (RPE) " }), h("div", { class: "inline" }, [fRpe, rpeOut])]));
+  body.appendChild(h("div", { class: "field" }, [h("label", { text: "Notes" }), fNotes]));
+  body.appendChild(h("div", { class: "note warn", style: "font-size:.82rem", html: ico("warn") + " If you noted a red spot, lump, new bend or pain, ease off and check the Safety Center." }));
+  body.appendChild(h("div", { class: "btn-row" }, [
+    h("button", { class: "btn primary", style: "flex:1", onclick: function () {
+      var entry = { id: uid(), date: fDate.value || todayISO(), tech: fTech.value, min: clamp(fMin.value, 0, 180), fullnessMin: clamp(fFull.value, 0, 600), lost: clamp(fLost.value, 0, 99), flat: clamp(fFlat.value, 0, 99), rpe: +fRpe.value, notes: fNotes.value.slice(0, 400) };
+      state.sessions.push(entry); save(); closeModal(); toast("Session logged."); go(currentView === "train" ? "today" : currentView);
+    }, html: ico("check") + "Save session" }),
+    h("button", { class: "btn", onclick: closeModal, text: "Cancel" })
+  ]));
+  openModal("Log session", body);
+}
+
+/* fullness stopwatch */
+var FT = null;
+function openFullnessTimer(targetInput) {
+  var body = h("div");
+  body.appendChild(h("p", { class: "muted", text: "Start this when your session ends and stop when fullness fades. A good session holds 10–30 min." }));
+  var disp = h("div", { class: "bigclock", style: "text-align:center;font-size:2.6rem", text: "00:00" });
+  body.appendChild(disp);
+  var cautions = h("div", { class: "inline", style: "justify-content:center;margin:.4rem 0" });
+  body.appendChild(cautions);
+  var startAt = 0, run = false, tmr = null, acc = 0;
+  function upd() { var s = acc + (run ? (Date.now() - startAt) / 1000 : 0); disp.textContent = fmtClock(s); clear(cautions); if (s >= 7200) cautions.appendChild(h("span", { class: "pill red", html: ico("warn") + "Over 2 h — see §Safety" })); if (s >= 14400) { cautions.appendChild(h("span", { class: "pill red", text: "4 h = emergency" })); } }
+  var startBtn = h("button", { class: "btn primary", style: "flex:1", onclick: function () {
+    if (!run) { run = true; startAt = Date.now(); tmr = setInterval(upd, 500); startBtn.innerHTML = ico("pause") + "Pause"; }
+    else { run = false; acc += (Date.now() - startAt) / 1000; clearInterval(tmr); startBtn.innerHTML = ico("play") + "Resume"; }
+  }, html: ico("play") + "Start" });
+  body.appendChild(h("div", { class: "btn-row" }, [
+    startBtn,
+    h("button", { class: "btn", onclick: function () {
+      if (run) { acc += (Date.now() - startAt) / 1000; } run = false; clearInterval(tmr);
+      targetInput.value = Math.round(acc / 60); closeModal(); toast("Saved " + Math.round(acc / 60) + " min fullness.");
+    }, html: ico("check") + "Use this" }),
+    h("button", { class: "btn ghost", onclick: function () { if (tmr) clearInterval(tmr); closeModal(); }, text: "Cancel" })
+  ]));
+  openModal("Fullness timer", body);
+}
+
+/* daily check-in */
+function openCheckin(iso) {
+  iso = iso || todayISO();
+  var ex = checkinFor(iso) || {};
+  var body = h("div");
+  var fDate = h("input", { type: "date", value: iso });
+  // NPTR
+  var nptr = radioGroup("nptr", [["yes", "Strong"], ["partial", "Partial"], ["no", "None"]], ex.nptr || "yes");
+  // EQ
+  var eq = h("input", { type: "range", min: "1", max: "10", value: ex.eq || 7 });
+  var eqOut = h("span", { class: "pill brand" });
+  function eqLabel() { var v = +eq.value; var a = v <= 3 ? EHS[0] : v <= 5 ? EHS[1] : v <= 8 ? EHS[2] : EHS[3]; eqOut.innerHTML = v + "/10 · " + escapeHtml(a.d); }
+  eq.addEventListener("input", eqLabel); eqLabel();
+  // sliders
+  var sleep = sliderField("Sleep quality", ex.sleep || 6);
+  var stress = sliderField("Stress (10 = very stressed)", ex.stress || 4);
+  // hang
+  var hang = radioGroup("hang", [["heavy", "Heavy"], ["normal", "Normal"], ["turtled", "Turtled/cold"]], ex.hang || "normal");
+  // cardio
+  var dlcMin = h("input", { type: "number", min: "0", max: "300", value: ex.dlcMin || 0 });
+  var dlcType = h("input", { type: "text", value: ex.dlcType || "", placeholder: "bike, run, rope…" });
+  // lifestyle
+  var calPhase = h("select", {}, [["maintenance", "Maintenance"], ["surplus", "Slight surplus"], ["deficit", "Deficit / cut"]].map(function (o) { return h("option", { value: o[0], text: o[1], selected: (ex.calPhase || "maintenance") === o[0] }); }));
+  var protein = h("input", { type: "checkbox" }); protein.checked = !!ex.protein;
+  var meals = h("input", { type: "number", min: "0", max: "10", value: ex.meals || 0 });
+  var postMeal = h("input", { type: "checkbox" }); postMeal.checked = !!ex.postMeal;
+  var ejac = h("input", { type: "number", min: "0", max: "20", value: ex.ejac || 0 });
+  var porn = h("input", { type: "checkbox" }); porn.checked = !!ex.porn;
+  var alcohol = h("input", { type: "checkbox" }); alcohol.checked = !!ex.alcohol;
+  var nicotine = h("input", { type: "checkbox" }); nicotine.checked = !!ex.nicotine;
+  var supps = h("input", { type: "text", value: ex.supplements || "", placeholder: "e.g. L-citrulline, beets…" });
+  // safety flags
+  var FLAGS = [["redspots", "Red spots / petechiae"], ["bruise", "Bruising"], ["pain", "Pain / tenderness"], ["lump", "New lump / bend / dent"], ["numb", "Numbness"]];
+  var flagWrap = h("div", { class: "choice" });
+  var flagInputs = {};
+  FLAGS.forEach(function (f) { var i = h("input", { type: "checkbox" }); i.checked = (ex.flags || []).indexOf(f[0]) >= 0; flagInputs[f[0]] = i; flagWrap.appendChild(h("label", {}, [i, h("span", { text: f[1] })])); });
+  var notes = h("textarea", { maxlength: "400", text: ex.notes || "" });
+
+  body.appendChild(h("div", { class: "field" }, [h("label", { text: "Date" }), fDate]));
+  body.appendChild(fieldBlock("Morning wood (NPTR)", nptr));
+  body.appendChild(h("div", { class: "field" }, [h("label", { text: "Erection quality (EQ)" }), h("div", { class: "inline" }, [eq]), h("div", { style: "margin-top:.3rem" }, [eqOut])]));
+  body.appendChild(h("div", { class: "grid g2" }, [sleep.wrap, stress.wrap]));
+  body.appendChild(fieldBlock("Flaccid hang", hang));
+  body.appendChild(h("div", { class: "grid g2" }, [
+    h("div", { class: "field" }, [h("label", { text: "Cardio today (min)" }), dlcMin]),
+    h("div", { class: "field" }, [h("label", { text: "Cardio type" }), dlcType])
+  ]));
+  var det = h("details", { class: "acc" });
+  det.appendChild(h("summary", { html: "<span>Lifestyle &amp; recovery</span>" + '<span class="chev">' + ico("chevron") + "</span>" }));
+  var db = h("div", { class: "body" });
+  db.appendChild(h("div", { class: "grid g2" }, [
+    h("div", { class: "field" }, [h("label", { text: "Calories" }), calPhase]),
+    h("div", { class: "field" }, [h("label", { text: "Healthy meals" }), meals])
+  ]));
+  db.appendChild(checkRow(protein, "Hit protein target"));
+  db.appendChild(checkRow(postMeal, "Post-meal fullness noticed"));
+  db.appendChild(h("div", { class: "grid g2" }, [h("div", { class: "field" }, [h("label", { text: "Ejaculations" }), ejac]), h("div", { class: "field" }, [h("label", { text: "Supplements" }), supps])]));
+  db.appendChild(checkRow(porn, "Viewed porn"));
+  db.appendChild(checkRow(alcohol, "Alcohol"));
+  db.appendChild(checkRow(nicotine, "Nicotine"));
+  det.appendChild(db);
+  body.appendChild(det);
+  body.appendChild(fieldBlock("Safety flags (tick any you noticed)", flagWrap));
+  body.appendChild(h("div", { class: "field" }, [h("label", { text: "Notes" }), notes]));
+
+  body.appendChild(h("div", { class: "btn-row" }, [
+    h("button", { class: "btn primary", style: "flex:1", onclick: function () {
+      var flags = []; FLAGS.forEach(function (f) { if (flagInputs[f[0]].checked) flags.push(f[0]); });
+      var entry = { date: fDate.value || iso, nptr: nptr.value(), eq: +eq.value, sleep: sleep.value(), stress: stress.value(), hang: hang.value(), dlcMin: clamp(dlcMin.value, 0, 300), dlcType: dlcType.value, calPhase: calPhase.value, protein: protein.checked, meals: clamp(meals.value, 0, 10), postMeal: postMeal.checked, ejac: clamp(ejac.value, 0, 20), porn: porn.checked, alcohol: alcohol.checked, nicotine: nicotine.checked, supplements: supps.value, flags: flags, notes: notes.value.slice(0, 400) };
+      state.checkins = state.checkins.filter(function (c) { return c.date !== entry.date; });
+      state.checkins.push(entry); save(); closeModal();
+      if (flags.length) toast("Saved. You flagged a symptom — see Safety Center."); else toast("Check-in saved.");
+      go(currentView);
+    }, html: ico("check") + "Save check-in" }),
+    h("button", { class: "btn", onclick: closeModal, text: "Cancel" })
+  ]));
+  openModal("Daily check-in · " + prettyDate(iso), body);
+}
+function radioGroup(name, opts, val) {
+  var wrap = h("div", { class: "choice" }); var inputs = [];
+  opts.forEach(function (o) { var i = h("input", { type: "radio", name: "cg-" + name, value: o[0] }); if (o[0] === val) i.checked = true; inputs.push(i); wrap.appendChild(h("label", {}, [i, h("span", { text: o[1] })])); });
+  wrap.value = function () { var sel = inputs.filter(function (i) { return i.checked; })[0]; return sel ? sel.value : val; };
+  return wrap;
+}
+function sliderField(label, val) {
+  var inp = h("input", { type: "range", min: "1", max: "10", value: val });
+  var out = h("span", { class: "pill grey", text: val + "/10" });
+  inp.addEventListener("input", function () { out.textContent = inp.value + "/10"; });
+  var wrap = h("div", { class: "field" }, [h("label", { text: label }), h("div", { class: "inline" }, [inp, out])]);
+  return { wrap: wrap, value: function () { return +inp.value; } };
+}
+function fieldBlock(label, node) { return h("div", { class: "field" }, [h("label", { text: label }), node]); }
+function checkRow(input, label) { return h("label", { class: "inline", style: "font-weight:500;margin:.3rem 0" }, [input, h("span", { text: label })]); }
+
+/* day detail */
+function openDay(iso) {
+  var body = h("div");
+  var ci = checkinFor(iso), ss = sessionsOn(iso), plan = plannedType(iso);
+  if (plan) body.appendChild(h("div", { class: "inline", style: "margin-bottom:.6rem", html: '<span class="pill ' + DAYTYPE[plan].pill + '">Planned: ' + escapeHtml(DAYTYPE[plan].label) + "</span>" }));
+  if (ci) {
+    body.appendChild(h("div", { class: "card", style: "margin-bottom:10px", html: '<div class="tag">Check-in</div><div class="inline" style="margin-top:.4rem">' + '<span class="pill brand">EQ ' + ci.eq + "</span>" + '<span class="pill grey">NPTR ' + ci.nptr + "</span>" + '<span class="pill grey">hang ' + (ci.hang || "—") + "</span>" + (ci.dlcMin ? '<span class="pill blue">DLC ' + ci.dlcMin + "m</span>" : "") + ((ci.flags || []).length ? '<span class="pill red">' + ico("warn") + ci.flags.length + " flag(s)</span>" : "") + "</div>" + (ci.notes ? '<div class="small muted" style="margin-top:.4rem">' + escapeHtml(ci.notes) + "</div>" : "") }));
+  }
+  if (ss.length) ss.forEach(function (s) { body.appendChild(sessionRow(s)); });
+  if (!ci && !ss.length) body.appendChild(h("div", { class: "empty", html: ico("today") + "Nothing logged for this day yet." }));
+  body.appendChild(h("div", { class: "btn-row", style: "margin-top:12px" }, [
+    h("button", { class: "btn primary", onclick: function () { closeModal(); openCheckin(iso); }, html: ico("check") + (ci ? "Edit check-in" : "Add check-in") }),
+    h("button", { class: "btn", onclick: function () { closeModal(); openSessionLog({ min: 20 }); }, html: ico("plus") + "Add session" })
+  ]));
+  openModal(prettyDate(iso), body);
+}
+function sessionRow(s) {
+  var sub = [s.min + " min"]; if (s.fullnessMin) sub.push(s.fullnessMin + "m fullness"); if (s.lost) sub.push(s.lost + "× lost"); if (s.flat) sub.push(s.flat + "× flat"); if (s.rpe) sub.push("RPE " + s.rpe);
+  return h("div", { class: "row" }, [
+    h("div", { class: "rmain" }, [h("div", { class: "t", text: s.tech + (s.stage ? " · " + s.stage : "") }), h("div", { class: "s", text: sub.join(" · ") + (s.notes ? " — " + s.notes : "") })]),
+    h("button", { class: "iconbtn", "aria-label": "Delete session", onclick: function () { state.sessions = state.sessions.filter(function (x) { return x.id !== s.id; }); save(); closeModal(); go(currentView); }, html: ico("x") })
+  ]);
+}
+
+/* ---------------- LOG VIEW ---------------- */
+VIEWS.log = function () {
+  var v = h("div", { class: "view" });
+  v.appendChild(viewHead("Log", "Daily check-ins and session history."));
+  v.appendChild(h("div", { class: "btn-row", style: "margin-bottom:12px" }, [
+    h("button", { class: "btn primary", onclick: function () { openCheckin(todayISO()); }, html: ico("check") + "Check-in" }),
+    h("button", { class: "btn", onclick: function () { openSessionLog({ min: 20 }); }, html: ico("plus") + "Log session" }),
+    h("button", { class: "btn outline", onclick: openMeasure, html: ico("ruler") + "Measurement" })
+  ]));
+
+  var all = [];
+  state.sessions.forEach(function (s) { all.push({ date: s.date, kind: "session", obj: s }); });
+  state.checkins.forEach(function (c) { all.push({ date: c.date, kind: "checkin", obj: c }); });
+  state.measurements.forEach(function (m) { all.push({ date: m.date, kind: "measure", obj: m }); });
+  all.sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+
+  if (!all.length) { v.appendChild(h("div", { class: "empty", html: ico("log") + "No entries yet. Start with a daily check-in or a session." })); return v; }
+
+  var lastDate = null, sec;
+  all.forEach(function (it) {
+    if (it.date !== lastDate) { lastDate = it.date; sec = section(prettyDate(it.date) + (it.date === todayISO() ? " · today" : ""), null, []); v.appendChild(sec); }
+    if (it.kind === "session") sec.appendChild(sessionRow(it.obj));
+    else if (it.kind === "checkin") {
+      var c = it.obj;
+      sec.appendChild(h("div", { class: "row", style: "cursor:pointer", onclick: (function (d) { return function () { openCheckin(d); }; })(c.date) }, [
+        h("div", { class: "rmain", html: '<div class="t">Check-in</div><div class="s">EQ ' + c.eq + " · NPTR " + c.nptr + (c.dlcMin ? " · DLC " + c.dlcMin + "m" : "") + ((c.flags || []).length ? " · ⚠ " + c.flags.length + " flag(s)" : "") + "</div>" }),
+        h("span", { class: "rt", html: ico("chevron") })
+      ]));
+    } else {
+      var m = it.obj;
+      sec.appendChild(h("div", { class: "row" }, [
+        h("div", { class: "rmain", html: '<div class="t">Measurement</div><div class="s">' + (m.bpelCm ? "BPEL " + fmtLen(m.bpelCm) + " · " : "") + (m.egCm ? "EG " + fmtLen(m.egCm) : "") + "</div>" }),
+        h("button", { class: "iconbtn", "aria-label": "Delete", onclick: (function (id) { return function () { state.measurements = state.measurements.filter(function (x) { return x.id !== id; }); save(); go("log"); }; })(m.id), html: ico("x") })
+      ]));
+    }
+  });
+  return v;
+};
+
+function openMeasure() {
+  var body = h("div");
+  body.appendChild(h("p", { class: "muted", html: "Measure at full EQ, same time of day, warm room. Changes under ~0.5 cm (0.2 in) are usually noise. Units: <b>" + unitLabel() + "</b> (change in More)." }));
+  var fDate = h("input", { type: "date", value: todayISO() });
+  function lenField(id, label) { return { el: h("input", { type: "number", step: "0.01", min: "0", placeholder: unitLabel() }), label: label, id: id }; }
+  var bpel = lenField("bpel", "BPEL (bone-pressed length)"), nbpel = lenField("nbpel", "NBPEL"), eg = lenField("eg", "Erect girth"), fl = lenField("fl", "Flaccid length");
+  body.appendChild(h("div", { class: "field" }, [h("label", { text: "Date" }), fDate]));
+  body.appendChild(h("div", { class: "grid g2" }, [
+    h("div", { class: "field" }, [h("label", { text: bpel.label }), bpel.el]),
+    h("div", { class: "field" }, [h("label", { text: nbpel.label }), nbpel.el]),
+    h("div", { class: "field" }, [h("label", { text: eg.label }), eg.el]),
+    h("div", { class: "field" }, [h("label", { text: fl.label }), fl.el])
+  ]));
+  body.appendChild(h("div", { class: "btn-row" }, [
+    h("button", { class: "btn primary", style: "flex:1", onclick: function () {
+      var entry = { id: uid(), date: fDate.value || todayISO(), bpelCm: fromDisplayLen(bpel.el.value), nbpelCm: fromDisplayLen(nbpel.el.value), egCm: fromDisplayLen(eg.el.value), flaccidCm: fromDisplayLen(fl.el.value) };
+      if (entry.bpelCm == null && entry.nbpelCm == null && entry.egCm == null && entry.flaccidCm == null) { toast("Enter at least one measurement."); return; }
+      state.measurements.push(entry); save(); closeModal(); toast("Measurement saved."); go(currentView);
+    }, html: ico("check") + "Save" }),
+    h("button", { class: "btn", onclick: closeModal, text: "Cancel" })
+  ]));
+  openModal("Add measurement", body);
+}
+
+/* ---------------- charts (SVG) ---------------- */
+var SVGNS = "http://www.w3.org/2000/svg";
+function svg(w, hh) { var s = document.createElementNS(SVGNS, "svg"); s.setAttribute("viewBox", "0 0 " + w + " " + hh); s.setAttribute("class", "chart"); s.setAttribute("preserveAspectRatio", "none"); s.setAttribute("width", "100%"); return s; }
+function sE(tag, attrs) { var e = document.createElementNS(SVGNS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+function sText(x, y, str, attrs) { var t = sE("text", Object.assign({ x: x, y: y }, attrs || {})); t.textContent = str; return t; }
+
+function lineChart(series, opts) {
+  opts = opts || {}; var W = 640, H = 220, L = 40, R = 12, T = 14, B = 30;
+  var s = svg(W, H); s.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  var all = [], xs = [];
+  series.forEach(function (ser) { ser.data.forEach(function (p) { all.push(p.y); xs.push(p.x); }); });
+  if (!all.length) return s;
+  var ymin = opts.ymin != null ? opts.ymin : Math.min.apply(null, all);
+  var ymax = opts.ymax != null ? opts.ymax : Math.max.apply(null, all);
+  if (ymin === ymax) { ymin -= 1; ymax += 1; }
+  var xmin = Math.min.apply(null, xs), xmax = Math.max.apply(null, xs); if (xmin === xmax) xmax = xmin + 1;
+  function X(x) { return L + (x - xmin) / (xmax - xmin) * (W - L - R); }
+  function Y(y) { return H - B - (y - ymin) / (ymax - ymin) * (H - T - B); }
+  var ticks = opts.yticks || 4;
+  for (var i = 0; i <= ticks; i++) { var yv = ymin + (ymax - ymin) * i / ticks; var yy = Y(yv); s.appendChild(sE("line", { x1: L, x2: W - R, y1: yy, y2: yy, stroke: "#eef1f6" })); s.appendChild(sText(L - 6, yy + 4, String(round(yv, opts.yp || 0)), { "text-anchor": "end", "font-size": 11, fill: "#94a3b8" })); }
+  series.forEach(function (ser) {
+    if (ser.data.length > 1) { var d = ser.data.map(function (p, i) { return (i ? "L" : "M") + round(X(p.x), 1) + " " + round(Y(p.y), 1); }).join(" "); s.appendChild(sE("path", { d: d, fill: "none", stroke: ser.color, "stroke-width": ser.width || 2.5, "stroke-linejoin": "round", "stroke-linecap": "round", "stroke-dasharray": ser.dash || "" })); }
+    if (ser.dots !== false) ser.data.forEach(function (p) { var c = sE("circle", { cx: X(p.x), cy: Y(p.y), r: ser.r || 3.5, fill: p.color || ser.color }); if (p.title) { var tt = sE("title"); tt.textContent = p.title; c.appendChild(tt); } s.appendChild(c); });
+  });
+  if (opts.x0label) s.appendChild(sText(L, H - 8, opts.x0label, { "font-size": 11, fill: "#94a3b8" }));
+  if (opts.x1label) s.appendChild(sText(W - R, H - 8, opts.x1label, { "text-anchor": "end", "font-size": 11, fill: "#94a3b8" }));
+  return s;
+}
+function barChart(bars, opts) {
+  opts = opts || {}; var W = 640, H = 200, L = 40, R = 12, T = 14, B = 42;
+  var s = svg(W, H); s.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  if (!bars.length) return s;
+  var max = opts.max || Math.max.apply(null, bars.map(function (b) { return b.total; })); if (max <= 0) max = 1;
+  var n = bars.length, bw = (W - L - R) / n * 0.62, gap = (W - L - R) / n;
+  for (var i = 0; i <= 4; i++) { var yv = max * i / 4, yy = H - B - (yv / max) * (H - T - B); s.appendChild(sE("line", { x1: L, x2: W - R, y1: yy, y2: yy, stroke: "#eef1f6" })); s.appendChild(sText(L - 6, yy + 4, String(round(yv)), { "text-anchor": "end", "font-size": 11, fill: "#94a3b8" })); }
+  if (opts.target) { var ty = H - B - (opts.target / max) * (H - T - B); if (ty > T) { s.appendChild(sE("line", { x1: L, x2: W - R, y1: ty, y2: ty, stroke: "#15803d", "stroke-dasharray": "5 4", "stroke-width": 1.5 })); s.appendChild(sText(W - R, ty - 4, opts.targetLabel || ("target " + opts.target), { "text-anchor": "end", "font-size": 10.5, fill: "#15803d" })); } }
+  bars.forEach(function (b, i) {
+    var x = L + i * gap + (gap - bw) / 2, yacc = H - B;
+    (b.parts || [{ v: b.total, color: "#14b8a6" }]).forEach(function (pt) {
+      var hgt = (pt.v / max) * (H - T - B); yacc -= hgt;
+      if (hgt > 0) s.appendChild(sE("rect", { x: x, y: yacc, width: bw, height: hgt, rx: 3, fill: pt.color }));
+    });
+    s.appendChild(sText(x + bw / 2, H - B + 16, b.label, { "text-anchor": "middle", "font-size": 10.5, fill: "#64748b" }));
+    if (b.sub) s.appendChild(sText(x + bw / 2, H - B + 30, b.sub, { "text-anchor": "middle", "font-size": 10, fill: "#94a3b8" }));
+  });
+  return s;
+}
+
+/* ---------------- PROGRESS ---------------- */
+VIEWS.progress = function () {
+  var v = h("div", { class: "view" });
+  v.appendChild(viewHead("Progress", "Your trends. Watch EQ and morning wood as your main guides."));
+  var ci = sortByDate(state.checkins);
+  if (!ci.length && !state.sessions.length && !state.measurements.length) {
+    v.appendChild(h("div", { class: "empty", html: ico("progress") + "Log a few check-ins and sessions and your trends will appear here." }));
+    return v;
+  }
+
+  /* stats */
+  var totalMin = sum(state.sessions.map(function (s) { return s.min || 0; }));
+  var sessions30 = state.sessions.filter(function (s) { return daysBetween(s.date, todayISO()) < 30; });
+  var eqVals = ci.filter(function (c) { return typeof c.eq === "number"; }).map(function (c) { return c.eq; });
+  var statsWrap = h("div", { class: "stat-grid" }, [
+    stat(currentStreak(), "day streak"),
+    stat(state.sessions.length, "sessions logged"),
+    stat(Math.round(totalMin / 60) + "h", "total training"),
+    stat(eqVals.length ? round(avg(eqVals.slice(-7)), 1) : "—", "EQ (last 7)")
+  ]);
+  v.appendChild(statsWrap);
+
+  /* EQ chart */
+  if (eqVals.length) {
+    var pts = ci.filter(function (c) { return typeof c.eq === "number"; });
+    var x0 = pts[0].date;
+    var raw = pts.map(function (c) { return { x: daysBetween(x0, c.date), y: c.eq, color: c.nptr === "no" ? "#f59e0b" : "#2563eb", title: c.date + ": EQ " + c.eq }; });
+    var roll = pts.map(function (c, i) { var win = pts.slice(Math.max(0, i - 6), i + 1).map(function (k) { return k.eq; }); return { x: daysBetween(x0, c.date), y: avg(win) }; });
+    var chart = lineChart([{ data: roll, color: "#0f766e", dots: false, width: 3 }, { data: raw, color: "#2563eb", r: 3.5 }], { ymin: 1, ymax: 10, yticks: 3, x0label: prettyDate(pts[0].date), x1label: prettyDate(pts[pts.length - 1].date) });
+    var sec = section("Erection quality", "heart", [chart]);
+    sec.appendChild(h("div", { class: "legend", html: '<span><span class="swatch" style="background:#0f766e"></span>7-day average</span><span><span class="swatch" style="background:#2563eb"></span>daily EQ</span><span><span class="swatch" style="background:#f59e0b"></span>no morning wood</span>' }));
+    v.appendChild(sec);
+  }
+
+  /* NPTR heat strip (last 8 weeks) */
+  var strip = h("div", { class: "heatstrip" });
+  for (var d = 55; d >= 0; d--) {
+    var iso = isoAdd(todayISO(), -d), c = checkinFor(iso);
+    var col = "var(--slate-soft)"; if (c) col = c.nptr === "yes" ? "#15803d" : c.nptr === "partial" ? "#86d4a2" : "#f3b4b4";
+    strip.appendChild(h("span", { class: "heatcell", title: iso + (c ? " · NPTR " + c.nptr : ""), style: "background:" + col }));
+  }
+  var nsec = section("Morning wood (last 8 weeks)", "moon", [strip]);
+  nsec.appendChild(h("div", { class: "legend", html: '<span><span class="swatch" style="background:#15803d"></span>strong</span><span><span class="swatch" style="background:#86d4a2"></span>partial</span><span><span class="swatch" style="background:#f3b4b4"></span>none</span><span><span class="swatch" style="background:#eef2f7"></span>no check-in</span>' }));
+  v.appendChild(nsec);
+
+  /* weekly minutes */
+  var weeks = [];
+  for (var w = 7; w >= 0; w--) {
+    var end = isoAdd(todayISO(), -w * 7), start = isoAdd(end, -6);
+    var inWeek = function (dt) { return dt >= start && dt <= end; };
+    var ang = sum(state.sessions.filter(function (s) { return inWeek(s.date) && techFamily(s.tech) === "angion"; }).map(function (s) { return s.min || 0; }));
+    var cc = sum(state.sessions.filter(function (s) { return inWeek(s.date) && techFamily(s.tech) === "cc"; }).map(function (s) { return s.min || 0; }));
+    var dlc = sum(state.sessions.filter(function (s) { return inWeek(s.date) && techFamily(s.tech) === "dlc"; }).map(function (s) { return s.min || 0; })) + sum(state.checkins.filter(function (c) { return inWeek(c.date); }).map(function (c) { return c.dlcMin || 0; }));
+    weeks.push({ label: w === 0 ? "now" : "-" + w + "w", total: ang + cc + dlc, dlc: dlc, parts: [{ v: ang, color: "#14b8a6" }, { v: cc, color: "#f59e0b" }, { v: dlc, color: "#2563eb" }] });
+  }
+  var maxW = Math.max(180, Math.max.apply(null, weeks.map(function (x) { return x.total; })));
+  var wsec = section("Weekly minutes", "train", [barChart(weeks, { max: maxW, target: 90, targetLabel: "cardio floor 90" })]);
+  wsec.appendChild(h("div", { class: "legend", html: '<span><span class="swatch" style="background:#14b8a6"></span>Angion/Wheel</span><span><span class="swatch" style="background:#f59e0b"></span>SABRE/BFR</span><span><span class="swatch" style="background:#2563eb"></span>cardio</span>' }));
+  v.appendChild(wsec);
+
+  /* measurements */
+  if (state.measurements.length) {
+    var ms = sortByDate(state.measurements), mx0 = ms[0].date;
+    function serFor(key, color, dash) { var dpts = ms.filter(function (m) { return m[key] != null; }).map(function (m) { return { x: daysBetween(mx0, m.date), y: toDisplayLen(m[key]), title: m.date + ": " + round(toDisplayLen(m[key]), 2) + unitLabel() }; }); return dpts.length ? { data: dpts, color: color, dash: dash } : null; }
+    var series = [serFor("bpelCm", "#0f766e"), serFor("nbpelCm", "#2563eb", "5 4"), serFor("egCm", "#7c3aed"), serFor("flaccidCm", "#94a3b8", "2 4")].filter(Boolean);
+    if (series.length) {
+      var msec = section("Measurements (" + unitLabel() + ")", "ruler", [lineChart(series, { yp: 1, yticks: 4, x0label: prettyDate(ms[0].date), x1label: prettyDate(ms[ms.length - 1].date) })]);
+      msec.appendChild(h("div", { class: "legend", html: '<span><span class="swatch" style="background:#0f766e"></span>BPEL</span><span><span class="swatch" style="background:#2563eb"></span>NBPEL</span><span><span class="swatch" style="background:#7c3aed"></span>girth</span><span><span class="swatch" style="background:#94a3b8"></span>flaccid</span>' }));
+      msec.appendChild(h("p", { class: "small muted", style: "margin-top:.4rem", text: "Girth gains typically precede length. Day-to-day readings vary by a few millimetres — look at the trend, not single points." }));
+      v.appendChild(msec);
+    }
+  } else {
+    v.appendChild(section("Measurements", "ruler", [h("div", { class: "empty", html: ico("ruler") + 'No measurements yet. <button class="btn small" id="addMeasBtn">Add one</button>' })]));
+  }
+
+  /* stage timeline */
+  v.appendChild(stageSection());
+
+  /* troubleshooter */
+  v.appendChild(troubleshooterSection());
+
+  // wire the add-measurement button if present
+  var amb = el("#addMeasBtn"); if (amb) amb.addEventListener("click", openMeasure);
+  return v;
+};
+function stat(val, label) { return h("div", { class: "stat" }, [h("b", { text: String(val) }), h("span", { text: label })]); }
+
+function stageSection() {
+  var sec = section("Stage progression", "trophy");
+  var cur = state.profile.stage;
+  var tl = h("div", { class: "inline", style: "gap:6px;flex-wrap:nowrap;overflow:auto;padding-bottom:4px" });
+  STAGE_ORDER.forEach(function (code, i) {
+    var reached = stageIndex(cur) >= i;
+    tl.appendChild(h("div", { style: "text-align:center;min-width:52px;opacity:" + (reached ? 1 : .4) }, [h("div", { html: stageBadge(code, "m") }), h("div", { class: "tiny", style: "font-size:.62rem;margin-top:2px", text: code === cur ? "you" : "" })]));
+    if (i < STAGE_ORDER.length - 1) tl.appendChild(h("div", { style: "align-self:center;color:var(--faint)", html: ico("chevron") }));
+  });
+  sec.appendChild(tl);
+  // graduation checklist for current stage
+  sec.appendChild(graduationCard(cur));
+  return sec;
+}
+var GRAD = {
+  E: ["Checked by a doctor (Doppler/ultrasound advised)", "Angio-pumping session at ≤3 inHg with no red spots", "Hold an erection ≥15 min with no device or drug"],
+  D: ["30 min of AM1 without losing the erection", "Dorsal pulse easily palpable both sides", "~4–6 weeks in; EQ stable or rising"],
+  C: ["10–15 min of AM2 without losing fullness", "20–30 min of AM2 without losing fullness", "Member bobs with the pulse; dorsal arteries visible", "Taste-tested AM3 (≥5 min → Stage A; else Stage B)"],
+  B: ["Still taste-testing AM3 at session end", "Can manage ≥5 min of AM3 → move to Stage A"],
+  A: ["10–15 min at high speed without CS flattening", "Full 30 min Vascion consistently", "Dorsal arteries look rope-like; strong post-session fullness"],
+  S: ["Ramp rotation slowly every session", "Maintenance ≥1×/week; growth ~3×/week", "No exit — iterate; add SABRE/BFR only if ready"]
+};
+function graduationCard(code) {
+  var card = h("div", { class: "card", style: "margin-top:10px" });
+  card.appendChild(h("div", { class: "inline", style: "justify-content:space-between" }, [h("div", { class: "tag", text: "Graduation checklist · Stage " + code }), h("span", { class: "pill grey", text: STAGES[code].name })]));
+  var key = "grad." + code;
+  var saved = (state.profile._grad && state.profile._grad[key]) || {};
+  var list = h("div", { style: "margin-top:.5rem" });
+  (GRAD[code] || []).forEach(function (txt, i) {
+    var cb = h("input", { type: "checkbox" }); cb.checked = !!saved[i];
+    cb.addEventListener("change", function () { state.profile._grad = state.profile._grad || {}; state.profile._grad[key] = state.profile._grad[key] || {}; state.profile._grad[key][i] = cb.checked; save(); });
+    list.appendChild(h("label", { class: "inline", style: "font-weight:500;align-items:flex-start;margin:.35rem 0" }, [cb, h("span", { text: txt })]));
+  });
+  card.appendChild(list);
+  var nextIdx = stageIndex(code) + 1;
+  if (nextIdx < STAGE_ORDER.length) {
+    card.appendChild(h("button", { class: "btn small primary", style: "margin-top:.4rem", onclick: function () { setStage(STAGE_ORDER[nextIdx]); toast("Advanced to Stage " + STAGE_ORDER[nextIdx]); go("progress"); }, html: ico("trophy") + "I've graduated to Stage " + STAGE_ORDER[nextIdx] }));
+  }
+  return card;
+}
+function setStage(code) { if (state.profile.stage !== code) { state.stageHistory.push({ stage: code, date: todayISO() }); } state.profile.stage = code; save(); }
+
+/* Janus 13-question troubleshooter, auto-scored from last 14 days */
+function troubleshooterSection() {
+  var sec = section("Gaining troubleshooter", "info");
+  var ci = state.checkins.filter(function (c) { return daysBetween(c.date, todayISO()) <= 14; });
+  var ss = state.sessions.filter(function (s) { return daysBetween(s.date, todayISO()) <= 14; });
+  function any(fn) { return ci.some(fn); }
+  var checks = [
+    ["Tracking check-ins", ci.length >= 5],
+    ["In a caloric surplus (growth)", any(function (c) { return c.calPhase === "surplus"; })],
+    ["Hitting protein", any(function (c) { return c.protein; })],
+    ["Healthy meals logged", any(function (c) { return (c.meals || 0) > 0; })],
+    ["Tracking morning wood", ci.filter(function (c) { return c.nptr; }).length >= 5],
+    ["Morning wood present", any(function (c) { return c.nptr === "yes"; })],
+    ["Rest between sessions", true],
+    ["Avoiding porn", ci.length ? !any(function (c) { return c.porn; }) : false],
+    ["Ejaculation in check", ci.length ? !any(function (c) { return (c.ejac || 0) >= 7; }) : false],
+    ["Avoiding alcohol/nicotine", ci.length ? !any(function (c) { return c.alcohol || c.nicotine; }) : false],
+    ["Supplementing (optional)", any(function (c) { return (c.supplements || "").trim().length > 0; })],
+    ["Doing routine cardio", (sum(ci.map(function (c) { return c.dlcMin || 0; })) + sum(ss.filter(function (s) { return techFamily(s.tech) === "dlc"; }).map(function (s) { return s.min || 0; }))) >= 120],
+    ["Post-session 'vaso-pumps'", ss.some(function (s) { return (s.fullnessMin || 0) >= 10; })]
+  ];
+  var done = checks.filter(function (c) { return c[1]; }).length;
+  sec.appendChild(h("p", { class: "muted", text: done + " of " + checks.length + " in place over the last 14 days. Unchecked items are your most likely blockers." }));
+  var grid = h("div", { class: "grid g2" });
+  checks.forEach(function (c) { grid.appendChild(h("div", { class: "inline", style: "font-size:.88rem", html: (c[1] ? '<span style="color:var(--green)">' + ico("check") + "</span>" : '<span style="color:var(--faint)">' + ico("x") + "</span>") + "<span>" + escapeHtml(c[0]) + "</span>" })); });
+  sec.appendChild(grid);
+  if (!ci.length) sec.appendChild(h("p", { class: "small muted", style: "margin-top:.5rem", text: "Log daily check-ins to auto-fill this." }));
+  return sec;
+}
+
+/* ---------------- modal infrastructure ---------------- */
+var modalPrevFocus = null;
+function openModal(title, bodyNode, opts) {
+  opts = opts || {};
+  modalPrevFocus = document.activeElement;
+  var root = el("#modalRoot"); clear(root);
+  var sheet = h("div", { class: "sheet" + (opts.wide ? " wide" : ""), role: "dialog", "aria-modal": "true", "aria-label": title });
+  sheet.appendChild(h("div", { class: "sheet-head" }, [h("h2", { text: title }), h("button", { class: "iconbtn", "aria-label": "Close", onclick: closeModal, html: ico("x") })]));
+  sheet.appendChild(bodyNode);
+  var scrim = h("div", { class: "scrim", onclick: function (e) { if (e.target === scrim && !opts.sticky) closeModal(); } }, [sheet]);
+  root.appendChild(scrim);
+  sheet.setAttribute("tabindex", "-1"); sheet.focus();
+}
+function closeModal() { clear(el("#modalRoot")); if (modalPrevFocus && modalPrevFocus.focus) try { modalPrevFocus.focus(); } catch (e) {} }
+
+/* ---------------- MORE ---------------- */
+VIEWS.more = function () {
+  var v = h("div", { class: "view" });
+  v.appendChild(viewHead("More", "Plan, settings, privacy and your data."));
+
+  v.appendChild(section("Plan", "today", [
+    rowBtn("Stage & schedule", "Stage " + state.profile.stage + " · " + TEMPLATES[state.profile.template].label, "chevron", openPlan),
+    rowBtn("Session settings", soundSummary(), "chevron", openSettings),
+    rowBtn("Units", state.profile.units === "in" ? "Inches" : "Centimetres", "chevron", openUnits)
+  ]));
+
+  v.appendChild(section("Privacy & security", "shield", [
+    rowBtn(state.settings.lock ? "Passcode lock: on" : "Passcode lock: off", state.settings.lock ? "Data encrypted on this device" : (hasCrypto() ? "Encrypt your data with a passcode" : "Not supported in this browser"), "chevron", openLockSettings),
+    rowBtn("Hide screen now", "Quick privacy cover", "chevron", function () { privacyCover(); }),
+    rowBtn("Auto-hide when I switch away", state.settings.autoHide ? "On" : "Off", "chevron", function () { state.settings.autoHide = !state.settings.autoHide; save(); go("more"); })
+  ]));
+
+  v.appendChild(section("Your data", "download", [
+    h("div", { class: "card" }, [
+      h("p", { class: "small muted", style: "margin:0 0 .6rem", html: "Everything is stored only in this browser. Back it up regularly — clearing site data erases it." }),
+      h("div", { class: "btn-row" }, [
+        h("button", { class: "btn", onclick: exportJSON, html: ico("download") + "Export backup (JSON)" }),
+        h("button", { class: "btn", onclick: importJSON, html: ico("upload") + "Import backup" }),
+        h("button", { class: "btn outline", onclick: exportCSVMenu, html: ico("download") + "Export CSV" }),
+        h("button", { class: "btn outline", onclick: exportICS, html: ico("today") + "Calendar (.ics)" })
+      ]),
+      h("div", { class: "btn-row", style: "margin-top:8px" }, [
+        h("button", { class: "btn danger outline", onclick: confirmClear, html: ico("x") + "Erase all data" })
+      ])
+    ])
+  ]));
+
+  v.appendChild(section("Help", "info", [
+    rowBtn("Safety Center", "Warning signs & when to seek care", "shield", openSafety),
+    h("a", { class: "row", href: "angion-method-illustrated-guide.html", style: "text-decoration:none;color:inherit" }, [h("div", { class: "rmain", html: '<div class="t">Illustrated guide</div><div class="s">Full technique, anatomy &amp; evidence</div>' }), h("span", { class: "rt", html: ico("book") })]),
+    rowBtn("About this toolkit", "What it is, and isn't", "info", openAbout)
+  ]));
+
+  v.appendChild(h("p", { class: "small faint", style: "text-align:center;margin-top:18px", text: "Angion Training Toolkit · v1.0 · offline & private" }));
+  return v;
+};
+function rowBtn(title, sub, icon, fn) {
+  return h("button", { class: "row", style: "width:100%;text-align:left;cursor:pointer;font:inherit", onclick: fn }, [
+    h("div", { class: "rmain" }, [h("div", { class: "t", text: title }), sub ? h("div", { class: "s", text: sub }) : null]),
+    h("span", { class: "rt", html: ico(icon) })
+  ]);
+}
+function soundSummary() { var s = state.settings; var on = []; if (s.sound) on.push("beeps"); if (s.metronome) on.push("metronome"); if (s.voice) on.push("voice"); if (s.vibrate) on.push("vibrate"); return on.length ? on.join(", ") : "all cues off"; }
+
+function openPlan() {
+  var body = h("div");
+  body.appendChild(h("div", { class: "field" }, [h("label", { text: "Current stage" }), stageChooser()]));
+  var tplSel = h("select");
+  Object.keys(TEMPLATES).forEach(function (k) { tplSel.appendChild(h("option", { value: k, text: TEMPLATES[k].label, selected: state.profile.template === k })); });
+  var tplNote = h("p", { class: "small muted" });
+  function noteIt() { tplNote.textContent = TEMPLATES[tplSel.value].note; }
+  tplSel.addEventListener("change", noteIt); noteIt();
+  var startD = h("input", { type: "date", value: state.profile.startDate });
+  body.appendChild(h("div", { class: "field" }, [h("label", { text: "Schedule template" }), tplSel, tplNote]));
+  body.appendChild(h("div", { class: "field" }, [h("label", { text: "Training start date (anchors the cycle)" }), startD]));
+  body.appendChild(h("div", { class: "btn-row" }, [
+    h("button", { class: "btn primary", style: "flex:1", onclick: function () { state.profile.template = tplSel.value; state.profile.startDate = startD.value || todayISO(); save(); closeModal(); toast("Plan updated."); go("today"); }, html: ico("check") + "Save plan" }),
+    h("button", { class: "btn", onclick: function () { closeModal(); openStageFinder(); }, text: "Not sure? Stage finder" })
+  ]));
+  openModal("Stage & schedule", body);
+}
+function stageChooser() {
+  var wrap = h("div", { class: "choice" }); var inputs = [];
+  STAGE_ORDER.forEach(function (c) { var i = h("input", { type: "radio", name: "stagechoose", value: c }); if (c === state.profile.stage) i.checked = true; i.addEventListener("change", function () { if (i.checked) setStage(c); }); inputs.push(i); wrap.appendChild(h("label", {}, [i, h("span", { html: stageBadge(c, "s") + " " + c })])); });
+  return wrap;
+}
+
+function openSettings() {
+  var s = state.settings, body = h("div");
+  function tog(key, label, sub) {
+    var i = h("input", { type: "checkbox" }); i.checked = !!s[key];
+    i.addEventListener("change", function () { s[key] = i.checked; save(); });
+    return h("label", { class: "row", style: "cursor:pointer" }, [h("div", { class: "rmain" }, [h("div", { class: "t", text: label }), sub ? h("div", { class: "s", text: sub }) : null]), i]);
+  }
+  body.appendChild(tog("sound", "Beeps", "Phase-change and countdown tones"));
+  body.appendChild(tog("countdown", "Countdown beeps", "3-2-1 before each phase ends"));
+  body.appendChild(tog("metronome", "Metronome", "Ticks at the target stroke rate"));
+  body.appendChild(tog("voice", "Voice announcements", "Speak each phase name aloud"));
+  body.appendChild(tog("vibrate", "Vibrate", "On phase changes (supported devices)"));
+  body.appendChild(tog("keepAwake", "Keep screen awake", "During a session (supported browsers)"));
+  body.appendChild(h("div", { class: "btn-row", style: "margin-top:10px" }, [h("button", { class: "btn", onclick: function () { tone(880, 0.15); setTimeout(function () { tone(660, 0.15); }, 160); }, html: ico("bell") + "Test sound" }), h("button", { class: "btn primary", style: "flex:1", onclick: function () { closeModal(); go("more"); }, text: "Done" })]));
+  openModal("Session settings", body);
+}
+function openUnits() {
+  var body = h("div");
+  body.appendChild(h("p", { class: "muted", text: "Choose how lengths are shown. Stored data is unit-independent, so you can switch any time." }));
+  var seg = h("div", { class: "seg", role: "group" });
+  [["in", "Inches"], ["cm", "Centimetres"]].forEach(function (o) {
+    seg.appendChild(h("button", { "aria-pressed": state.profile.units === o[0], onclick: function () { state.profile.units = o[0]; save(); closeModal(); toast("Units: " + o[1]); go(currentView); }, text: o[1] }));
+  });
+  body.appendChild(seg);
+  openModal("Units", body);
+}
+
+/* ---------------- data I/O ---------------- */
+function download(name, text, type) {
+  var a = h("a", { href: URL.createObjectURL(new Blob([text], { type: type || "application/json" })), download: name });
+  document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 800);
+}
+function exportJSON() { download("angion-toolkit-backup-" + todayISO() + ".json", JSON.stringify(state, null, 2)); toast("Backup downloaded."); }
+function importJSON() {
+  var inp = h("input", { type: "file", accept: "application/json,.json", style: "display:none" });
+  inp.addEventListener("change", function () {
+    var f = inp.files[0]; if (!f) return; var r = new FileReader();
+    r.onload = function () {
+      var obj; try { obj = JSON.parse(r.result); } catch (e) { toast("That file isn't valid JSON."); return; }
+      if (obj.__enc) { toast("That's an encrypted backup — unlock it on the device that made it."); return; }
+      var body = h("div");
+      body.appendChild(h("p", { html: "Found <b>" + (obj.sessions || []).length + "</b> sessions, <b>" + (obj.checkins || []).length + "</b> check-ins, <b>" + (obj.measurements || []).length + "</b> measurements." }));
+      body.appendChild(h("div", { class: "btn-row" }, [
+        h("button", { class: "btn danger", style: "flex:1", onclick: function () { mergeState(obj); save(); closeModal(); toast("Replaced with backup."); go("today"); }, text: "Replace everything" }),
+        h("button", { class: "btn primary", style: "flex:1", onclick: function () { mergeImport(obj); save(); closeModal(); toast("Merged backup."); go("today"); }, text: "Merge" }),
+        h("button", { class: "btn", onclick: closeModal, text: "Cancel" })
+      ]));
+      openModal("Import backup", body);
+    };
+    r.readAsText(f);
+  });
+  document.body.appendChild(inp); inp.click(); setTimeout(function () { inp.remove(); }, 1000);
+}
+function mergeImport(obj) {
+  function mergeArr(cur, inc, keyFn) { var seen = {}; cur.forEach(function (x) { seen[keyFn(x)] = true; }); (inc || []).forEach(function (x) { if (!seen[keyFn(x)]) cur.push(x); }); }
+  mergeArr(state.sessions, obj.sessions, function (x) { return x.id || (x.date + x.tech + x.min); });
+  // check-ins keyed by date (incoming wins)
+  (obj.checkins || []).forEach(function (c) { state.checkins = state.checkins.filter(function (x) { return x.date !== c.date; }); state.checkins.push(c); });
+  mergeArr(state.measurements, obj.measurements, function (x) { return x.id || (x.date + (x.bpelCm || "")); });
+}
+function csvEsc(v) { var s = String(v == null ? "" : v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+function toCSV(rows) { return rows.map(function (r) { return r.map(csvEsc).join(","); }).join("\n"); }
+function exportCSVMenu() {
+  var body = h("div");
+  body.appendChild(h("p", { class: "muted", text: "Export a spreadsheet-friendly file." }));
+  body.appendChild(h("div", { class: "stack" }, [
+    h("button", { class: "btn", onclick: function () {
+      var rows = [["date", "nptr", "eq", "sleep", "stress", "hang", "dlcMin", "dlcType", "calPhase", "protein", "meals", "ejac", "porn", "alcohol", "nicotine", "supplements", "flags", "notes"]];
+      sortByDate(state.checkins).forEach(function (c) { rows.push([c.date, c.nptr, c.eq, c.sleep, c.stress, c.hang, c.dlcMin, c.dlcType, c.calPhase, c.protein, c.meals, c.ejac, c.porn, c.alcohol, c.nicotine, c.supplements, (c.flags || []).join("|"), c.notes]); });
+      download("angion-checkins.csv", toCSV(rows), "text/csv"); toast("Check-ins exported.");
+    }, html: ico("download") + "Check-ins" }),
+    h("button", { class: "btn", onclick: function () {
+      var rows = [["date", "technique", "stage", "minutes", "fullnessMin", "lostErection", "csFlat", "rpe", "notes"]];
+      sortByDate(state.sessions).forEach(function (s) { rows.push([s.date, s.tech, s.stage || "", s.min, s.fullnessMin, s.lost, s.flat, s.rpe, s.notes]); });
+      download("angion-sessions.csv", toCSV(rows), "text/csv"); toast("Sessions exported.");
+    }, html: ico("download") + "Sessions" }),
+    h("button", { class: "btn", onclick: function () {
+      var u = unitLabel();
+      var rows = [["date", "BPEL_" + u, "NBPEL_" + u, "girth_" + u, "flaccid_" + u]];
+      sortByDate(state.measurements).forEach(function (m) { rows.push([m.date, fmtLenRaw(m.bpelCm), fmtLenRaw(m.nbpelCm), fmtLenRaw(m.egCm), fmtLenRaw(m.flaccidCm)]); });
+      download("angion-measurements.csv", toCSV(rows), "text/csv"); toast("Measurements exported.");
+    }, html: ico("download") + "Measurements (" + unitLabel() + ")" })
+  ]));
+  openModal("Export CSV", body);
+}
+function fmtLenRaw(cm) { if (cm == null) return ""; return round(toDisplayLen(cm), 2); }
+function exportICS() {
+  var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Angion Toolkit//EN", "CALSCALE:GREGORIAN"];
+  var made = 0;
+  for (var i = 0; i < 28; i++) {
+    var iso = isoAdd(todayISO(), i), t = plannedType(iso); if (!t) continue;
+    var title = t === "REST" ? "Recovery" : "Training";
+    var dt = iso.replace(/-/g, "");
+    lines.push("BEGIN:VEVENT", "UID:" + iso + "-at@local", "DTSTART;VALUE=DATE:" + dt, "DTEND;VALUE=DATE:" + isoAdd(iso, 1).replace(/-/g, ""), "SUMMARY:" + title, "TRANSP:TRANSPARENT", "END:VEVENT");
+    made++;
+  }
+  lines.push("END:VCALENDAR");
+  if (!made) { toast("Pick a schedule template first (More → Plan)."); return; }
+  download("angion-schedule.ics", lines.join("\r\n"), "text/calendar");
+  toast("Calendar exported (neutral titles).");
+}
+function confirmClear() {
+  var body = h("div");
+  body.appendChild(h("p", { html: "This permanently erases all check-ins, sessions, measurements and settings <b>on this device</b>. Export a backup first if you want to keep it." }));
+  body.appendChild(h("div", { class: "btn-row" }, [
+    h("button", { class: "btn", onclick: function () { closeModal(); exportJSON(); }, html: ico("download") + "Back up first" }),
+    h("button", { class: "btn danger", onclick: function () { try { localStorage.removeItem(LS_KEY); localStorage.removeItem(ACTIVE_KEY); } catch (e) {} SESSION_PASS = null; state = defaultState(); state.profile.onboarded = false; closeModal(); boot(); }, text: "Erase everything" }),
+    h("button", { class: "btn ghost", onclick: closeModal, text: "Cancel" })
+  ]));
+  openModal("Erase all data?", body);
+}
+
+/* ---------------- passcode lock ---------------- */
+function openLockSettings() {
+  if (!hasCrypto()) { toast("Encryption isn't supported in this browser."); return; }
+  var body = h("div");
+  if (!state.settings.lock) {
+    body.appendChild(h("p", { class: "muted", text: "Set a passcode to encrypt your data on this device. You'll enter it each time you open the toolkit. There is no recovery if you forget it." }));
+    var p1 = h("input", { type: "password", placeholder: "Passcode", autocomplete: "new-password" });
+    var p2 = h("input", { type: "password", placeholder: "Confirm passcode", autocomplete: "new-password" });
+    body.appendChild(h("div", { class: "field" }, [h("label", { text: "Passcode" }), p1]));
+    body.appendChild(h("div", { class: "field" }, [h("label", { text: "Confirm" }), p2]));
+    body.appendChild(h("div", { class: "note warn", style: "font-size:.82rem", html: ico("warn") + " If you forget this passcode your data cannot be recovered." }));
+    body.appendChild(h("div", { class: "btn-row" }, [
+      h("button", { class: "btn primary", style: "flex:1", onclick: function () {
+        if ((p1.value || "").length < 4) { toast("Use at least 4 characters."); return; }
+        if (p1.value !== p2.value) { toast("Passcodes don't match."); return; }
+        state.settings.lock = true; SESSION_PASS = p1.value; save(); el("#btnLock").hidden = false; closeModal(); toast("Passcode lock enabled.");
+      }, text: "Enable lock" }),
+      h("button", { class: "btn", onclick: closeModal, text: "Cancel" })
+    ]));
+  } else {
+    body.appendChild(h("p", { class: "muted", text: "Turn off the passcode and store data unencrypted on this device?" }));
+    var pc = h("input", { type: "password", placeholder: "Current passcode", autocomplete: "current-password" });
+    body.appendChild(h("div", { class: "field" }, [h("label", { text: "Confirm passcode" }), pc]));
+    body.appendChild(h("div", { class: "btn-row" }, [
+      h("button", { class: "btn danger", style: "flex:1", onclick: function () {
+        if (pc.value !== SESSION_PASS) { toast("Wrong passcode."); return; }
+        state.settings.lock = false; save(); el("#btnLock").hidden = true; closeModal(); toast("Passcode lock disabled.");
+      }, text: "Disable lock" }),
+      h("button", { class: "btn", onclick: closeModal, text: "Cancel" })
+    ]));
+  }
+  openModal("Passcode lock", body);
+}
+function showUnlock() {
+  var root = el("#modalRoot");
+  var app = el("#app"); app.classList.add("hidden");
+  var card = h("div", { class: "shieldcard" }, [
+    h("div", { class: "logo", html: ico("shield") }),
+    h("h2", { text: "Locked" }),
+    h("p", { class: "muted", text: "Enter your passcode to open the toolkit." })
+  ]);
+  var pc = h("input", { type: "password", placeholder: "Passcode", autocomplete: "current-password", style: "max-width:240px;margin:0 auto" });
+  var err = h("div", { class: "small", style: "color:var(--red);min-height:1.2em;margin:.4rem 0" });
+  var btn = h("button", { class: "btn primary lg", onclick: tryUnlock, text: "Unlock" });
+  function tryUnlock() {
+    var raw = rawLoad(); var blob; try { blob = JSON.parse(raw); } catch (e) { blob = null; }
+    if (!blob || !blob.__enc) { boot(); return; }
+    decryptBlob(blob, pc.value).then(function (obj) { SESSION_PASS = pc.value; mergeState(obj); el("#shield").remove(); el("#app").classList.remove("hidden"); el("#btnLock").hidden = false; startApp(); })
+      .catch(function () { err.textContent = "Wrong passcode. Try again."; pc.value = ""; pc.focus(); });
+  }
+  pc.addEventListener("keydown", function (e) { if (e.key === "Enter") tryUnlock(); });
+  card.appendChild(pc); card.appendChild(err); card.appendChild(btn);
+  var wrap = h("div", { class: "shieldwrap", id: "shield" }, [card]);
+  document.body.appendChild(wrap); pc.focus();
+}
+function lockNow() { if (state.settings.lock) { closeModal(); showUnlock(); } }
+
+/* ---------------- privacy cover ---------------- */
+function privacyCover() {
+  if (el("#privCover")) return;
+  var c = h("div", { id: "privCover", style: "position:fixed;inset:0;z-index:95;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;cursor:pointer", onclick: function () { c.remove(); } }, [
+    h("div", { class: "logo", style: "width:56px;height:56px;border-radius:15px;background:linear-gradient(135deg,var(--brand),var(--blue));display:grid;place-items:center;color:#fff", html: ico("shield") }),
+    h("div", { class: "muted", text: "Tap to return" })
+  ]);
+  document.body.appendChild(c);
+}
+
+/* ---------------- safety & about ---------------- */
+function openSafety() {
+  var body = h("div");
+  body.appendChild(h("div", { class: "note danger", html: '<div class="ttl">' + ico("warn") + "Emergency — go to urgent care now</div><ul style=\"margin:.3rem 0 0;padding-left:1.1rem\"><li><b>Erection 4+ hours</b> (priapism) — can permanently damage tissue.</li><li><b>Pop or crack</b> then sudden softening, swelling or dark bruising — possible fracture.</li><li><b>Blood in urine</b> or can't urinate.</li><li>On PDE5 drugs: <b>sudden vision loss</b>.</li></ul>" }));
+  body.appendChild(h("div", { class: "note warn", html: '<div class="ttl">' + ico("warn") + "Stop the session; see a doctor if it persists</div><ul style=\"margin:.3rem 0 0;padding-left:1.1rem\"><li>Pain or tenderness (the rule is <b>pleasure, not pain</b>).</li><li>Red pinpoint spots, bruising or blood blisters.</li><li>Numbness or tingling that outlasts the session.</li><li>A new lump, curve, dent or bend (possible Peyronie's).</li><li>EQ dropping several days in a row (overtraining).</li></ul>" }));
+  body.appendChild(h("div", { class: "note info", html: '<div class="ttl">' + ico("info") + "See a doctor before you start if</div>You have any erection problems (ED can be an early sign of heart disease or diabetes), you can't get erect without aids, you have curvature/Peyronie's or a past injury, a bleeding disorder or sickle-cell, or you take nitrates/blood-pressure drugs/PDE5 inhibitors." }));
+  body.appendChild(h("p", { class: "small muted", text: "This toolkit is for logging and timing only. It is not medical advice and has not been reviewed by any medical body." }));
+  openModal("Safety Center", body);
+}
+function openAbout() {
+  var body = h("div");
+  body.appendChild(h("p", { html: "<b>Angion Training Toolkit &amp; Logger</b> — a private companion to the illustrated guide. It times sessions, keeps a metronome, and logs check-ins, measurements and progress." }));
+  body.appendChild(h("ul", {}, [
+    h("li", { html: "<b>Private & offline.</b> All data stays in this browser (localStorage). Nothing is uploaded." }),
+    h("li", { html: "<b>Not medical advice.</b> Techniques are self-reported methods; none is clinically proven. See the guide's evidence notes." }),
+    h("li", { html: "<b>Back up your data</b> regularly — clearing browser data erases it." })
+  ]));
+  body.appendChild(h("a", { class: "btn", href: "angion-method-illustrated-guide.html", html: ico("book") + "Open the illustrated guide" }));
+  openModal("About", body);
+}
+
+/* ---------------- stage finder (onboarding) ---------------- */
+function openStageFinder() {
+  var step = 1, ans = {};
+  function render() {
+    var body = h("div");
+    var q, opts;
+    if (step === 1) { q = "Can you get an erection without medication, injections or a pump?"; opts = [["yes", "Yes"], ["no", "No"]]; }
+    else if (step === 2) { q = "When erect, can you easily feel a pulse in the dorsal arteries (two fingers either side of the centre vein)?"; opts = [["yes", "Yes, easily"], ["no", "No / faint"]]; }
+    else if (step === 3) { q = "Can you do 20–30 min of AM2 without the underside (CS) going flat?"; opts = [["yes", "Yes"], ["no", "No / not tried"]]; }
+    else if (step === 4) { q = "Trying AM3 (Vascion), can you keep going ≥5 min before the CS flattens?"; opts = [["yes", "Yes"], ["no", "No"]]; }
+    else if (step === 5) { q = "Can you complete 30 min of AM3, including 10–15 min at high speed, without losing fullness?"; opts = [["yes", "Yes"], ["no", "Not yet"]]; }
+    body.appendChild(h("p", { style: "font-weight:600", text: "Q" + step + ". " + q }));
+    var choice = h("div", { class: "choice" });
+    opts.forEach(function (o) { choice.appendChild(h("button", { class: "btn", style: "flex:1", onclick: function () { pick(o[0]); }, text: o[1] })); });
+    body.appendChild(choice);
+    body.appendChild(h("div", { class: "phase-track", style: "margin-top:12px" }, [1, 2, 3, 4, 5].map(function (i) { return h("i", { class: i < step ? "done" : i === step ? "now" : "" }); })));
+    openModal("Stage finder", body);
+  }
+  function pick(val) {
+    if (step === 1) { if (val === "no") return finish("E"); step = 2; }
+    else if (step === 2) { if (val === "no") return finish("D"); step = 3; }
+    else if (step === 3) { if (val === "no") return finish("C"); step = 4; }
+    else if (step === 4) { if (val === "no") return finish("B"); step = 5; }
+    else if (step === 5) { return finish(val === "yes" ? "S" : "A"); }
+    render();
+  }
+  function finish(code) {
+    var S = STAGES[code];
+    var body = h("div");
+    body.appendChild(h("div", { class: "inline", html: stageBadge(code, "l") + '<div><div class="tag">Start here</div><div style="font-weight:800">Stage ' + code + " · " + escapeHtml(S.name) + "</div></div>" }));
+    body.appendChild(h("p", { class: "muted", style: "margin-top:.6rem", text: S.blurb }));
+    body.appendChild(h("button", { class: "btn primary block", onclick: function () { setStage(code); save(); closeModal(); toast("Stage set to " + code); go("today"); }, html: ico("check") + "Use Stage " + code }));
+    openModal("Your stage", body);
+  }
+  render();
+}
+
+/* ---------------- onboarding ---------------- */
+function runOnboarding() {
+  var body = h("div");
+  body.appendChild(h("div", { class: "note danger", html: '<div class="ttl">' + ico("warn") + "Read first</div>This is a logging & timing tool, not medical advice. The techniques are self-reported and unproven. Stop at any pain; an erection over 4 hours is an emergency. See a doctor before starting if you have any erection problems or the conditions listed in the Safety Center." }));
+  body.appendChild(h("p", { html: "Welcome. In a few taps we'll set your stage, units and schedule. Everything stays private on this device." }));
+  var seg = h("div", { class: "seg", style: "margin-bottom:10px" });
+  var units = state.profile.units;
+  [["in", "Inches"], ["cm", "Centimetres"]].forEach(function (o) { seg.appendChild(h("button", { "aria-pressed": units === o[0], onclick: function (e) { units = o[0]; els("button", seg).forEach(function (b) { b.setAttribute("aria-pressed", "false"); }); e.target.setAttribute("aria-pressed", "true"); }, text: o[1] })); });
+  body.appendChild(h("label", { text: "Units" })); body.appendChild(seg);
+  body.appendChild(h("div", { class: "btn-row", style: "margin-top:14px" }, [
+    h("button", { class: "btn primary", style: "flex:1", onclick: function () { state.profile.units = units; state.profile.onboarded = true; save(); closeModal(); openStageFinder(); }, html: ico("check") + "Find my stage" }),
+    h("button", { class: "btn", onclick: function () { state.profile.units = units; state.profile.onboarded = true; state.profile.stage = "D"; save(); closeModal(); toast("You can set your stage any time in More."); startApp(); }, text: "Skip" })
+  ]));
+  openModal("Set up your toolkit", body, { sticky: true });
+}
+
+/* ---------------- boot / init ---------------- */
+function startApp() {
+  el("#app").classList.remove("hidden");
+  el("#btnLock").hidden = !state.settings.lock;
+  buildNav();
+  var hash = (location.hash || "").replace("#", "");
+  go(TABS.some(function (t) { return t.id === hash; }) ? hash : "today");
+  if (!state.profile.onboarded) runOnboarding();
+  offerResume();
+}
+function offerResume() {
+  var raw; try { raw = localStorage.getItem(ACTIVE_KEY); } catch (e) { return; }
+  if (!raw) return; var a; try { a = JSON.parse(raw); } catch (e) { return; }
+  if (!a || !a.phases || Date.now() - a.ts > 3 * 3600 * 1000) { try { localStorage.removeItem(ACTIVE_KEY); } catch (e) {} return; }
+  var body = h("div");
+  body.appendChild(h("p", { html: "You have an unfinished <b>" + escapeHtml(a.meta.name) + "</b> session (phase " + (a.idx + 1) + "/" + a.phases.length + ")." }));
+  body.appendChild(h("div", { class: "btn-row" }, [
+    h("button", { class: "btn primary", style: "flex:1", onclick: function () { closeModal(); startSession(null, a); }, html: ico("play") + "Resume" }),
+    h("button", { class: "btn", onclick: function () { try { localStorage.removeItem(ACTIVE_KEY); } catch (e) {} closeModal(); }, text: "Discard" })
+  ]));
+  openModal("Resume session?", body);
+}
+function boot() {
+  var raw = rawLoad();
+  if (raw && isEncrypted(raw)) { showUnlock(); return; }
+  if (raw) { try { mergeState(JSON.parse(raw)); } catch (e) { state = defaultState(); } }
+  else { state = defaultState(); }
+  startApp();
+}
+
+/* global keyboard for the session player */
+document.addEventListener("keydown", function (e) {
+  if (!SESS) return;
+  if (e.key === " " || e.code === "Space") { e.preventDefault(); toggleRun(); }
+  else if (e.key === "ArrowRight") { e.preventDefault(); skipPhase(); }
+  else if (e.key === "Escape") { e.preventDefault(); endSessionPrompt(); }
+});
+/* lock button + autohide */
+el("#btnLock").addEventListener("click", lockNow);
+document.addEventListener("visibilitychange", function () {
+  if (document.hidden) { if (SESS && SESS.running) toggleRun(false); if (state.settings.autoHide) privacyCover(); }
+});
+window.addEventListener("hashchange", function () { var hsh = (location.hash || "").replace("#", ""); if (TABS.some(function (t) { return t.id === hsh; }) && hsh !== currentView && !SESS) go(hsh); });
+
+/* expose a few helpers for automated testing */
+window.__AT.go = function (id) { go(id); };
+window.__AT.start = function (presetId) { var p = PRESET_BY_ID[presetId]; if (p) startSession(p); };
+window.__AT.session = function () { return SESS; };
+window.__AT.addCheckin = function (c) { state.checkins = state.checkins.filter(function (x) { return x.date !== c.date; }); state.checkins.push(c); save(); };
+window.__AT.save = save; window.__AT.exportText = function () { return JSON.stringify(state); };
+
+boot();
+})();
+</script>
+</body>
+</html>
